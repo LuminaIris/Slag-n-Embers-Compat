@@ -1,0 +1,10 @@
+{
+  "type": "slag:melting",
+  "ingredient": {
+    "tag": "slag:iron_raw_materials"
+  },
+  "result": {
+    "amount": 96,
+    "id": "slag:molten_iron"
+  }
+}

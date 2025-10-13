@@ -1,0 +1,16 @@
+{
+  "values": [
+    "slag:rose_gold_block",
+    "slag:deep_alloy_block",
+    "slag:crucible",
+    "slag:table",
+    "slag:basin",
+    "slag:drain",
+    "slag:melter",
+    "slag:crucible_interface",
+    "slag:brick_forge",
+    "slag:deep_alloy_bricks",
+    "slag:deep_alloy_brick_stairs",
+    "slag:deep_alloy_brick_slab"
+  ]
+}

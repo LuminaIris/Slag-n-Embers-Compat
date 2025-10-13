@@ -1,0 +1,12 @@
+{
+  "type": "slag:table_casting",
+  "cast": "slag:cast/gems",
+  "ingredient": {
+    "amount": 72,
+    "id": "slag:molten_diamond"
+  },
+  "result": {
+    "count": 1,
+    "id": "minecraft:diamond"
+  }
+}

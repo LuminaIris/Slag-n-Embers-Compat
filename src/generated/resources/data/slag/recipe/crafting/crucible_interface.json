@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "tag": "c:ingots/deep_alloy"
+    },
+    "G": {
+      "tag": "c:ingots/gold"
+    }
+  },
+  "pattern": [
+    "AA",
+    "GG"
+  ],
+  "result": {
+    "count": 1,
+    "id": "slag:crucible_interface"
+  }
+}

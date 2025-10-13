@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "M": {
+      "tag": "c:bones"
+    },
+    "R": {
+      "item": "minecraft:paper"
+    }
+  },
+  "pattern": [
+    "M",
+    "M",
+    "R"
+  ],
+  "result": {
+    "count": 1,
+    "id": "slag:bone_sword_blade"
+  }
+}

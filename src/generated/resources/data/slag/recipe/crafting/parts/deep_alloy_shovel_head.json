@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "M": {
+      "tag": "c:ingots/deep_alloy"
+    },
+    "R": {
+      "item": "minecraft:paper"
+    }
+  },
+  "pattern": [
+    "M",
+    "R",
+    "R"
+  ],
+  "result": {
+    "count": 1,
+    "id": "slag:deep_alloy_shovel_head"
+  }
+}

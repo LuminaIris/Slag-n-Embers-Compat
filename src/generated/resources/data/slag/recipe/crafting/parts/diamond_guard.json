@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "M": {
+      "tag": "c:gems/diamond"
+    },
+    "R": {
+      "item": "minecraft:paper"
+    }
+  },
+  "pattern": [
+    "RMR"
+  ],
+  "result": {
+    "count": 1,
+    "id": "slag:diamond_guard"
+  }
+}

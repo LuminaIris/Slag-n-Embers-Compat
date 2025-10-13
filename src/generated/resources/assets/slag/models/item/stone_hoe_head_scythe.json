@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "slag:item/built/soft/hoe_scythe_stone"
+  }
+}

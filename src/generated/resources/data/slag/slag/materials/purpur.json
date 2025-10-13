@@ -1,0 +1,11 @@
+{
+  "dura": 832.0,
+  "ench": 16.0,
+  "id": "purpur",
+  "repair_ingredient": {
+    "item": "minecraft:popped_chorus_fruit"
+  },
+  "sharp": 6.5,
+  "speed": 5.0,
+  "tough": 4.0
+}

@@ -1,0 +1,12 @@
+{
+  "dura": 144.0,
+  "ench": 8.0,
+  "id": "bone",
+  "repair_ingredient": {
+    "tag": "c:bones"
+  },
+  "sharp": 5.5,
+  "speed": 4.0,
+  "texture": "soft",
+  "tough": 3.0
+}

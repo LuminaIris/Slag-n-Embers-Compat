@@ -1,0 +1,122 @@
+{
+  "crucible_break": {
+    "sounds": [
+      {
+        "type": "file",
+        "name": "slag:crucible/place1"
+      },
+      {
+        "type": "file",
+        "name": "slag:crucible/place2"
+      },
+      {
+        "type": "file",
+        "name": "slag:crucible/place3"
+      },
+      {
+        "type": "file",
+        "name": "slag:crucible/place4"
+      },
+      {
+        "type": "file",
+        "name": "slag:crucible/place5"
+      }
+    ]
+  },
+  "crucible_fall": {
+    "sounds": [
+      {
+        "type": "file",
+        "name": "slag:crucible/step1"
+      },
+      {
+        "type": "file",
+        "name": "slag:crucible/step2"
+      },
+      {
+        "type": "file",
+        "name": "slag:crucible/step3"
+      },
+      {
+        "type": "file",
+        "name": "slag:crucible/step4"
+      },
+      {
+        "type": "file",
+        "name": "slag:crucible/step5"
+      }
+    ]
+  },
+  "crucible_hit": {
+    "sounds": [
+      {
+        "type": "file",
+        "name": "slag:crucible/step1"
+      },
+      {
+        "type": "file",
+        "name": "slag:crucible/step2"
+      },
+      {
+        "type": "file",
+        "name": "slag:crucible/step3"
+      },
+      {
+        "type": "file",
+        "name": "slag:crucible/step4"
+      },
+      {
+        "type": "file",
+        "name": "slag:crucible/step5"
+      }
+    ]
+  },
+  "crucible_place": {
+    "sounds": [
+      {
+        "type": "file",
+        "name": "slag:crucible/place1"
+      },
+      {
+        "type": "file",
+        "name": "slag:crucible/place2"
+      },
+      {
+        "type": "file",
+        "name": "slag:crucible/place3"
+      },
+      {
+        "type": "file",
+        "name": "slag:crucible/place4"
+      },
+      {
+        "type": "file",
+        "name": "slag:crucible/place5"
+      }
+    ]
+  },
+  "crucible_step": {
+    "sounds": [
+      {
+        "type": "file",
+        "name": "slag:crucible/step1"
+      },
+      {
+        "type": "file",
+        "name": "slag:crucible/step2"
+      },
+      {
+        "type": "file",
+        "name": "slag:crucible/step3"
+      },
+      {
+        "type": "file",
+        "name": "slag:crucible/step4"
+      },
+      {
+        "type": "file",
+        "name": "slag:crucible/step5"
+      }
+    ]
+  }
+}

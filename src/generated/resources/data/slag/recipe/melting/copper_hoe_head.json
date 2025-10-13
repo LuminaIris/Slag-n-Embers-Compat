@@ -1,0 +1,10 @@
+{
+  "type": "slag:melting",
+  "ingredient": {
+    "item": "slag:copper_hoe_head"
+  },
+  "result": {
+    "amount": 144,
+    "id": "slag:molten_copper"
+  }
+}

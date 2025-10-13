@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_meltable_buds": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:buds"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "slag:melting/medium_amethyst_bud"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_meltable_buds"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "slag:melting/medium_amethyst_bud"
+    ]
+  }
+}

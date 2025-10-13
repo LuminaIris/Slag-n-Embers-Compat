@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "slag:block/deep_alloy_brick_slab"
+    },
+    "type=double": {
+      "model": "slag:block/deep_alloy_bricks"
+    },
+    "type=top": {
+      "model": "slag:block/deep_alloy_brick_slab_top"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "M": {
+      "tag": "c:obsidians"
+    },
+    "R": {
+      "item": "minecraft:paper"
+    }
+  },
+  "pattern": [
+    "M",
+    "M",
+    "R"
+  ],
+  "result": {
+    "count": 1,
+    "id": "slag:obsidian_sword_blade"
+  }
+}

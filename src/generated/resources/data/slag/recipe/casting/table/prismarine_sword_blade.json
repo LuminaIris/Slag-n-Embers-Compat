@@ -1,0 +1,12 @@
+{
+  "type": "slag:table_casting",
+  "cast": "slag:cast/sword_blades",
+  "ingredient": {
+    "amount": 144,
+    "id": "slag:molten_prismarine"
+  },
+  "result": {
+    "count": 1,
+    "id": "slag:prismarine_sword_blade"
+  }
+}

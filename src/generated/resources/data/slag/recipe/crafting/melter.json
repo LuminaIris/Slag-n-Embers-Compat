@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "tag": "c:ingots/deep_alloy"
+    },
+    "D": {
+      "item": "slag:drain"
+    },
+    "R": {
+      "tag": "c:ingots/rose_gold"
+    }
+  },
+  "pattern": [
+    "AAA",
+    "RDR",
+    "AAA"
+  ],
+  "result": {
+    "count": 1,
+    "id": "slag:melter"
+  }
+}

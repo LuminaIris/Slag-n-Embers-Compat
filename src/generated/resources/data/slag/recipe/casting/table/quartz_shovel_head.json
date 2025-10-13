@@ -1,0 +1,12 @@
+{
+  "type": "slag:table_casting",
+  "cast": "slag:cast/shovel_heads",
+  "ingredient": {
+    "amount": 72,
+    "id": "slag:molten_quartz"
+  },
+  "result": {
+    "count": 1,
+    "id": "slag:quartz_shovel_head"
+  }
+}

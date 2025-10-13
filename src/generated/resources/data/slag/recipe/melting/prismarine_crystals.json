@@ -1,0 +1,10 @@
+{
+  "type": "slag:melting",
+  "ingredient": {
+    "tag": "c:gems/prismarine"
+  },
+  "result": {
+    "amount": 72,
+    "id": "slag:molten_prismarine"
+  }
+}

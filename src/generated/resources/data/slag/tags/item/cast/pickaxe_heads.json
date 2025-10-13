@@ -1,0 +1,27 @@
+{
+  "values": [
+    "slag:wooden_pickaxe_head",
+    "slag:glowstone_pickaxe_head",
+    "slag:stone_pickaxe_head",
+    "slag:redstone_pickaxe_head",
+    "slag:lapis_pickaxe_head",
+    "slag:copper_pickaxe_head",
+    "slag:amethyst_pickaxe_head",
+    "slag:golden_pickaxe_head",
+    "slag:iron_pickaxe_head",
+    "slag:rose_gold_pickaxe_head",
+    "slag:quartz_pickaxe_head",
+    "slag:emerald_pickaxe_head",
+    "slag:deep_alloy_pickaxe_head",
+    "slag:prismarine_pickaxe_head",
+    "slag:blue_icy_pickaxe_head",
+    "slag:diamond_pickaxe_head",
+    "slag:obsidian_pickaxe_head",
+    "slag:echo_pickaxe_head",
+    "slag:netherite_pickaxe_head",
+    "slag:purpur_pickaxe_head",
+    "slag:nautilus_pickaxe_head",
+    "slag:bone_pickaxe_head",
+    "slag:flint_pickaxe_head"
+  ]
+}

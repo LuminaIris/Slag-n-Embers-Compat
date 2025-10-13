@@ -1,0 +1,12 @@
+{
+  "dura": 384.0,
+  "ench": 32.0,
+  "id": "lapis",
+  "molten_fluid": "slag:molten_lapis",
+  "repair_ingredient": {
+    "tag": "c:gems/lapis"
+  },
+  "sharp": 4.5,
+  "speed": 3.0,
+  "tough": 3.0
+}

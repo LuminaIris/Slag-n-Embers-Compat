@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "M": {
+      "item": "minecraft:nautilus_shell"
+    },
+    "R": {
+      "item": "minecraft:paper"
+    }
+  },
+  "pattern": [
+    "MMM",
+    " R ",
+    " R "
+  ],
+  "result": {
+    "count": 1,
+    "id": "slag:nautilus_pickaxe_head"
+  }
+}

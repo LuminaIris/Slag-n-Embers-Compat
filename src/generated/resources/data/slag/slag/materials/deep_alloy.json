@@ -1,0 +1,13 @@
+{
+  "dura": 704.0,
+  "ench": 11.0,
+  "fireproof": true,
+  "id": "deep_alloy",
+  "repair_ingredient": {
+    "tag": "c:ingots/deep_alloy"
+  },
+  "sharp": 5.0,
+  "speed": 5.0,
+  "texture": "shiny",
+  "tough": 4.0
+}

@@ -1,0 +1,10 @@
+{
+  "parent": "slag:block/orientable_with_bottom_and_back",
+  "textures": {
+    "bottom": "slag:block/brick_forge_bottom",
+    "front": "slag:block/brick_forge_front",
+    "side": "slag:block/brick_forge_side",
+    "top": "slag:block/brick_forge_top",
+    "back": "slag:block/brick_forge_back"
+  }
+}

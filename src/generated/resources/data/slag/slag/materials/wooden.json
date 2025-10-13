@@ -1,0 +1,12 @@
+{
+  "dura": 64.0,
+  "ench": 15.0,
+  "id": "wooden",
+  "repair_ingredient": {
+    "tag": "minecraft:planks"
+  },
+  "sharp": 3.0,
+  "speed": 2.0,
+  "texture": "soft",
+  "tough": 1.0
+}

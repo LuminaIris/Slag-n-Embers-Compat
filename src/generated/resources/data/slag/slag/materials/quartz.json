@@ -1,0 +1,13 @@
+{
+  "dura": 288.0,
+  "ench": 16.0,
+  "id": "quartz",
+  "molten_fluid": "slag:molten_quartz",
+  "repair_ingredient": {
+    "tag": "c:gems/quartz"
+  },
+  "sharp": 6.5,
+  "speed": 7.0,
+  "texture": "metal",
+  "tough": 4.0
+}

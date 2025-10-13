@@ -1,0 +1,10 @@
+{
+  "type": "slag:melting",
+  "ingredient": {
+    "item": "slag:iron_shovel_head"
+  },
+  "result": {
+    "amount": 72,
+    "id": "slag:molten_iron"
+  }
+}

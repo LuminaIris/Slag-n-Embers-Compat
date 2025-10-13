@@ -1,0 +1,13 @@
+{
+  "dura": 160.0,
+  "ench": 16.0,
+  "id": "redstone",
+  "molten_fluid": "slag:molten_redstone",
+  "repair_ingredient": {
+    "tag": "c:dusts/redstone"
+  },
+  "sharp": 4.0,
+  "speed": 3.0,
+  "texture": "shiny",
+  "tough": 2.0
+}

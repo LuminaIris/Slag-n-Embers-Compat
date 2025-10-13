@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_blueprint": {
+      "conditions": {
+        "items": [
+          {
+            "items": "slag:modular_tool"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "slag:crafting/parts/obsidian_sword_blade"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_blueprint"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "slag:crafting/parts/obsidian_sword_blade"
+    ]
+  }
+}

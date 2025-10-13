@@ -1,0 +1,12 @@
+{
+  "dura": 112.0,
+  "ench": 5.0,
+  "id": "flint",
+  "repair_ingredient": {
+    "item": "minecraft:flint"
+  },
+  "sharp": 5.0,
+  "speed": 3.0,
+  "texture": "metal",
+  "tough": 2.0
+}

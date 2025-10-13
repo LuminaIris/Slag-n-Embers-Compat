@@ -1,0 +1,13 @@
+{
+  "dura": 32.0,
+  "ench": 22.0,
+  "id": "golden",
+  "molten_fluid": "slag:molten_gold",
+  "repair_ingredient": {
+    "tag": "c:ingots/gold"
+  },
+  "sharp": 3.0,
+  "speed": 12.0,
+  "texture": "shiny",
+  "tough": 2.0
+}

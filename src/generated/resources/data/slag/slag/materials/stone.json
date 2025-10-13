@@ -1,0 +1,12 @@
+{
+  "dura": 128.0,
+  "ench": 5.0,
+  "id": "stone",
+  "repair_ingredient": {
+    "tag": "minecraft:stone_tool_materials"
+  },
+  "sharp": 4.0,
+  "speed": 4.0,
+  "texture": "soft",
+  "tough": 3.0
+}

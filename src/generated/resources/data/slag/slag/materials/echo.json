@@ -1,0 +1,12 @@
+{
+  "dura": 1536.0,
+  "ench": 24.0,
+  "id": "echo",
+  "repair_ingredient": {
+    "item": "minecraft:echo_shard"
+  },
+  "sharp": 7.0,
+  "speed": 10.0,
+  "texture": "metal",
+  "tough": 6.0
+}

@@ -1,0 +1,12 @@
+{
+  "dura": 96.0,
+  "ench": 12.0,
+  "id": "glowstone",
+  "repair_ingredient": {
+    "item": "minecraft:glowstone"
+  },
+  "sharp": 3.5,
+  "speed": 1.0,
+  "texture": "shiny",
+  "tough": 1.0
+}

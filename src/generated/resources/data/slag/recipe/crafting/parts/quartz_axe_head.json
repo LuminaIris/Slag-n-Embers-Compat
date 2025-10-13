@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "M": {
+      "tag": "c:gems/quartz"
+    },
+    "R": {
+      "item": "minecraft:paper"
+    }
+  },
+  "pattern": [
+    "MM",
+    "MR",
+    " R"
+  ],
+  "result": {
+    "count": 1,
+    "id": "slag:quartz_axe_head"
+  }
+}

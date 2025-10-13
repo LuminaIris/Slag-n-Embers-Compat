@@ -1,0 +1,13 @@
+{
+  "dura": 512.0,
+  "ench": 9.0,
+  "id": "emerald",
+  "molten_fluid": "slag:molten_emerald",
+  "repair_ingredient": {
+    "tag": "c:gems/emerald"
+  },
+  "sharp": 5.5,
+  "speed": 8.0,
+  "texture": "shiny",
+  "tough": 5.0
+}

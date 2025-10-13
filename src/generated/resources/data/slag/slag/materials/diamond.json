@@ -1,0 +1,13 @@
+{
+  "dura": 1024.0,
+  "ench": 10.0,
+  "id": "diamond",
+  "molten_fluid": "slag:molten_diamond",
+  "repair_ingredient": {
+    "tag": "c:gems/diamond"
+  },
+  "sharp": 6.0,
+  "speed": 8.0,
+  "texture": "shiny",
+  "tough": 5.0
+}

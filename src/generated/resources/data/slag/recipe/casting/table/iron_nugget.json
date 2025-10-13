@@ -1,0 +1,12 @@
+{
+  "type": "slag:table_casting",
+  "cast": "slag:cast/nuggets",
+  "ingredient": {
+    "amount": 8,
+    "id": "slag:molten_iron"
+  },
+  "result": {
+    "count": 1,
+    "id": "minecraft:iron_nugget"
+  }
+}

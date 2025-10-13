@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_shovel_head": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:shovel_heads/obsidian"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "slag:casting/table/obsidian_shovel_head"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_shovel_head"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "slag:casting/table/obsidian_shovel_head"
+    ]
+  }
+}

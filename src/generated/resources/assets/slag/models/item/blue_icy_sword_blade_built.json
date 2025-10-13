@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "slag:item/built/shiny/sword_blade_blue_icy"
+  }
+}

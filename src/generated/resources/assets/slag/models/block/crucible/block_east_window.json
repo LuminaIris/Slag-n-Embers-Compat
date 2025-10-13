@@ -1,0 +1,6 @@
+{
+  "parent": "slag:block/crucible/block_east",
+  "textures": {
+    "1": "slag:block/crucible_side_window"
+  }
+}

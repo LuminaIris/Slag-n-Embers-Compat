@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "M": {
+      "tag": "c:gems/emerald"
+    },
+    "R": {
+      "item": "minecraft:paper"
+    }
+  },
+  "pattern": [
+    "MMM",
+    " R ",
+    " R "
+  ],
+  "result": {
+    "count": 1,
+    "id": "slag:emerald_pickaxe_head"
+  }
+}

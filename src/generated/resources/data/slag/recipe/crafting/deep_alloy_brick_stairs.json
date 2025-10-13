@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": {
+      "item": "slag:deep_alloy_bricks"
+    }
+  },
+  "pattern": [
+    "D  ",
+    "DD ",
+    "DDD"
+  ],
+  "result": {
+    "count": 4,
+    "id": "slag:deep_alloy_brick_stairs"
+  }
+}

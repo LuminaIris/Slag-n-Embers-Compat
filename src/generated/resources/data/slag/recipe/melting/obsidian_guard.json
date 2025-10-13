@@ -1,0 +1,10 @@
+{
+  "type": "slag:melting",
+  "ingredient": {
+    "item": "slag:obsidian_guard"
+  },
+  "result": {
+    "amount": 648,
+    "id": "slag:molten_obsidian"
+  }
+}

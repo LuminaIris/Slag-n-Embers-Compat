@@ -1,0 +1,10 @@
+{
+  "type": "slag:melting",
+  "ingredient": {
+    "item": "slag:prismarine_pickaxe_head"
+  },
+  "result": {
+    "amount": 216,
+    "id": "slag:molten_prismarine"
+  }
+}

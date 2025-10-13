@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "slag:item/built/shiny/axe_maul_obsidian"
+  }
+}

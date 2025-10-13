@@ -1,0 +1,12 @@
+{
+  "type": "slag:table_casting",
+  "cast": "slag:cast/sword_blades",
+  "ingredient": {
+    "amount": 144,
+    "id": "slag:molten_amethyst"
+  },
+  "result": {
+    "count": 1,
+    "id": "slag:amethyst_sword_blade"
+  }
+}

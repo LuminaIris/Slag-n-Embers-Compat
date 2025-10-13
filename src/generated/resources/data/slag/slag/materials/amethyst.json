@@ -1,0 +1,13 @@
+{
+  "dura": 224.0,
+  "ench": 18.0,
+  "id": "amethyst",
+  "molten_fluid": "slag:molten_amethyst",
+  "repair_ingredient": {
+    "tag": "c:gems/amethyst"
+  },
+  "sharp": 5.5,
+  "speed": 7.0,
+  "texture": "metal",
+  "tough": 3.0
+}

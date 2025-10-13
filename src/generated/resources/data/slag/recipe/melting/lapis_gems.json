@@ -1,0 +1,10 @@
+{
+  "type": "slag:melting",
+  "ingredient": {
+    "tag": "c:gems/lapis"
+  },
+  "result": {
+    "amount": 72,
+    "id": "slag:molten_lapis"
+  }
+}

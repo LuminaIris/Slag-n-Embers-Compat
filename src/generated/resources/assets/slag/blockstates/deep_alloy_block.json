@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "slag:block/deep_alloy_block"
+    }
+  }
+}

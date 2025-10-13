@@ -1,0 +1,15 @@
+{
+  "type": "slag:double_smelting",
+  "cookingTime": 200,
+  "experience": 1.4,
+  "ingredientA": {
+    "tag": "c:ingots/copper"
+  },
+  "ingredientB": {
+    "tag": "c:ingots/gold"
+  },
+  "result": {
+    "count": 2,
+    "id": "slag:rose_gold_ingot"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "type": "slag:table_casting",
+  "cast": "slag:cast/axe_heads",
+  "ingredient": {
+    "amount": 216,
+    "id": "slag:molten_rose_gold"
+  },
+  "result": {
+    "count": 1,
+    "id": "slag:rose_gold_axe_head"
+  }
+}

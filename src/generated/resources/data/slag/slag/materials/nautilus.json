@@ -1,0 +1,12 @@
+{
+  "dura": 1120.0,
+  "ench": 19.0,
+  "id": "nautilus",
+  "repair_ingredient": {
+    "item": "minecraft:nautilus_shell"
+  },
+  "sharp": 6.0,
+  "speed": 11.0,
+  "texture": "soft",
+  "tough": 3.0
+}

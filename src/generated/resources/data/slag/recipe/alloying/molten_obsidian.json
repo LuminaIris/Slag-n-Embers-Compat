@@ -1,0 +1,17 @@
+{
+  "type": "slag:alloying",
+  "ingredients": [
+    {
+      "amount": 8,
+      "id": "minecraft:water"
+    },
+    {
+      "amount": 8,
+      "id": "minecraft:lava"
+    }
+  ],
+  "result": {
+    "amount": 8,
+    "id": "slag:molten_obsidian"
+  }
+}

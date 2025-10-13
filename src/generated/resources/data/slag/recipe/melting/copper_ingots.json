@@ -1,0 +1,10 @@
+{
+  "type": "slag:melting",
+  "ingredient": {
+    "tag": "c:ingots/copper"
+  },
+  "result": {
+    "amount": 72,
+    "id": "slag:molten_copper"
+  }
+}

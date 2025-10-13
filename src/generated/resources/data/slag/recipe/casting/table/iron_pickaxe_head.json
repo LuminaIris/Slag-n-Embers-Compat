@@ -1,0 +1,12 @@
+{
+  "type": "slag:table_casting",
+  "cast": "slag:cast/pickaxe_heads",
+  "ingredient": {
+    "amount": 216,
+    "id": "slag:molten_iron"
+  },
+  "result": {
+    "count": 1,
+    "id": "slag:iron_pickaxe_head"
+  }
+}

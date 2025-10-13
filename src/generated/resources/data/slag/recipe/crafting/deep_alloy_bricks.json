@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": {
+      "tag": "c:ingots/deep_alloy"
+    }
+  },
+  "pattern": [
+    "DD",
+    "DD"
+  ],
+  "result": {
+    "count": 4,
+    "id": "slag:deep_alloy_bricks"
+  }
+}

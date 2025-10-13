@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "M": {
+      "tag": "c:bones"
+    },
+    "R": {
+      "item": "minecraft:paper"
+    }
+  },
+  "pattern": [
+    "MM",
+    " R",
+    " R"
+  ],
+  "result": {
+    "count": 1,
+    "id": "slag:bone_hoe_head"
+  }
+}

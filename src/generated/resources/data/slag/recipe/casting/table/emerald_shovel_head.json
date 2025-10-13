@@ -1,0 +1,12 @@
+{
+  "type": "slag:table_casting",
+  "cast": "slag:cast/shovel_heads",
+  "ingredient": {
+    "amount": 72,
+    "id": "slag:molten_emerald"
+  },
+  "result": {
+    "count": 1,
+    "id": "slag:emerald_shovel_head"
+  }
+}

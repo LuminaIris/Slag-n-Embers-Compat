@@ -1,0 +1,13 @@
+{
+  "dura": 2560.0,
+  "ench": 21.0,
+  "id": "obsidian",
+  "molten_fluid": "slag:molten_obsidian",
+  "repair_ingredient": {
+    "tag": "c:obsidians"
+  },
+  "sharp": 6.5,
+  "speed": 5.0,
+  "texture": "shiny",
+  "tough": 5.0
+}

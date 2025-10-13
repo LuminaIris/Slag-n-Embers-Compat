@@ -1,0 +1,12 @@
+{
+  "dura": 768.0,
+  "ench": 6.0,
+  "id": "blue_icy",
+  "repair_ingredient": {
+    "item": "minecraft:blue_ice"
+  },
+  "sharp": 7.0,
+  "speed": 6.0,
+  "texture": "shiny",
+  "tough": 4.0
+}

@@ -1,0 +1,12 @@
+{
+  "type": "slag:table_casting",
+  "cast": "slag:cast/pickaxe_heads",
+  "ingredient": {
+    "amount": 216,
+    "id": "slag:molten_prismarine"
+  },
+  "result": {
+    "count": 1,
+    "id": "slag:prismarine_pickaxe_head"
+  }
+}

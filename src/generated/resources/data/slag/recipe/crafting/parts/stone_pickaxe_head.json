@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "M": {
+      "tag": "minecraft:stone_tool_materials"
+    },
+    "R": {
+      "item": "minecraft:paper"
+    }
+  },
+  "pattern": [
+    "MMM",
+    " R ",
+    " R "
+  ],
+  "result": {
+    "count": 1,
+    "id": "slag:stone_pickaxe_head"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "slag:block/crucible_interface",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "slag:block/crucible_interface"
+    },
+    "facing=south": {
+      "model": "slag:block/crucible_interface",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "slag:block/crucible_interface",
+      "y": 270
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "M": {
+      "tag": "c:dusts/redstone"
+    },
+    "R": {
+      "item": "minecraft:paper"
+    }
+  },
+  "pattern": [
+    "M",
+    "R",
+    "R"
+  ],
+  "result": {
+    "count": 1,
+    "id": "slag:redstone_shovel_head"
+  }
+}

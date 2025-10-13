@@ -1,0 +1,12 @@
+{
+  "type": "slag:table_casting",
+  "cast": "slag:cast/hoe_heads",
+  "ingredient": {
+    "amount": 144,
+    "id": "slag:molten_emerald"
+  },
+  "result": {
+    "count": 1,
+    "id": "slag:emerald_hoe_head"
+  }
+}

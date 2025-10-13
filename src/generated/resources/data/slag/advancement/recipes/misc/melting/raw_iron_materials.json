@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_meltable_raw_iron": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#slag:iron_raw_materials"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "slag:melting/raw_iron_materials"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_meltable_raw_iron"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "slag:melting/raw_iron_materials"
+    ]
+  }
+}

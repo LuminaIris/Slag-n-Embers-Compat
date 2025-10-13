@@ -1,0 +1,30 @@
+{
+  "values": [
+    "slag:flowing_molten_obsidian",
+    "slag:molten_obsidian",
+    "slag:flowing_molten_amethyst",
+    "slag:molten_amethyst",
+    "slag:flowing_molten_copper",
+    "slag:molten_copper",
+    "slag:flowing_molten_diamond",
+    "slag:molten_diamond",
+    "slag:flowing_molten_emerald",
+    "slag:molten_emerald",
+    "slag:flowing_molten_gold",
+    "slag:molten_gold",
+    "slag:flowing_molten_iron",
+    "slag:molten_iron",
+    "slag:flowing_molten_lapis",
+    "slag:molten_lapis",
+    "slag:flowing_molten_netherite",
+    "slag:molten_netherite",
+    "slag:flowing_molten_prismarine",
+    "slag:molten_prismarine",
+    "slag:flowing_molten_quartz",
+    "slag:molten_quartz",
+    "slag:flowing_molten_redstone",
+    "slag:molten_redstone",
+    "slag:flowing_molten_rose_gold",
+    "slag:molten_rose_gold"
+  ]
+}

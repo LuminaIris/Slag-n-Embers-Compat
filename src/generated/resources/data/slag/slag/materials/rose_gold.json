@@ -1,0 +1,13 @@
+{
+  "dura": 480.0,
+  "ench": 15.0,
+  "id": "rose_gold",
+  "molten_fluid": "slag:molten_rose_gold",
+  "repair_ingredient": {
+    "tag": "c:ingots/rose_gold"
+  },
+  "sharp": 6.0,
+  "speed": 10.0,
+  "texture": "shiny",
+  "tough": 4.0
+}

@@ -1,0 +1,12 @@
+{
+  "dura": 192.0,
+  "ench": 8.0,
+  "id": "copper",
+  "molten_fluid": "slag:molten_copper",
+  "repair_ingredient": {
+    "tag": "c:ingots/copper"
+  },
+  "sharp": 4.5,
+  "speed": 5.0,
+  "tough": 3.0
+}

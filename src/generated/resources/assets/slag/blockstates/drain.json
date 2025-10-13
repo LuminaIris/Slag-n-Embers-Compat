@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "slag:block/drain",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "slag:block/drain"
+    },
+    "facing=south": {
+      "model": "slag:block/drain",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "slag:block/drain",
+      "y": 270
+    }
+  }
+}
