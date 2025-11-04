@@ -1,0 +1,23 @@
+{
+  "actions": [
+    "axe",
+    "isTool"
+  ],
+  "final_segment_stacks": [
+    {
+      "count": 2,
+      "id": "minecraft:stick"
+    }
+  ],
+  "id": "slag:axe",
+  "item_tags": [
+    "minecraft:axes",
+    "c:tools/melee_weapon"
+  ],
+  "model_type": "handheld",
+  "segments": [
+    "slag:parts/axe_heads"
+  ],
+  "sort_order": 2,
+  "stations": "c:player_workstations/crafting_tables"
+}

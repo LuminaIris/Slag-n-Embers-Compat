@@ -1,12 +1,16 @@
 {
-  "dura": 1120.0,
-  "ench": 19.0,
-  "id": "nautilus",
+  "defense": 5.0,
+  "durability": 1120.0,
+  "enchantability": 19.0,
+  "id": "slag:nautilus",
+  "knockback_resistance": 0.1,
   "repair_ingredient": {
     "item": "minecraft:nautilus_shell"
   },
-  "sharp": 6.0,
+  "sharpness": 6.0,
+  "sort_order": 200,
   "speed": 11.0,
   "texture": "soft",
-  "tough": 3.0
+  "tier": 3.0,
+  "toughness": 1.0
 }

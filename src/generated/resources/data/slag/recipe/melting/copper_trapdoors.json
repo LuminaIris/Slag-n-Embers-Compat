@@ -1,0 +1,13 @@
+{
+  "type": "slag:melting",
+  "ingredient": {
+    "tag": "c:trapdoors/copper"
+  },
+  "ingredients": [],
+  "result": [
+    {
+      "amount": 216,
+      "id": "slag:molten_copper"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "type": "slag:melting",
+  "ingredient": {
+    "item": "minecraft:sea_lantern"
+  },
+  "ingredients": [],
+  "result": [
+    {
+      "amount": 360,
+      "id": "slag:molten_prismarine"
+    }
+  ]
+}

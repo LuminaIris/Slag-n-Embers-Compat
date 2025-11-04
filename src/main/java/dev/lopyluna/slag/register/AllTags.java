@@ -67,6 +67,10 @@ public class AllTags {
 
     public static TagKey<Block> MELTER_HEATER = block("melter_heater");
 
+    public static TagKey<Block> HARVESTABLE = block("harvestable");
+    public static TagKey<Block> VEIN_MINEABLE = block("vein_mineable");
+
+
     public static void genBlockTags(RegistrateTagsProvider<Block> provIn) {
         TagsProvider<Block> prov = new TagsProvider<>(provIn, Block::builtInRegistryHolder);
         prov.tag(MELTER_HEATER)
@@ -74,6 +78,12 @@ public class AllTags {
                 .add(Blocks.LAVA_CAULDRON)
                 .addTag(BlockTags.FIRE)
                 .addTag(BlockTags.CAMPFIRES)
+        ;
+        prov.tag(HARVESTABLE)
+                .addTag(BlockTags.CROPS)
+        ;
+        prov.tag(VEIN_MINEABLE)
+                .addTag(Tags.Blocks.ORES)
         ;
     }
     public static TagKey<Item> COPPER_BLOCKS = item("copper_blocks");
@@ -83,12 +93,29 @@ public class AllTags {
     public static TagKey<Item> IRON_RAW_MATERIALS = item("iron_raw_materials");
     public static TagKey<Item> GOLD_RAW_MATERIALS = item("gold_raw_materials");
 
+    public static TagKey<Item> PARTS_AXE_HEADS = item("parts/axe_heads");
+    public static TagKey<Item> PARTS_PICKAXE_HEADS = item("parts/pickaxe_heads");
+    public static TagKey<Item> PARTS_SHOVEL_HEADS = item("parts/shovel_heads");
+    public static TagKey<Item> PARTS_HOE_HEADS = item("parts/hoe_heads");
+    public static TagKey<Item> PARTS_SWORD_BLADES = item("parts/sword_blades");
+    public static TagKey<Item> PARTS_GUARDS = item("parts/guards");
+    public static TagKey<Item> PARTS_PLATES = item("parts/plates");
+    public static TagKey<Item> PARTS_HELMETS = item("parts/helmets");
+    public static TagKey<Item> PARTS_CHESTPLATES = item("parts/chestplates");
+    public static TagKey<Item> PARTS_LEGGINGS = item("parts/leggings");
+    public static TagKey<Item> PARTS_BOOTS = item("parts/boots");
+
     public static TagKey<Item> CAST_AXE_HEADS = item("cast/axe_heads");
     public static TagKey<Item> CAST_PICKAXE_HEADS = item("cast/pickaxe_heads");
     public static TagKey<Item> CAST_SHOVEL_HEADS = item("cast/shovel_heads");
     public static TagKey<Item> CAST_HOE_HEADS = item("cast/hoe_heads");
     public static TagKey<Item> CAST_SWORD_BLADES = item("cast/sword_blades");
     public static TagKey<Item> CAST_GUARDS = item("cast/guards");
+    public static TagKey<Item> CAST_PLATES = item("cast/plates");
+    public static TagKey<Item> CAST_HELMETS = item("cast/helmets");
+    public static TagKey<Item> CAST_CHESTPLATES = item("cast/chestplates");
+    public static TagKey<Item> CAST_LEGGINGS = item("cast/leggings");
+    public static TagKey<Item> CAST_BOOTS = item("cast/boots");
 
     public static TagKey<Item> CAST_INGOTS = item("cast/ingots");
     public static TagKey<Item> CAST_GEMS = item("cast/gems");
@@ -142,6 +169,57 @@ public class AllTags {
                 .add(Items.WAXED_WEATHERED_COPPER)
                 .add(Items.WAXED_OXIDIZED_COPPER)
                 .addTag(Tags.Items.STORAGE_BLOCKS_COPPER);
+
+        prov.tag(itemC("doors/copper"))
+                .add(Items.COPPER_DOOR)
+                .add(Items.EXPOSED_COPPER_DOOR)
+                .add(Items.WEATHERED_COPPER_DOOR)
+                .add(Items.OXIDIZED_COPPER_DOOR)
+                .add(Items.WAXED_COPPER_DOOR)
+                .add(Items.WAXED_EXPOSED_COPPER_DOOR)
+                .add(Items.WAXED_WEATHERED_COPPER_DOOR)
+                .add(Items.WAXED_OXIDIZED_COPPER_DOOR);
+
+        prov.tag(itemC("trapdoors/copper"))
+                .add(Items.COPPER_TRAPDOOR)
+                .add(Items.EXPOSED_COPPER_TRAPDOOR)
+                .add(Items.WEATHERED_COPPER_TRAPDOOR)
+                .add(Items.OXIDIZED_COPPER_TRAPDOOR)
+                .add(Items.WAXED_COPPER_TRAPDOOR)
+                .add(Items.WAXED_EXPOSED_COPPER_TRAPDOOR)
+                .add(Items.WAXED_WEATHERED_COPPER_TRAPDOOR)
+                .add(Items.WAXED_OXIDIZED_COPPER_TRAPDOOR);
+
+        prov.tag(itemC("grate_blocks/copper"))
+                .add(Items.COPPER_GRATE)
+                .add(Items.EXPOSED_COPPER_GRATE)
+                .add(Items.WEATHERED_COPPER_GRATE)
+                .add(Items.OXIDIZED_COPPER_GRATE)
+                .add(Items.WAXED_COPPER_GRATE)
+                .add(Items.WAXED_EXPOSED_COPPER_GRATE)
+                .add(Items.WAXED_WEATHERED_COPPER_GRATE)
+                .add(Items.WAXED_OXIDIZED_COPPER_GRATE);
+
+        prov.tag(itemC("chiseled_blocks/copper"))
+                .add(Items.CHISELED_COPPER)
+                .add(Items.EXPOSED_CHISELED_COPPER)
+                .add(Items.WEATHERED_CHISELED_COPPER)
+                .add(Items.OXIDIZED_CHISELED_COPPER)
+                .add(Items.WAXED_CHISELED_COPPER)
+                .add(Items.WAXED_EXPOSED_CHISELED_COPPER)
+                .add(Items.WAXED_WEATHERED_CHISELED_COPPER)
+                .add(Items.WAXED_OXIDIZED_CHISELED_COPPER);
+
+        prov.tag(itemC("cut_blocks/copper"))
+                .add(Items.CUT_COPPER)
+                .add(Items.EXPOSED_CUT_COPPER)
+                .add(Items.WEATHERED_CUT_COPPER)
+                .add(Items.OXIDIZED_CUT_COPPER)
+                .add(Items.WAXED_CUT_COPPER)
+                .add(Items.WAXED_EXPOSED_CUT_COPPER)
+                .add(Items.WAXED_WEATHERED_CUT_COPPER)
+                .add(Items.WAXED_OXIDIZED_CUT_COPPER);
+
     }
 
     public static TagKey<Block> block(String name) { return TagKey.create(Registries.BLOCK, SlagEmbers.loc(name)); }

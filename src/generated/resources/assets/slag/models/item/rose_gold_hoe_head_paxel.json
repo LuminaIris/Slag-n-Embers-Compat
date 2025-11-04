@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/handheld",
-  "textures": {
-    "layer0": "slag:item/built/shiny/hoe_paxel_rose_gold"
-  }
-}

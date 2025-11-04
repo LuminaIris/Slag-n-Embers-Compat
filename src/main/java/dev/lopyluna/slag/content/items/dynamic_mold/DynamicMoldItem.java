@@ -22,6 +22,7 @@ import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -31,7 +32,6 @@ public class DynamicMoldItem extends Item {
         super(properties);
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public boolean overrideOtherStackedOnMe(ItemStack stack, ItemStack other, Slot slot, ClickAction action, Player player, SlotAccess access) {
         var hasType = stack.has(AllDataComponents.CAST_TYPE);
@@ -48,7 +48,7 @@ public class DynamicMoldItem extends Item {
             b = false;
         } else {
             var type = stack.get(AllDataComponents.CAST_TYPE);
-            for (var tag : other.getItem().builtInRegistryHolder().tags().toList()) if (tag.location().getPath().split("/")[0].equals("cast")) {
+            for (var tag : new ArrayList<>(other.getTags().toList())) if (tag.location().getPath().split("/")[0].equals("cast")) {
                 if (type != null && type.equals(tag)) continue;
                 stack.set(AllDataComponents.CAST_TYPE, tag);
                 player.playSound(SoundEvents.DECORATED_POT_INSERT_FAIL, 0.8F, 0.8F + random.nextFloat() * 0.4F);

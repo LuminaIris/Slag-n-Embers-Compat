@@ -8,61 +8,82 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @SuppressWarnings({"all", "unchecked"})
 public class CrucibleBE extends FluidMultiBlockEntity {
-    public int updateShape = 2;
-    
+    public boolean hasCover = false;
+
     public CrucibleBE(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
         super(type, pos, blockState);
-        setLazyTickRate(1);
     }
 
     @Override
     public void lazyTick() {
         super.lazyTick();
         if (level == null) return;
-        if (updateShape > 0) handleShapeConnections(level, worldPosition, getBlockState());
         if (level.isClientSide) return;
 
         var tank = getTankInventory();
         if (tank.tryAlloy(level, 1)) tank.onContentsChanged();
+
+        var cover = hasCover();
+        if (cover == null) return;
+        if (hasCover != cover) {
+            hasCover = hasCover();
+            setChanged();
+        }
+
+        if (!hasCover) tank.noCoverTick();
     }
 
-    public void updateShape() {
-        updateShape = 2;
+    public Boolean hasCover() {
+        for (int widthX = 0; widthX < getWidthX(); widthX++) for (int widthZ = 0; widthZ < getWidthZ(); widthZ++) {
+            var pos = getBlockPos().offset(widthX, height, widthZ);
+            if (!level.isLoaded(pos)) return null;
+            var state = level.getBlockState(pos);
+            if (state.isAir()) return false;
+            if (!state.isFaceSturdy(level, pos, Direction.DOWN)) return false;
+            if (state.canBeReplaced()) return false;
+        }
+        return true;
     }
 
     @Override
     public void notifyMultiUpdated() {
         super.notifyMultiUpdated();
-        updateShape();
+
+        BlockState state = this.getBlockState();
+        if (state.is(AllBlocks.CRUCIBLE)) {
+            state = state.setValue(BOTTOM, getController().getY() == getBlockPos().getY());
+            state = state.setValue(TOP, getController().getY() + getHeight() - 1 == getBlockPos().getY());
+            level.setBlock(getBlockPos(), state, Block.UPDATE_CLIENTS | Block.UPDATE_INVISIBLE);
+        }
+
+        if (isController()) setShapes();
+
+        setChanged();
     }
 
     @Override
     public void removeController(boolean keepFluids) {
         super.removeController(keepFluids);
-        updateShape();
-    }
 
-    @Override
-    public void setController(BlockPos controller) {
-        super.setController(controller);
-        updateShape();
-    }
-
-    @Override
-    protected void read(CompoundTag compound, HolderLookup.Provider registries, boolean clientPacket) {
-        super.read(compound, registries, clientPacket);
-        updateShape();
+        if (level != null && !level.isClientSide) {
+            BlockState state = this.getBlockState();
+            if (state.is(AllBlocks.CRUCIBLE)) {
+                state = state.setValue(BOTTOM, true)
+                    .setValue(TOP, true)
+                    .setValue(WINDOW, false)
+                    .setValue(SHAPE, Shape.PLAIN);
+                level.setBlock(getBlockPos(), state, Block.UPDATE_CLIENTS | Block.UPDATE_INVISIBLE | Block.UPDATE_KNOWN_SHAPE);
+            }
+        }
     }
 
     public boolean isSameController(Level level, BlockPos pos) {
@@ -72,74 +93,65 @@ public class CrucibleBE extends FluidMultiBlockEntity {
     @Override
     public void setWindows(boolean window) {
         super.setWindows(window);
-        updateShape();
-        if (level != null) for (int yOffset = 0; yOffset < height; yOffset++) for (int xOffset = 0; xOffset < widthX; xOffset++) for (int zOffset = 0; zOffset < widthZ; zOffset++) {
+        setShapes();
+    }
+
+    @Override
+    protected void read(CompoundTag compound, HolderLookup.Provider registries, boolean clientPacket) {
+        super.read(compound, registries, clientPacket);
+        hasCover = compound.getBoolean("hasCover");
+    }
+
+    @Override
+    public void write(CompoundTag compound, HolderLookup.Provider registries, boolean clientPacket) {
+        super.write(compound, registries, clientPacket);
+        compound.putBoolean("hasCover", hasCover);
+    }
+
+    public void setShapes() {
+        if (level == null || level.isClientSide) return;
+
+        boolean window = isWindow();
+        int widthX = getWidthX();
+        int widthZ = getWidthZ();
+        int height = getHeight();
+
+        for (int yOffset = 0; yOffset < height; yOffset++) for (int xOffset = 0; xOffset < widthX; xOffset++) for (int zOffset = 0; zOffset < widthZ; zOffset++) {
             BlockPos pos = this.worldPosition.offset(xOffset, yOffset, zOffset);
-            if (level.getBlockEntity(pos) instanceof CrucibleBE be) be.updateShape();
+            BlockState blockState = level.getBlockState(pos);
+
+            if (!blockState.is(AllBlocks.CRUCIBLE)) continue;
+
+            Shape shape = calculateShapeForPosition(xOffset, zOffset, widthX, widthZ);
+            level.setBlock(pos, blockState.setValue(WINDOW, window).setValue(SHAPE, shape), Block.UPDATE_CLIENTS | Block.UPDATE_INVISIBLE | Block.UPDATE_KNOWN_SHAPE);
         }
     }
 
-    public void handleShapeConnections(Level level, BlockPos pos, BlockState state) {
-        updateShape -= 1;
-        List<Direction> dirVCtrl = new ArrayList<>();
-        List<Direction> dirHCtrl = new ArrayList<>();
-        for (var dir : Direction.values()) {
-            var relPos = pos.relative(dir);
-            if (isSameController(level, relPos)) {
-                if (dir.getAxis().isVertical()) dirVCtrl.add(dir);
-                else dirHCtrl.add(dir.getOpposite());
-            }
+    private Shape calculateShapeForPosition(int xOffset, int zOffset, int widthX, int widthZ) {
+        if (widthX == 1 || widthZ == 1) return Shape.PLAIN;
+
+        boolean isNorth = zOffset == 0;
+        boolean isSouth = zOffset == widthZ - 1;
+        boolean isWest = xOffset == 0;
+        boolean isEast = xOffset == widthX - 1;
+
+        int edgeCount = (isNorth ? 1 : 0) + (isSouth ? 1 : 0) + (isWest ? 1 : 0) + (isEast ? 1 : 0);
+
+        if (edgeCount == 2) {
+            if (isNorth && isWest) return Shape.NW;
+            if (isNorth && isEast) return Shape.NE;
+            if (isSouth && isWest) return Shape.SW;
+            if (isSouth && isEast) return Shape.SE;
         }
 
-        var sizeS = dirHCtrl.size();
-        if (sizeS == 2) {
-            var a = dirHCtrl.getFirst();
-            var b = dirHCtrl.getLast();
-            var target = isSameController(level, pos.relative(a.getOpposite()).relative(b.getOpposite()));
-            if (!target) {
-                dirHCtrl.remove(a);
-                dirHCtrl.remove(b);
-            }
+        if (edgeCount == 1) {
+            if (isNorth) return Shape.NORTH;
+            if (isSouth) return Shape.SOUTH;
+            if (isWest) return Shape.WEST;
+            if (isEast) return Shape.EAST;
         }
-        sizeS = dirHCtrl.size();
 
-        var shape = Shape.PLAIN;
-        switch (sizeS) {
-            case 4 -> shape = Shape.INNER;
-            case 2 -> shape = Shape.fromDirDir(dirHCtrl.getFirst(), dirHCtrl.getLast());
-            case 3 -> {
-                var a = dirHCtrl.getFirst();
-                var b = dirHCtrl.get(1);
-                var c = dirHCtrl.getLast();
-                var shaping = Shape.PLAIN;
-                var targetDir = Direction.DOWN;
-                if (a.getAxis().equals(b.getAxis())) {
-                    var posA = isSameController(level, pos.relative(a.getOpposite()).relative(c.getOpposite()));
-                    var posB = isSameController(level, pos.relative(b.getOpposite()).relative(c.getOpposite()));
-                    if (posA && posB) targetDir = c;
-                    else if (posA) shaping = Shape.fromDirDir(a, c);
-                    else if (posB) shaping = Shape.fromDirDir(b, c);
-                }
-                if (a.getAxis().equals(c.getAxis())) {
-                    var posA = isSameController(level, pos.relative(a.getOpposite()).relative(b.getOpposite()));
-                    var posB = isSameController(level, pos.relative(c.getOpposite()).relative(b.getOpposite()));
-                    if (posA && posB) targetDir = b;
-                    else if (posA) shaping = Shape.fromDirDir(a, b);
-                    else if (posB) shaping = Shape.fromDirDir(c, b);
-                }
-                if (c.getAxis().equals(b.getAxis())) {
-                    var posA = isSameController(level, pos.relative(c.getOpposite()).relative(a.getOpposite()));
-                    var posB = isSameController(level, pos.relative(b.getOpposite()).relative(a.getOpposite()));
-                    if (posA && posB) targetDir = a;
-                    else if (posA) shaping = Shape.fromDirDir(c, a);
-                    else if (posB) shaping = Shape.fromDirDir(b, a);
-                }
-                shape = targetDir == Direction.DOWN ? shaping : Shape.fromDir(targetDir);
-            }
-        }
-        var ctrl = getControllerBE();
-        var window = ctrl != null && ctrl.isWindow();
-        if (state.is(AllBlocks.CRUCIBLE)) level.setBlockAndUpdate(pos, state.setValue(WINDOW, window).setValue(TOP, !dirVCtrl.contains(Direction.UP)).setValue(BOTTOM, !dirVCtrl.contains(Direction.DOWN)).setValue(SHAPE, shape));
+        return Shape.INNER;
     }
 
     public static final BooleanProperty TOP = BooleanProperty.create("top");

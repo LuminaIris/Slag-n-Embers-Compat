@@ -45,7 +45,30 @@ public class InterfaceScreen extends AbstractContainerScreen<InterfaceMenu> {
         int iX = (width - imageWidth) / 2;
         int iY = (height - imageHeight) / 2;
         g.blit(TEXTURE, iX, iY, 0, 0, imageWidth, imageHeight);
+        var capacity = menu.getCapacity();
+        if (capacity == 0) return;
         renderFluidLayers(g, mx, my);
+    }
+
+    @Override
+    protected void renderLabels(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY) {
+        super.renderLabels(guiGraphics, mouseX, mouseY);
+        float capacity = menu.getCapacity();
+        if (capacity == 0) return;
+        float amount = menu.getAmount();
+        var bucketCapacity = capacity > 1000f;
+        if (bucketCapacity) capacity /= 100f;
+        capacity = Math.round(capacity);
+        capacity /= bucketCapacity ? 10f : 1f;
+        var bucketAmount = amount > 1000f;
+        if (bucketAmount) amount /= 100f;
+        amount = Math.round(amount);
+        amount /= bucketAmount ? 10f : 1f;
+
+
+        var text = amount + (bucketAmount ? "B" : "mB") + "/" + capacity + (bucketCapacity ? "B" : "mB");
+        text = text.replace(".0", "");
+        guiGraphics.drawString(this.font, Component.literal(text), this.titleLabelX + imageWidth - font.width(text) - 12, this.titleLabelY, 4210752, false);
     }
 
     @SuppressWarnings("removal")
@@ -59,33 +82,33 @@ public class InterfaceScreen extends AbstractContainerScreen<InterfaceMenu> {
         int boxW = BOX_W;
         int boxH = BOX_H;
 
+        int maxFluids = 8;
+        int displayCount = Math.min(fluids.size(), maxFluids);
+
         int totalMb = 0;
-        for (var f : fluids) totalMb += f.getAmount();
+        for (int i = 0; i < displayCount; i++) totalMb += fluids.get(i).getAmount();
         if (totalMb <= 0) return;
 
+        int[] heights = new int[displayCount];
+        int baseHeight = boxH / displayCount;
+        int remainder = boxH % displayCount;
+
+        for (int i = 0; i < displayCount; i++) heights[i] = baseHeight + (i < remainder ? 1 : 0);
+
         int yTop = boxY + boxH;
-        int remainingH = boxH;
-        int remainingMb = totalMb;
 
-        for (int i = 0; i < fluids.size(); i++) {
+        for (int i = 0; i < displayCount; i++) {
             var fs = fluids.get(i);
-            int amt = fs.getAmount();
-            if (amt <= 0) continue;
+            int h = heights[i];
+            if (h <= 0) continue;
 
-            // proportional height, last segment absorbs rounding
-            int h = (i == fluids.size() - 1) ? remainingH : Math.max(1, (int)Math.floor((amt / (double)remainingMb) * remainingH));
             int y = yTop - h;
 
-            // segment
             FluidRenderHelper.drawFluidBox(g, boxX, y, boxW, h, fs);
 
-            // highlight current drain (index 0)
-            //if (i == 0) g.fill(boxX, y, boxX + boxW, y + h, 0x40FFFFFF);
+            if (i == 0) g.fill(boxX, y, boxX + boxW, y + h, 0x1affffFF);
 
             yTop -= h;
-            remainingH -= h;
-            remainingMb -= amt;
-            if (remainingH <= 0) break;
         }
 
         var p = g.pose();
@@ -97,14 +120,15 @@ public class InterfaceScreen extends AbstractContainerScreen<InterfaceMenu> {
 
         if (mx >= boxX && mx < boxX + boxW && my >= boxY && my < boxY + boxH) {
             int yTop2 = boxY + boxH;
-            int remH = boxH, remMb = totalMb;
-            for (int i = 0; i < fluids.size(); i++) {
+            for (int i = 0; i < displayCount; i++) {
                 var fs = fluids.get(i);
-                int amt = fs.getAmount();
-                if (amt <= 0) continue;
-                int h = (i == fluids.size() - 1) ? remH : Math.max(1, (int)Math.floor((amt / (double)remMb) * remH));
+                int h = heights[i];
+                if (h <= 0) continue;
+
                 int y = yTop2 - h;
                 if (my >= y && my < yTop2) {
+                    g.fill(boxX, y, boxX + boxW, y + h, 0x1affffFF);
+
                     var tooltipFlag = Minecraft.getInstance().options.advancedItemTooltips ? TooltipFlag.Default.ADVANCED : TooltipFlag.Default.NORMAL;
                     var tooltip = new ArrayList<Component>();
                     tooltip.add(fs.getDisplayName());
@@ -114,7 +138,7 @@ public class InterfaceScreen extends AbstractContainerScreen<InterfaceMenu> {
                     g.renderTooltip(font, tooltip, Optional.empty(), mx, my);
                     break;
                 }
-                yTop2 -= h; remH -= h; remMb -= amt;
+                yTop2 -= h;
             }
         }
     }
@@ -197,33 +221,44 @@ public class InterfaceScreen extends AbstractContainerScreen<InterfaceMenu> {
 
     @Override
     public boolean mouseClicked(double mx, double my, int button) {
-        if (level == null || !menu.isCrucible()) return super.mouseClicked(mx, my, button);
+        if (level == null || !menu.isCrucible() || menu.player == null || menu.player.isSpectator()) return super.mouseClicked(mx, my, button);
         if (button == 0) {
             int boxX = leftPos + BOX_X;
             int boxY = topPos  + BOX_Y;
             int boxH = BOX_H;
 
+            var fluids = menu.getFluids();
+
+            if (fluids.size() <= 1) return super.mouseClicked(mx, my, button);
+
             if (mx >= boxX && mx < boxX + BOX_W && my >= boxY && my < boxY + boxH) {
-                var fluids = menu.getFluids();
-                if (!fluids.isEmpty()) {
-                    int totalMb = 0; for (var f : fluids) totalMb += f.getAmount();
-                    if (totalMb > 0) {
-                        int yTop = boxY + boxH, remH = boxH, remMb = totalMb;
-                        for (int i = 0; i < fluids.size(); i++) {
-                            var fs = fluids.get(i);
-                            int amt = fs.getAmount();
-                            if (amt <= 0) continue;
-                            int h = (i == fluids.size() - 1) ? remH : Math.max(1, (int)Math.floor((amt / (double)remMb) * remH));
-                            int y = yTop - h;
-                            if (my >= y && my < yTop && i != 0) {
-                                var type = fs.getFluidType();
-                                Optional.ofNullable(type.getSound(SoundActions.BUCKET_FILL)).ifPresent(s -> menu.player.playSound(s, 0.5f, 1f));
-                                Optional.ofNullable(type.getSound(SoundActions.BUCKET_EMPTY)).ifPresent(s -> menu.player.playSound(s, 0.5f, 1f));
-                                PacketDistributor.sendToServer(new SelectFluidIndexC2S(menu.getControllerPos(), i));
-                                return true;
-                            }
-                            yTop -= h; remH -= h; remMb -= amt;
+                int maxFluids = 8;
+                int displayCount = Math.min(fluids.size(), maxFluids);
+
+                int totalMb = 0;
+                for (int i = 0; i < displayCount; i++) totalMb += fluids.get(i).getAmount();
+                if (totalMb > 0) {
+                    int[] heights = new int[displayCount];
+                    int baseHeight = boxH / displayCount;
+                    int remainder = boxH % displayCount;
+
+                    for (int i = 0; i < displayCount; i++) heights[i] = baseHeight + (i < remainder ? 1 : 0);
+
+                    int yTop = boxY + boxH;
+                    for (int i = 0; i < displayCount; i++) {
+                        var fs = fluids.get(i);
+                        int h = heights[i];
+                        if (h <= 0) continue;
+
+                        int y = yTop - h;
+                        if (my >= y && my < yTop) {
+                            var type = fs.getFluidType();
+                            Optional.ofNullable(type.getSound(SoundActions.BUCKET_FILL)).ifPresent(s -> menu.player.playSound(s, 0.5f, 1f));
+                            Optional.ofNullable(type.getSound(SoundActions.BUCKET_EMPTY)).ifPresent(s -> menu.player.playSound(s, 0.5f, 1f));
+                            PacketDistributor.sendToServer(new SelectFluidIndexC2S(menu.getControllerPos(), i));
+                            return true;
                         }
+                        yTop -= h;
                     }
                 }
             }

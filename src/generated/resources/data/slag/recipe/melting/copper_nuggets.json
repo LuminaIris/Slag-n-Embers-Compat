@@ -3,8 +3,11 @@
   "ingredient": {
     "tag": "c:nuggets/copper"
   },
-  "result": {
-    "amount": 8,
-    "id": "slag:molten_copper"
-  }
+  "ingredients": [],
+  "result": [
+    {
+      "amount": 8,
+      "id": "slag:molten_copper"
+    }
+  ]
 }

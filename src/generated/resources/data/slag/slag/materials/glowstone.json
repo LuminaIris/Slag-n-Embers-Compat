@@ -1,12 +1,15 @@
 {
-  "dura": 96.0,
-  "ench": 12.0,
-  "id": "glowstone",
+  "defense": 2.0,
+  "durability": 96.0,
+  "enchantability": 12.0,
+  "id": "slag:glowstone",
+  "knockback_resistance": 0.1,
   "repair_ingredient": {
     "item": "minecraft:glowstone"
   },
-  "sharp": 3.5,
+  "sharpness": 3.5,
+  "sort_order": 220,
   "speed": 1.0,
   "texture": "shiny",
-  "tough": 1.0
+  "tier": 1.0
 }

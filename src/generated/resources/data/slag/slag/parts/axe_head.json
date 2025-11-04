@@ -1,0 +1,10 @@
+{
+  "id": "slag:axe_head",
+  "item_tags": [
+    "slag:cast/axe_heads"
+  ],
+  "segment_part": "slag:parts/axe_heads",
+  "sharpness_modifier": 1.6,
+  "sort_order": 2,
+  "speed_modifier": 3.0
+}

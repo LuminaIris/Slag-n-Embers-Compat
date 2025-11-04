@@ -42,7 +42,9 @@
       "type": "paletted_permutations",
       "textures": [
         "slag:armors/metal_layer_1",
-        "slag:armors/metal_layer_2"
+        "slag:armors/metal_layer_2",
+        "slag:armors/plate/metal_layer_1",
+        "slag:armors/plate/metal_layer_2"
       ],
       "palette_key": "slag:color_palettes/armor/base_palette",
       "permutations": {
@@ -50,13 +52,35 @@
         "quartz": "slag:color_palettes/armor/quartz",
         "echo": "slag:color_palettes/armor/echo",
         "netherite": "slag:color_palettes/armor/netherite",
-        "flint": "slag:color_palettes/armor/flint",
-
+        "flint": "slag:color_palettes/armor/flint"
+      }
+    },
+    {
+      "type": "paletted_permutations",
+      "textures": [
+        "slag:armors/soft_layer_1",
+        "slag:armors/soft_layer_2",
+        "slag:armors/plate/soft_layer_1",
+        "slag:armors/plate/soft_layer_2"
+      ],
+      "palette_key": "slag:color_palettes/armor/base_palette",
+      "permutations": {
         "wooden": "slag:color_palettes/armor/wooden",
         "stone": "slag:color_palettes/armor/stone",
         "nautilus": "slag:color_palettes/armor/nautilus",
-        "bone": "slag:color_palettes/armor/bone",
-
+        "bone": "slag:color_palettes/armor/bone"
+      }
+    },
+    {
+      "type": "paletted_permutations",
+      "textures": [
+        "slag:armors/shiny_layer_1",
+        "slag:armors/shiny_layer_2",
+        "slag:armors/plate/shiny_layer_1",
+        "slag:armors/plate/shiny_layer_2"
+      ],
+      "palette_key": "slag:color_palettes/armor/base_palette",
+      "permutations": {
         "glowstone": "slag:color_palettes/armor/glowstone",
         "redstone": "slag:color_palettes/armor/redstone",
         "golden": "slag:color_palettes/armor/golden",
@@ -65,8 +89,19 @@
         "deep_alloy": "slag:color_palettes/armor/deep_alloy",
         "blue_icy": "slag:color_palettes/armor/blue_icy",
         "diamond": "slag:color_palettes/armor/diamond",
-        "obsidian": "slag:color_palettes/armor/obsidian",
-
+        "obsidian": "slag:color_palettes/armor/obsidian"
+      }
+    },
+    {
+      "type": "paletted_permutations",
+      "textures": [
+        "slag:armors/base_layer_1",
+        "slag:armors/base_layer_2",
+        "slag:armors/plate/base_layer_1",
+        "slag:armors/plate/base_layer_2"
+      ],
+      "palette_key": "slag:color_palettes/armor/base_palette",
+      "permutations": {
         "iron": "slag:color_palettes/armor/iron",
         "copper": "slag:color_palettes/armor/copper",
         "lapis": "slag:color_palettes/armor/lapis",

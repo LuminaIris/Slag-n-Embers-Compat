@@ -1,12 +1,14 @@
 {
-  "dura": 64.0,
-  "ench": 15.0,
-  "id": "wooden",
+  "defense": 1.0,
+  "durability": 64.0,
+  "enchantability": 15.0,
+  "id": "slag:wooden",
   "repair_ingredient": {
     "tag": "minecraft:planks"
   },
-  "sharp": 3.0,
+  "sharpness": 3.0,
+  "sort_order": 10,
   "speed": 2.0,
   "texture": "soft",
-  "tough": 1.0
+  "tier": 1.0
 }

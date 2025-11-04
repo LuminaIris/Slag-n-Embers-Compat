@@ -2,130 +2,143 @@ package dev.lopyluna.slag.register;
 
 import com.tterrag.registrate.util.entry.ItemEntry;
 import dev.lopyluna.slag.SlagEmbers;
+import dev.lopyluna.slag.content.AllUtils;
 import dev.lopyluna.slag.content.blocks.melter.MelterBE;
 import dev.lopyluna.slag.content.datagen.DualCookingRecipeBuilder;
 import dev.lopyluna.slag.content.datagen.MeltingRecipeBuilder;
-import dev.lopyluna.slag.content.items.MaterialType;
+import dev.lopyluna.slag.content.datagen.TableCastingRecipeBuilder;
 import dev.lopyluna.slag.content.items.dynamic_mold.DynamicMoldItem;
-import dev.lopyluna.slag.content.items.modular_tool.BakedModularToolItem;
-import dev.lopyluna.slag.content.items.modular_tool.ModularToolItem;
-import dev.lopyluna.slag.content.items.modular_tool.ModularToolPartItem;
-import dev.lopyluna.slag.content.items.modular_tool.ToolPartType;
+import dev.lopyluna.slag.content.items.dynamic_part.DynamicPartItem;
+import dev.lopyluna.slag.content.items.modular.ModularEquipablesItem;
+import dev.lopyluna.slag.content.items.old.BakedModularToolItem;
+import dev.lopyluna.slag.content.items.old.ModularToolItem;
+import dev.lopyluna.slag.content.items.old.ModularToolPartItem;
+import dev.lopyluna.slag.content.types.MaterialType;
+import dev.lopyluna.slag.content.types.ModularType;
+import dev.lopyluna.slag.content.types.PartType;
 import net.createmod.catnip.data.Iterate;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.armortrim.TrimMaterial;
+import net.minecraft.world.item.armortrim.TrimMaterials;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.neoforged.neoforge.client.model.generators.ModelProvider;
 import net.neoforged.neoforge.common.Tags;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.tterrag.registrate.providers.RegistrateRecipeProvider.has;
-import static com.tterrag.registrate.providers.RegistrateRecipeProvider.netheriteSmithing;
 import static dev.lopyluna.slag.SlagEmbers.REG;
 import static dev.lopyluna.slag.content.AllUtils.compressible9x;
-import static dev.lopyluna.slag.register.AllCreativeTabs.findPart;
 
 @SuppressWarnings("unused")
 public class AllItems {
+    public static final List<PartType> PART_TYPES = AllDynamicTypes.getAllPartsList();
+    public static final List<ModularType> MODULAR_TYPES = AllDynamicTypes.getAllModularsList();
+    public static final List<MaterialType> MATERIAL_TYPES = AllDynamicTypes.getAllMaterialsList();
 
-    public static final List<ToolPartType> TOOL_PART_TYPES = new ArrayList<>();
-
-    public static final ToolPartType PICKAXE_HEAD = new ToolPartType.Builder("pickaxe_head")
-            .setSharpMod(0.6f)
-            .setDuraMod(1)
-            .setSpeedMod(2.8f)
-            .register();
-    public static final ToolPartType AXE_HEAD = new ToolPartType.Builder("axe_head")
-            .setSharpMod(1.6f)
-            .setDuraMod(1)
-            .setSpeedMod(3f)
-            .register();
-    public static final ToolPartType SHOVEL_HEAD = new ToolPartType.Builder("shovel_head")
-            .setSharpMod(0.75f)
-            .setDuraMod(1)
-            .setSpeedMod(3f)
-            .register();
-    public static final ToolPartType HOE_HEAD = new ToolPartType.Builder("hoe_head")
-            .setSharpMod(0f)
-            .setDuraMod(1)
-            .setSpeedMod(0f)
-            .register();
-    public static final ToolPartType SWORD_BLADE = new ToolPartType.Builder("sword_blade")
-            .setSharpMod(1f)
-            .setDuraMod(1)
-            .setSpeedMod(2.4f)
-            .register();
-    public static final ToolPartType GUARD = new ToolPartType.Builder("guard")
-            .setSharpMod(1f)
-            .setDuraMod(1)
-            .setSpeedMod(2.4f)
+    public static final ItemEntry<DynamicPartItem> DYNAMIC_PART = REG.item("dynamic_part", DynamicPartItem::new)
+            .model((c, p) -> p.withExistingParent(c.getName(), "item/generated"))
             .register();
 
-    public static final List<MaterialType> MATERIAL_TYPES = AllMaterials.MATERIAL_TYPES;
+    private static final List<ResourceKey<TrimMaterial>> VANILLA_TRIM_MATERIALS = List.of(TrimMaterials.QUARTZ, TrimMaterials.IRON, TrimMaterials.NETHERITE, TrimMaterials.REDSTONE, TrimMaterials.COPPER, TrimMaterials.GOLD, TrimMaterials.EMERALD, TrimMaterials.DIAMOND, TrimMaterials.LAPIS, TrimMaterials.AMETHYST);
+    public static final ItemEntry<ModularEquipablesItem> MODULAR_ITEM = REG.item("modular_item", ModularEquipablesItem::new)
+            .model((c, p) -> {
+                p.withExistingParent(c.getName(), SlagEmbers.loc("item/no_transform_item"));
+                p.withExistingParent(c.getName() + "_blueprint", "item/generated").texture("layer0", SlagEmbers.loc("item/blueprint"));
+                p.withExistingParent(c.getName() + "_baked", "item/generated");
+                p.withExistingParent(c.getName() + "_baked_handheld", "item/handheld");
+                var equipableModel = p.withExistingParent(c.getName() + "_baked_equipable", "item/generated");
+                equipableModel.transforms().transform(ItemDisplayContext.HEAD).scale(0f).end();
 
-    public static final MaterialType WOOD = AllMaterials.WOOD;
-    public static final MaterialType GLOWSTONE = AllMaterials.GLOWSTONE;
-    public static final MaterialType STONE = AllMaterials.STONE;
-    public static final MaterialType REDSTONE = AllMaterials.REDSTONE;
-    public static final MaterialType LAPIS = AllMaterials.LAPIS;
-    public static final MaterialType COPPER = AllMaterials.COPPER;
-    public static final MaterialType AMETHYST = AllMaterials.AMETHYST;
-    public static final MaterialType GOLD = AllMaterials.GOLD;
-    public static final MaterialType IRON = AllMaterials.IRON;
-    public static final MaterialType ROSE_GOLD = AllMaterials.ROSE_GOLD;
-    public static final MaterialType QUARTZ = AllMaterials.QUARTZ;
-    public static final MaterialType EMERALD = AllMaterials.EMERALD;
-    public static final MaterialType DEEP_ALLOY_MATERIAL = AllMaterials.DEEP_ALLOY_MATERIAL;
-    public static final MaterialType PRISMARINE = AllMaterials.PRISMARINE;
-    public static final MaterialType BLUE_ICE = AllMaterials.BLUE_ICE;
-    public static final MaterialType DIAMOND = AllMaterials.DIAMOND;
-    public static final MaterialType OBSIDIAN = AllMaterials.OBSIDIAN;
-    public static final MaterialType ECHO = AllMaterials.ECHO;
-    public static final MaterialType NETHERITE = AllMaterials.NETHERITE;
-    public static final MaterialType POPPED_CHORUS = AllMaterials.POPPED_CHORUS;
-    public static final MaterialType NAUTILUS = AllMaterials.NAUTILUS;
-    public static final MaterialType BONE = AllMaterials.BONE;
-    public static final MaterialType FLINT = AllMaterials.FLINT;
+                var bakedModel = p.withExistingParent(c.getName() + "_baked_trim", "item/generated");
+                AllUtils.TRIM_MATERIALS.forEach((trim, value) -> {
+                    bakedModel.override().predicate(SlagEmbers.loc("armor_type"), 1).predicate(SlagEmbers.locMC("trim_type"), value)
+                            .model(p.withExistingParent(c.getName() + "_baked_boots_trim_" + trim.location().getPath(), "item/generated")
+                                    .texture("layer0", SlagEmbers.locMC("trims/items/boots_trim_" + trim.location().getPath()))).end();
+                    bakedModel.override().predicate(SlagEmbers.loc("armor_type"), 2).predicate(SlagEmbers.locMC("trim_type"), value)
+                            .model(p.withExistingParent(c.getName() + "_baked_chestplate_trim_" + trim.location().getPath(), "item/generated")
+                                    .texture("layer0", SlagEmbers.locMC("trims/items/chestplate_trim_" + trim.location().getPath()))).end();
+                    bakedModel.override().predicate(SlagEmbers.loc("armor_type"), 3).predicate(SlagEmbers.locMC("trim_type"), value)
+                            .model(p.withExistingParent(c.getName() + "_baked_helmet_trim_" + trim.location().getPath(), "item/generated")
+                                    .texture("layer0", SlagEmbers.locMC("trims/items/helmet_trim_" + trim.location().getPath()))).end();
+                    bakedModel.override().predicate(SlagEmbers.loc("armor_type"), 4).predicate(SlagEmbers.locMC("trim_type"), value)
+                            .model(p.withExistingParent(c.getName() + "_baked_leggings_trim_" + trim.location().getPath(), "item/generated")
+                                    .texture("layer0", SlagEmbers.locMC("trims/items/leggings_trim_" + trim.location().getPath()))).end();
+                });
+            }).recipe((c, p) -> {
+                var materials = AllDynamicTypes.getAllMaterials();
+                var parts = AllDynamicTypes.getAllParts();
+                if (materials.isEmpty() || parts.isEmpty()) return;
+                var item = DYNAMIC_PART.get();
+                for (var material : materials) for (var part : parts) {
+                    var partID = part.id.getPath();
+                    var matID = material.id.getPath();
+                    if (!(partID.equals("axe_head") || partID.equals("pickaxe_head") || partID.equals("shovel_head") || partID.equals("hoe_head") || partID.equals("sword_blade") || partID.equals("guard") || partID.equals("plate") || partID.equals("helmet") || partID.equals("chestplate") || partID.equals("leggings") || partID.equals("boots"))) continue;
+                    var stack = item.getDefaultInstance();
+                    stack.set(AllDataComponents.MATERIAL_TYPE, material.id);
+                    stack.set(AllDataComponents.PART_TYPE, part.id);
 
-    static {
+                    if (matID.equals("netherite")) {
+                        //SMITHING
+                    } else buildPattern(ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, stack), part)
+                            .define('M', material.repairMaterials.get())
+                            .define('R', Items.PAPER)
+                            .unlockedBy("has_" + partID, has(AllTags.itemC(partID + "s")))
+                            .save(p, SlagEmbers.loc("crafting/parts/" + partID + "_" + matID));
 
-        TOOL_PART_TYPES.add(AXE_HEAD);
-        TOOL_PART_TYPES.add(PICKAXE_HEAD);
-        TOOL_PART_TYPES.add(SHOVEL_HEAD);
-        TOOL_PART_TYPES.add(HOE_HEAD);
-        TOOL_PART_TYPES.add(SWORD_BLADE);
-        TOOL_PART_TYPES.add(GUARD);
-    }
+                    var fluid = material.moltenFluid.get();
+                    if (fluid != null) {
+                        var cast = getCast(part);
 
-    public static final ItemEntry<BakedModularToolItem> BAKED_TOOL = REG.item("baked_tool", BakedModularToolItem::new)
-            .model((c, p) -> p.withExistingParent(c.getName(), "item/handheld"))
-            .register();
+                        var size = MelterBE.INGOT_SIZE;
+                        if (fluid == AllFluids.MOLTEN_OBSIDIAN.getSource()) size = MelterBE.BLOCK_SIZE;
+                        size *= getSize(part);
+                        if (size > 0 && fluid == AllFluids.MOLTEN_NETHERITE.getSource()) size = MelterBE.INGOT_SIZE;
 
-    public static final ItemEntry<ModularToolItem> MODULAR_TOOL = REG.item("modular_tool", ModularToolItem::new)
-            .model((c, p) ->
-                    p.withExistingParent(c.getName(), "item/generated").texture("layer0", SlagEmbers.loc("item/blueprint")))
-            .recipe((c, p) -> ShapelessRecipeBuilder.shapeless(RecipeCategory.TOOLS, c.get())
+                        if (size > 0) {
+                            if (cast != null) TableCastingRecipeBuilder.create(stack, fluid, size, cast)
+                                    .unlockedBy("has_" + partID, has(AllTags.itemC(partID + "s")))
+                                    .save(p, SlagEmbers.loc("casting/table/" + partID + "_" + matID));
+
+                            MeltingRecipeBuilder.create(fluid, size, stack)
+                                    .unlockedBy("has_" + partID, has(AllTags.itemC(partID + "s")))
+                                    .save(p, SlagEmbers.loc("melting/" + partID + "_" + matID));
+                        }
+                    }
+                }
+            }).recipe((c, p) -> ShapelessRecipeBuilder.shapeless(RecipeCategory.TOOLS, c.get())
                     .requires(Items.PAPER)
                     .requires(Items.PAPER)
                     .requires(Items.PAPER)
                     .requires(Items.CLAY_BALL)
                     .unlockedBy("has_paper", has(Items.PAPER))
                     .save(p, SlagEmbers.loc("crafting/" + c.getName()))
-            ).lang("Modular Tool Blueprint")
+            ).lang("Modular Blueprint")
+            .register();
+
+    public static final ItemEntry<BakedModularToolItem> BAKED_TOOL = REG.item("baked_tool", BakedModularToolItem::new)
+            .model((n,a) -> {})
+            .lang("OLD ITEM").removeTab(AllCreativeTabs.BASE_TAB.getKey())
+            .register();
+
+    public static final ItemEntry<ModularToolItem> MODULAR_TOOL = REG.item("modular_tool", ModularToolItem::new)
+            .model((n,a) -> {})
+            .lang("OLD ITEM").removeTab(AllCreativeTabs.BASE_TAB.getKey())
             .register();
 
     public static final ItemEntry<DynamicMoldItem> SANDSTONE_MOLD = REG.item("sandstone_mold", DynamicMoldItem::new)
             .recipe((c, p) -> ShapelessRecipeBuilder.shapeless(RecipeCategory.TOOLS, c.get(), 4)
                     .requires(Tags.Items.SANDSTONE_UNCOLORED_BLOCKS).unlockedBy("has_sandstone", has(Tags.Items.SANDSTONE_UNCOLORED_BLOCKS)).save(p, SlagEmbers.loc("crafting/" + c.getName())))
             .model((c, p) -> {
-                var castTypes = new ArrayList<>(List.of("axe_heads", "balls", "dusts", "gems", "guards", "hoe_heads", "ingots", "nuggets", "pickaxe_heads", "rods", "shovel_heads", "sword_blades"));
+                var castTypes = new ArrayList<>(List.of("axe_heads", "balls", "dusts", "gems", "guards", "hoe_heads", "ingots", "nuggets", "pickaxe_heads", "rods", "shovel_heads", "sword_blades", "plates", "helmets", "chestplates", "leggings", "boots"));
                 for (var cast : castTypes) for (var cutout : Iterate.trueAndFalse) {
                     var loc = SlagEmbers.loc("item/" + (cutout ? "cutout/" : "") + c.getName() + "/" + cast);
                     p.withExistingParent(loc.getPath(), "item/generated").texture("layer0", loc);
@@ -138,7 +151,7 @@ public class AllItems {
             .recipe((c, p) -> ShapelessRecipeBuilder.shapeless(RecipeCategory.TOOLS, c.get(), 2)
                     .requires(ItemTags.TERRACOTTA).unlockedBy("has_terracotta", has(ItemTags.TERRACOTTA)).save(p, SlagEmbers.loc("crafting/" + c.getName())))
             .model((c, p) -> {
-                var castTypes = new ArrayList<>(List.of("axe_heads", "balls", "dusts", "gems", "guards", "hoe_heads", "ingots", "nuggets", "pickaxe_heads", "rods", "shovel_heads", "sword_blades"));
+                var castTypes = new ArrayList<>(List.of("axe_heads", "balls", "dusts", "gems", "guards", "hoe_heads", "ingots", "nuggets", "pickaxe_heads", "rods", "shovel_heads", "sword_blades", "plates", "helmets", "chestplates", "leggings", "boots"));
                 for (var cast : castTypes) for (var cutout : Iterate.trueAndFalse) {
                     var loc = SlagEmbers.loc("item/" + (cutout ? "cutout/" : "") + c.getName() + "/" + cast);
                     p.withExistingParent(loc.getPath(), "item/generated").texture("layer0", loc);
@@ -177,86 +190,50 @@ public class AllItems {
     public static final List<ItemEntry<ModularToolPartItem>> TOOL_PARTS = new ArrayList<>();
 
     static {
-        for (var material : MATERIAL_TYPES) for (var part : TOOL_PART_TYPES) {
-            registerPart(material, part);
-            registerPart(material, part);
-            registerPart(material, part);
-            registerPart(material, part);
-            registerPart(material, part);
-            registerPart(material, part);
-        }
+        for (var material : MATERIAL_TYPES) for (var part : PART_TYPES) registerPart(material, part);
     }
 
-    public static void registerPart(MaterialType material, ToolPartType part) {
-        var reg = REG.item(material.id + "_" + part.id, p -> new ModularToolPartItem(material, part, p))
-                .model((c, p) -> {
-                    var textMat = material.texture.equals("base") ? "" : material.texture + "/";
-                    var partBase = part.id.replace("_head", "").replace("_blade", "");
-                    for (var mixture : testMixture(part.id)) {
-                        var name = material.id + "_" + part.id + "_" + mixture;
-                        var texture = "item/built/" + textMat + partBase + "_" + mixture + "_" + material.id;
-                        p.existingFileHelper.trackGenerated(SlagEmbers.loc(texture), ModelProvider.TEXTURE);
-                        p.withExistingParent(name, "item/handheld").texture("layer0", SlagEmbers.loc(texture));
-                    }
-                    p.existingFileHelper.trackGenerated(SlagEmbers.loc("item/" + textMat + part.id + "_" + material.id), ModelProvider.TEXTURE);
-                    p.existingFileHelper.trackGenerated(SlagEmbers.loc("item/built/" + textMat + part.id + "_" + material.id), ModelProvider.TEXTURE);
-                    p.withExistingParent(c.getName() + "_built", "item/handheld").texture("layer0", SlagEmbers.loc("item/built/" + textMat + part.id + "_" + material.id));
-                    p.withExistingParent(c.getName(), "item/generated").texture("layer0", SlagEmbers.loc("item/" + textMat + part.id + "_" + material.id));
-                }).recipe((c, p) -> {
-                    if (material.id.equals("netherite")) {
-                        var stack = findPart(DIAMOND, part.id);
-                        if (!stack.isEmpty()) netheriteSmithing(p, stack.getItem(), RecipeCategory.TOOLS, c.get());
-                    } else buildPattern(ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, c.get()), part)
-                            .define('M', material.repairMaterials.get())
-                            .define('R', Items.PAPER)
-                            .unlockedBy("has_blueprint", has(MODULAR_TOOL))
-                            .save(p, SlagEmbers.loc("crafting/parts/" + c.getName()));
-
-                    var fluid = material.moltenFluid.get();
-                    if (fluid != null) {
-                        var cast = getCast(part);
-
-                        var size = MelterBE.INGOT_SIZE;
-                        if (fluid == AllFluids.MOLTEN_OBSIDIAN.getSource()) size = MelterBE.BLOCK_SIZE;
-                        size *= getSize(part);
-                        if (size > 0 && fluid == AllFluids.MOLTEN_NETHERITE.getSource()) size = MelterBE.INGOT_SIZE;
-
-                        if (size > 0) {
-                            if (cast != null) AllBlocks.create(p, part.id, material.id, c.get(), fluid, size, cast);
-                            MeltingRecipeBuilder.create(fluid, size, c.get())
-                                    .unlockedBy("has_blueprint", has(MODULAR_TOOL))
-                                    .save(p, SlagEmbers.loc("melting/" + c.getName()));
-                        }
-                    }
-                }).tag(AllTags.item("cast/" + part.id + "s"))
-                ;
+    public static void registerPart(MaterialType material, PartType part) {
+        var partID = part.id.getPath();
+        var matID = material.id.getPath();
+        var reg = REG.item(matID + "_" + partID, p -> new ModularToolPartItem(material, part, p))
+                .model((n,a) -> {})
+                .lang(p -> "old." + matID + "." + partID, "OLD ITEM").removeTab(AllCreativeTabs.BASE_TAB.getKey());
         if (material.fireProof) reg = reg.properties(Item.Properties::fireResistant);
         TOOL_PARTS.add(reg.register());
     }
 
-    public static TagKey<Item> getCast(ToolPartType part) {
-        return switch (part.id) {
+    public static TagKey<Item> getCast(PartType part) {
+        return switch (part.id.getPath()) {
             case "axe_head" -> AllTags.CAST_AXE_HEADS;
             case "pickaxe_head" -> AllTags.CAST_PICKAXE_HEADS;
             case "shovel_head" -> AllTags.CAST_SHOVEL_HEADS;
             case "hoe_head" -> AllTags.CAST_HOE_HEADS;
             case "sword_blade" -> AllTags.CAST_SWORD_BLADES;
             case "guard" -> AllTags.CAST_GUARDS;
+            case "plate" -> AllTags.CAST_PLATES;
+            case "helmet" -> AllTags.CAST_HELMETS;
+            case "chestplate" -> AllTags.CAST_CHESTPLATES;
+            case "leggings" -> AllTags.CAST_LEGGINGS;
+            case "boots" -> AllTags.CAST_BOOTS;
             default -> null;
         };
     }
 
-    public static int getSize(ToolPartType part) {
-        return switch (part.id) {
-            case "axe_head", "pickaxe_head" -> 3;
-            case "sword_blade", "hoe_head" -> 2;
+
+    public static int getSize(PartType part) {
+        return switch (part.id.getPath()) {
+            case "chestplate" -> 6;
+            case "leggings" -> 5;
+            case "axe_head", "pickaxe_head", "helmet" -> 3;
+            case "sword_blade", "hoe_head", "plate", "boots" -> 2;
             case "guard", "shovel_head" -> 1;
             default -> 0;
         };
     }
 
-    public static ShapedRecipeBuilder buildPattern(ShapedRecipeBuilder value, ToolPartType part) {
-        return switch (part.id) {
+    public static ShapedRecipeBuilder buildPattern(ShapedRecipeBuilder value, PartType part) {
+        return switch (part.id.getPath()) {
             case "axe_head" -> value
                     .pattern("MM")
                     .pattern("MR")
@@ -279,6 +256,23 @@ public class AllItems {
                     .pattern("R");
             case "guard" -> value
                     .pattern("RMR");
+            case "plate" -> value
+                    .pattern("MR")
+                    .pattern("RM");
+            case "helmet" -> value
+                    .pattern("MMM")
+                    .pattern("R R");
+            case "chestplate" -> value
+                    .pattern("R R")
+                    .pattern("MMM")
+                    .pattern("MMM");
+            case "leggings" -> value
+                    .pattern("MMM")
+                    .pattern("M M")
+                    .pattern("R R");
+            case "boots" -> value
+                    .pattern("R R")
+                    .pattern("M M");
             default -> value;
         };
     }

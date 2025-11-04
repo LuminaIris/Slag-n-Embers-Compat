@@ -59,9 +59,10 @@ public class InterfaceBlock extends BEBlock {
     @Override
     protected @NotNull InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHit) {
         if (!(pLevel.getBlockEntity(pPos) instanceof InterfaceBE be)) return InteractionResult.PASS;
-        var relPos = pPos.relative(pState.getValue(FACING).getOpposite());
+        var facing = pState.getValue(FACING);
+        var relPos = pPos.relative(facing.getOpposite());
         if (!pLevel.isLoaded(relPos)) return InteractionResult.PASS;
-        var cap = pLevel.getCapability(Capabilities.FluidHandler.BLOCK, relPos, null);
+        var cap = pLevel.getCapability(Capabilities.FluidHandler.BLOCK, relPos, facing);
         if (cap == null) return InteractionResult.PASS;
         be.targetCap = cap;
         if (!pLevel.isClientSide) {

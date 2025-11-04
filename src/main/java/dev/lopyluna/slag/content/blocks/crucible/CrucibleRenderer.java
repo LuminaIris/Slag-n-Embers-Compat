@@ -11,6 +11,7 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class CrucibleRenderer extends SafeBlockEntityRenderer<CrucibleBE> {
 
     public CrucibleRenderer(BlockEntityRendererProvider.Context context) {}
@@ -23,12 +24,12 @@ public class CrucibleRenderer extends SafeBlockEntityRenderer<CrucibleBE> {
 
         float capHeight = 1 / 16f;
         float tankHullWidth = 0.1f / 16f + 1 / 128f;
-        float minPuddleHeight = 4 / 16f;
+        float minPuddleHeight = 3.6f / 16f;
         float totalHeight = be.getHeight() - 2 * capHeight - minPuddleHeight;
 
-        float level = fluidLevel.getValue(pt);
+        float level = fluidLevel.getValue(pt) + 0.0225f / 16f;
         if (level < 1 / (512f * totalHeight)) return;
-        float clampedLevel = Mth.clamp(level * totalHeight, 0, totalHeight);
+        float clampedLevel = Mth.clamp(level * totalHeight, 0f, totalHeight);
 
         float xMax = tankHullWidth + be.getWidthX() - 2f * tankHullWidth;
         float zMax = tankHullWidth + be.getWidthZ() - 2f * tankHullWidth;
@@ -66,7 +67,7 @@ public class CrucibleRenderer extends SafeBlockEntityRenderer<CrucibleBE> {
 
             if (h > eps) {
                 boolean renderTop = i == liquids.size() - 1;
-                FluidRenderHelper.renderFluidBox(f, tankHullWidth, yCur, tankHullWidth, xMax, yCur + h, zMax, bs, ms, light, false, renderTop);
+                FluidRenderHelper.renderFluidBox(f, tankHullWidth, yCur, tankHullWidth, xMax, yCur + h, zMax, bs, ms, light, true, renderTop);
                 yCur += h;
             }
         }

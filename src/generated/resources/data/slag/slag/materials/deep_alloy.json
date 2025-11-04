@@ -1,13 +1,17 @@
 {
-  "dura": 704.0,
-  "ench": 11.0,
+  "defense": 6.0,
+  "durability": 704.0,
+  "enchantability": 11.0,
   "fireproof": true,
-  "id": "deep_alloy",
+  "id": "slag:deep_alloy",
+  "knockback_resistance": 0.1,
   "repair_ingredient": {
     "tag": "c:ingots/deep_alloy"
   },
-  "sharp": 5.0,
+  "sharpness": 5.0,
+  "sort_order": 140,
   "speed": 5.0,
   "texture": "shiny",
-  "tough": 4.0
+  "tier": 4.0,
+  "toughness": 1.0
 }

@@ -1,0 +1,17 @@
+{
+  "actions": [
+    "chestplate",
+    "isArmor"
+  ],
+  "id": "slag:chestplate",
+  "item_tags": [
+    "minecraft:chest_armor"
+  ],
+  "model_type": "equipable",
+  "segments": [
+    "slag:parts/plates",
+    "slag:parts/chestplates"
+  ],
+  "sort_order": 14,
+  "stations": "c:player_workstations/crafting_tables"
+}

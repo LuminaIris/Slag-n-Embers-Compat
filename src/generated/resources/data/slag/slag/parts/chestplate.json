@@ -1,0 +1,9 @@
+{
+  "id": "slag:chestplate",
+  "item_tags": [
+    "slag:cast/chestplates"
+  ],
+  "segment_part": "slag:parts/chestplates",
+  "sharpness_modifier": 0.0,
+  "sort_order": 8
+}

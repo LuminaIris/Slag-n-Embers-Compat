@@ -1,0 +1,26 @@
+{
+  "actions": [
+    "axe",
+    "hoe",
+    "isTool"
+  ],
+  "final_segment_stacks": [
+    {
+      "count": 2,
+      "id": "minecraft:stick"
+    }
+  ],
+  "id": "slag:mattock",
+  "item_tags": [
+    "minecraft:axes",
+    "minecraft:hoes",
+    "c:tools/melee_weapon"
+  ],
+  "model_type": "handheld",
+  "segments": [
+    "slag:parts/axe_heads",
+    "slag:parts/hoe_heads"
+  ],
+  "sort_order": 5,
+  "stations": "c:player_workstations/crafting_tables"
+}

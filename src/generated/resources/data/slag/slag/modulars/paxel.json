@@ -1,0 +1,35 @@
+{
+  "actions": [
+    "pickaxe",
+    "axe",
+    "shovel",
+    "hoe",
+    "sword",
+    "isTool"
+  ],
+  "final_segment_stacks": [
+    {
+      "count": 3,
+      "id": "minecraft:stick"
+    }
+  ],
+  "id": "slag:paxel",
+  "item_tags": [
+    "minecraft:pickaxes",
+    "minecraft:axes",
+    "minecraft:shovels",
+    "minecraft:hoes",
+    "minecraft:swords",
+    "c:tools/melee_weapon"
+  ],
+  "model_type": "handheld",
+  "segments": [
+    "slag:parts/pickaxe_heads",
+    "slag:parts/axe_heads",
+    "slag:parts/shovel_heads",
+    "slag:parts/hoe_heads",
+    "slag:parts/sword_blades"
+  ],
+  "sort_order": 12,
+  "stations": "minecraft:anvil"
+}

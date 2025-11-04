@@ -1,12 +1,16 @@
 {
-  "dura": 128.0,
-  "ench": 5.0,
-  "id": "stone",
+  "defense": 2.0,
+  "durability": 128.0,
+  "enchantability": 5.0,
+  "id": "slag:stone",
+  "knockback_resistance": 0.1,
   "repair_ingredient": {
     "tag": "minecraft:stone_tool_materials"
   },
-  "sharp": 4.0,
+  "sharpness": 4.0,
+  "sort_order": 20,
   "speed": 4.0,
   "texture": "soft",
-  "tough": 3.0
+  "tier": 3.0,
+  "toughness": 1.0
 }

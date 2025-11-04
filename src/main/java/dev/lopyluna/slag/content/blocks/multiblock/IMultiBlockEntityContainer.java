@@ -25,7 +25,6 @@ public interface IMultiBlockEntityContainer {
     void preventConnectivityUpdate();
     void notifyMultiUpdated();
 
-    // only used for FluidTank windows at present. Might be useful for similar properties on other things?
     default void setExtraData(@Nullable Object data) {}
     @Nullable
     default Object getExtraData() { return null; }
@@ -34,7 +33,7 @@ public interface IMultiBlockEntityContainer {
     // multiblock structural information
     Direction.Axis getMainConnectionAxis();
 
-    default Direction.Axis getMainAxisOf(BlockEntity be) { // this feels redundant, but it gives us a default to use when defining ::getMainConnectionAxis
+    default Direction.Axis getMainAxisOf(BlockEntity be) {
         BlockState state = be.getBlockState();
 
         Direction.Axis axis;

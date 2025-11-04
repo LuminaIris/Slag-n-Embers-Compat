@@ -1,0 +1,17 @@
+{
+  "actions": [
+    "boots",
+    "isArmor"
+  ],
+  "id": "slag:boots",
+  "item_tags": [
+    "minecraft:foot_armor"
+  ],
+  "model_type": "equipable",
+  "segments": [
+    "slag:parts/plates",
+    "slag:parts/boots"
+  ],
+  "sort_order": 16,
+  "stations": "c:player_workstations/crafting_tables"
+}

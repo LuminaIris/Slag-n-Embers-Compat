@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "slag:item/soft/sword_blade_nautilus"
-  }
-}

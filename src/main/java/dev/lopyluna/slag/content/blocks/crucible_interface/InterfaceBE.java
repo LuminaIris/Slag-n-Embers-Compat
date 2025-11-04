@@ -38,6 +38,7 @@ public class InterfaceBE extends BlockEntity implements MenuProvider {
 
     @Override
     public @Nullable AbstractContainerMenu createMenu(int i, @NotNull Inventory inventory, @NotNull Player player) {
+        update();
         return new InterfaceMenu(i, inventory, worldPosition);
     }
 
@@ -56,12 +57,13 @@ public class InterfaceBE extends BlockEntity implements MenuProvider {
 
     public void update() {
         if (level == null) return;
-        var relPos = worldPosition.relative(getBlockState().getValue(FACING).getOpposite());
+        var facing = getBlockState().getValue(FACING);
+        var relPos = worldPosition.relative(facing.getOpposite());
         if (!level.isLoaded(relPos)) {
             targetCap = null;
             return;
         }
-        targetCap = level.getCapability(Capabilities.FluidHandler.BLOCK, relPos, null);
+        targetCap = level.getCapability(Capabilities.FluidHandler.BLOCK, relPos, facing);
     }
 
     @Override
@@ -82,12 +84,12 @@ public class InterfaceBE extends BlockEntity implements MenuProvider {
     @Override
     protected void loadAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
         super.loadAdditional(tag, registries);
-        update = 4;
+        update = 8;
     }
 
     @Override
     public void onLoad() {
         super.onLoad();
-        update = 4;
+        update = 8;
     }
 }

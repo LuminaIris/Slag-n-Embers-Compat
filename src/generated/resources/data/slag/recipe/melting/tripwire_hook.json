@@ -1,0 +1,13 @@
+{
+  "type": "slag:melting",
+  "ingredient": {
+    "item": "minecraft:tripwire_hook"
+  },
+  "ingredients": [],
+  "result": [
+    {
+      "amount": 36,
+      "id": "slag:molten_iron"
+    }
+  ]
+}

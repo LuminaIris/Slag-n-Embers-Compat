@@ -4,13 +4,16 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.neoforged.neoforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Objects;
 
 public class MeltingRecipeSer implements RecipeSerializer<MeltingRecipe> {
@@ -23,8 +26,9 @@ public class MeltingRecipeSer implements RecipeSerializer<MeltingRecipe> {
         this.codec = RecordCodecBuilder.mapCodec((instance) -> {
             var recipe = instance.group(
                     Codec.STRING.optionalFieldOf("group", "").forGetter(Recipe::getGroup),
-                    Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter(MeltingRecipe::getInput),
-                    FluidStack.CODEC.fieldOf("result").forGetter(MeltingRecipe::getOutput));
+                    ItemStack.CODEC.listOf().fieldOf("ingredients").forGetter(MeltingRecipe::getInputs),
+                    Ingredient.CODEC.optionalFieldOf("ingredient", Ingredient.EMPTY).forGetter(MeltingRecipe::getInput),
+                    FluidStack.CODEC.listOf().fieldOf("result").forGetter(MeltingRecipe::getOutputs));
             Objects.requireNonNull(factory);
             return recipe.apply(instance, factory::create);
         });
@@ -43,18 +47,20 @@ public class MeltingRecipeSer implements RecipeSerializer<MeltingRecipe> {
 
     private MeltingRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
         String s = buffer.readUtf();
+        List<ItemStack> inputs = ItemStack.LIST_STREAM_CODEC.decode(buffer);
         Ingredient input = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
-        FluidStack fluidStack = FluidStack.STREAM_CODEC.decode(buffer);
-        return this.factory.create(s, input, fluidStack);
+        List<FluidStack> fluidStack = FluidStack.STREAM_CODEC.apply(ByteBufCodecs.list()).decode(buffer);
+        return this.factory.create(s, inputs, input, fluidStack);
     }
 
     private void toNetwork(RegistryFriendlyByteBuf buffer, MeltingRecipe recipe) {
         buffer.writeUtf(recipe.getGroup());
+        ItemStack.LIST_STREAM_CODEC.encode(buffer, recipe.getInputs());
         Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.getInput());
-        FluidStack.STREAM_CODEC.encode(buffer, recipe.getOutput());
+        FluidStack.STREAM_CODEC.apply(ByteBufCodecs.list()).encode(buffer, recipe.getOutputs());
     }
 
-    public MeltingRecipe create(String group, Ingredient input, FluidStack result) {
-        return this.factory.create(group, input, result);
+    public MeltingRecipe create(String group, List<ItemStack> inputs, Ingredient input, List<FluidStack> result) {
+        return this.factory.create(group, inputs, input, result);
     }
 }

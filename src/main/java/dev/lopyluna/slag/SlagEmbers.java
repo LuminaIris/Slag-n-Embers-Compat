@@ -1,6 +1,7 @@
 package dev.lopyluna.slag;
 
 import com.mojang.logging.LogUtils;
+import dev.lopyluna.slag.client.ResourceFallbackGenerator;
 import dev.lopyluna.slag.content.EmbersDatagen;
 import dev.lopyluna.slag.content.jei.EmbersRecipesJEI;
 import dev.lopyluna.slag.content.utils.EmbersRegistration;
@@ -8,11 +9,13 @@ import dev.lopyluna.slag.content.utils.Registration;
 import dev.lopyluna.slag.network.AllNetworks;
 import dev.lopyluna.slag.register.*;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import org.slf4j.Logger;
 
@@ -37,6 +40,9 @@ public class SlagEmbers {
         if (ModList.get().isLoaded("jei")) EmbersRecipesJEI.register();
         AllTags.addGenerators();
         AllDataComponents.register();
+        AllMaterials.register();
+        AllParts.register();
+        AllModulars.register();
         AllItems.register();
         AllBlocks.register();
         AllBETypes.register();
@@ -52,6 +58,8 @@ public class SlagEmbers {
         modEventBus.addListener(AllSoundEvents::register);
         modEventBus.addListener(EventPriority.HIGHEST, EmbersDatagen::gatherDataHighPriority);
         modEventBus.addListener(EventPriority.LOWEST, EmbersDatagen::gatherData);
+
+        if (FMLEnvironment.dist == Dist.CLIENT) modEventBus.addListener(ResourceFallbackGenerator::onAddPackFinders);
     }
 
     public static ResourceLocation loc(String loc) {

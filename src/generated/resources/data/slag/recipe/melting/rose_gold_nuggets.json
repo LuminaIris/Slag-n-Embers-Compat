@@ -3,8 +3,11 @@
   "ingredient": {
     "tag": "c:nuggets/rose_gold"
   },
-  "result": {
-    "amount": 8,
-    "id": "slag:molten_rose_gold"
-  }
+  "ingredients": [],
+  "result": [
+    {
+      "amount": 8,
+      "id": "slag:molten_rose_gold"
+    }
+  ]
 }

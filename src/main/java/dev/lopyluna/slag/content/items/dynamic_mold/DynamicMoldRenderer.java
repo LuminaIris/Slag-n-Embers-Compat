@@ -48,7 +48,7 @@ public class DynamicMoldRenderer extends CustomRenderedItemModelRenderer {
 
     @SubscribeEvent
     public static void registerAdditionalModels(ModelEvent.RegisterAdditional e) {
-        var castTypes = new ArrayList<>(List.of("axe_heads", "balls", "dusts", "gems", "guards", "hoe_heads", "ingots", "nuggets", "pickaxe_heads", "rods", "shovel_heads", "sword_blades"));
+        var castTypes = new ArrayList<>(List.of("axe_heads", "balls", "dusts", "gems", "guards", "hoe_heads", "ingots", "nuggets", "pickaxe_heads", "rods", "shovel_heads", "sword_blades", "plates", "helmets", "chestplates", "leggings", "boots"));
         for (var entry : BuiltInRegistries.ITEM.entrySet()) {
             var item = entry.getValue();
             if (!(item instanceof DynamicMoldItem)) continue;

@@ -16,6 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.model.data.ModelData;
 
+@SuppressWarnings("unused")
 public class PartialItemModelRenderer {
 	private static final PartialItemModelRenderer INSTANCE = new PartialItemModelRenderer();
 
@@ -41,10 +42,31 @@ public class PartialItemModelRenderer {
 	public void render(BakedModel model, int light) {
 		render(model, Sheets.translucentCullBlockSheet(), light);
 	}
+
 	public void renderSolid(BakedModel model, int light) {
 		render(model, Sheets.solidBlockSheet(), light);
 	}
 
+	public void render(BakedModel model, ItemStack stack, int light) {
+		render(model, stack, Sheets.translucentCullBlockSheet(), light);
+	}
+
+	public void renderSolid(BakedModel model, ItemStack stack, int light) {
+		render(model, stack, Sheets.solidBlockSheet(), light);
+	}
+
+	public void render(BakedModel model, ItemStack stack, RenderType type, int light) {
+		if (stack.isEmpty()) return;
+
+		ms.pushPose();
+		ms.translate(-0.5D, -0.5D, -0.5D);
+
+		if (!model.isCustomRenderer()) {
+			VertexConsumer vc = ItemRenderer.getFoilBufferDirect(buffer, type, true, stack.hasFoil());
+			for (BakedModel pass : model.getRenderPasses(stack, false)) renderBakedItemModel(pass, stack, light, ms, vc);
+		} else IClientItemExtensions.of(stack).getCustomRenderer().renderByItem(stack, transformType, ms, buffer, light, overlay);
+		ms.popPose();
+	}
 	public void render(BakedModel model, RenderType type, int light) {
 		if (stack.isEmpty()) return;
 
@@ -53,12 +75,12 @@ public class PartialItemModelRenderer {
 
 		if (!model.isCustomRenderer()) {
 			VertexConsumer vc = ItemRenderer.getFoilBufferDirect(buffer, type, true, stack.hasFoil());
-			for (BakedModel pass : model.getRenderPasses(stack, false)) renderBakedItemModel(pass, light, ms, vc);
+			for (BakedModel pass : model.getRenderPasses(stack, false)) renderBakedItemModel(pass, stack, light, ms, vc);
 		} else IClientItemExtensions.of(stack).getCustomRenderer().renderByItem(stack, transformType, ms, buffer, light, overlay);
 		ms.popPose();
 	}
 
-	private void renderBakedItemModel(BakedModel model, int light, PoseStack ms, VertexConsumer buffer) {
+	public void renderBakedItemModel(BakedModel model, ItemStack stack, int light, PoseStack ms, VertexConsumer buffer) {
 		ItemRenderer ir = Minecraft.getInstance().getItemRenderer();
 		ModelData data = ModelData.EMPTY;
 

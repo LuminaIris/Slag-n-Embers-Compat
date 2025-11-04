@@ -3,8 +3,11 @@
   "ingredient": {
     "tag": "c:gems/emerald"
   },
-  "result": {
-    "amount": 72,
-    "id": "slag:molten_emerald"
-  }
+  "ingredients": [],
+  "result": [
+    {
+      "amount": 72,
+      "id": "slag:molten_emerald"
+    }
+  ]
 }

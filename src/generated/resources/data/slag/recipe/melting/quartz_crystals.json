@@ -3,8 +3,11 @@
   "ingredient": {
     "tag": "c:gems/quartz"
   },
-  "result": {
-    "amount": 72,
-    "id": "slag:molten_quartz"
-  }
+  "ingredients": [],
+  "result": [
+    {
+      "amount": 72,
+      "id": "slag:molten_quartz"
+    }
+  ]
 }

@@ -1,0 +1,10 @@
+{
+  "id": "slag:pickaxe_head",
+  "item_tags": [
+    "slag:cast/pickaxe_heads"
+  ],
+  "segment_part": "slag:parts/pickaxe_heads",
+  "sharpness_modifier": 0.6,
+  "sort_order": 1,
+  "speed_modifier": 2.8
+}

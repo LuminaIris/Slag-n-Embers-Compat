@@ -1,0 +1,10 @@
+{
+  "id": "slag:hoe_head",
+  "item_tags": [
+    "slag:cast/hoe_heads"
+  ],
+  "segment_part": "slag:parts/hoe_heads",
+  "sharpness_modifier": 0.0,
+  "sort_order": 3,
+  "speed_modifier": 0.0
+}

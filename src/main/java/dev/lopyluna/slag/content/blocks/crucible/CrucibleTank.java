@@ -70,12 +70,32 @@ public class CrucibleTank extends FluidTank {
         return false;
     }
 
+    public void noCoverTick() {
+        List<FluidStack> list = this.fluids;
+        if (list == null || list.isEmpty()) return;
+
+        for (var fluid : fluids) {
+            if (fluid.isEmpty()) continue;
+            if (!fluid.getFluidType().isLighterThanAir()) continue;
+            fluid.shrink(25);
+        }
+        onContentsChanged();
+        compress();
+    }
+
     public boolean moveFluidToFront(int targetIdx) {
         List<FluidStack> list = this.fluids;
         if (list == null || list.isEmpty()) return false;
+        if (targetIdx == 0) {
+            var f = list.removeFirst();
+            list.addLast(f);
+            onContentsChanged();
+            compress();
+            return true;
+        }
         if (targetIdx <= 0 || targetIdx >= list.size()) return false;
 
-        FluidStack sel = list.remove(targetIdx);
+        var sel = list.remove(targetIdx);
         list.addFirst(sel);
         onContentsChanged();
         compress();

@@ -10,6 +10,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ConcurrentModificationException;
 
+@SuppressWarnings("unused")
 public abstract class BlockEntityBehaviour {
 
     public SmartBlockEntity blockEntity;
@@ -79,7 +80,6 @@ public abstract class BlockEntityBehaviour {
     }
 
     public void lazyTick() {
-
     }
 
     public BlockPos getPos() {
@@ -101,10 +101,8 @@ public abstract class BlockEntityBehaviour {
     }
 
     public static <T extends BlockEntityBehaviour> T get(BlockEntity be, BehaviourType<T> type) {
-        if (be == null)
-            return null;
-        if (!(be instanceof SmartBlockEntity ste))
-            return null;
+        if (be == null) return null;
+        if (!(be instanceof SmartBlockEntity ste)) return null;
         return ste.getBehaviour(type);
     }
 }

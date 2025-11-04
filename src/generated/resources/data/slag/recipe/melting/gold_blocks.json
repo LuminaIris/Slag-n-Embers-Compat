@@ -3,8 +3,11 @@
   "ingredient": {
     "tag": "c:storage_blocks/gold"
   },
-  "result": {
-    "amount": 648,
-    "id": "slag:molten_gold"
-  }
+  "ingredients": [],
+  "result": [
+    {
+      "amount": 648,
+      "id": "slag:molten_gold"
+    }
+  ]
 }

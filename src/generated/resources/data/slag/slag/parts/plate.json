@@ -1,0 +1,10 @@
+{
+  "defence_modifier": 9.8765434E8,
+  "id": "slag:plate",
+  "item_tags": [
+    "slag:cast/plates"
+  ],
+  "segment_part": "slag:parts/plates",
+  "sharpness_modifier": 0.0,
+  "sort_order": 6
+}

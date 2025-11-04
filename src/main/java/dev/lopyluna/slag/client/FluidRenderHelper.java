@@ -3,7 +3,7 @@ package dev.lopyluna.slag.client;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import net.createmod.catnip.annotations.Environment;
+import net.createmod.catnip.annotations.ClientOnly;
 import net.createmod.catnip.data.Iterate;
 import net.createmod.catnip.platform.CatnipServices;
 import net.createmod.catnip.platform.services.ModFluidHelper;
@@ -29,13 +29,16 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 
+@SuppressWarnings("unused")
 public class FluidRenderHelper {
     private FluidRenderHelper() {}
+
+    @ClientOnly
     public static TextureAtlasSprite getFlowingTexture(FluidStack fluid) {
         return Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(IClientFluidTypeExtensions.of(fluid.getFluid()).getFlowingTexture(fluid));
     }
 
-    @Environment(Environment.EnvType.CLIENT)
+    @ClientOnly
     public static TextureAtlasSprite getFlowingTextureOrMissing(FluidStack fluid) {
         TextureAtlasSprite texture = getFlowingTexture(fluid);
         if (texture != null) return texture;

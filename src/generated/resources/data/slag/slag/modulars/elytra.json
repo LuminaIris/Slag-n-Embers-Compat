@@ -1,0 +1,35 @@
+{
+  "final_segment_stacks": [
+    {
+      "count": 6,
+      "id": "minecraft:phantom_membrane"
+    },
+    {
+      "count": 4,
+      "id": "minecraft:paper"
+    },
+    {
+      "count": 8,
+      "id": "minecraft:feather"
+    },
+    {
+      "count": 4,
+      "id": "minecraft:wind_charge"
+    },
+    {
+      "count": 2,
+      "id": "minecraft:slime_ball"
+    },
+    {
+      "count": 1,
+      "id": "minecraft:ghast_tear"
+    }
+  ],
+  "id": "slag:elytra",
+  "result_stack": {
+    "count": 1,
+    "id": "minecraft:elytra"
+  },
+  "sort_order": 100,
+  "stations": "c:player_workstations/crafting_tables"
+}

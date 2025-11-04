@@ -1,12 +1,16 @@
 {
-  "dura": 1536.0,
-  "ench": 24.0,
-  "id": "echo",
+  "defense": 7.0,
+  "durability": 1536.0,
+  "enchantability": 24.0,
+  "id": "slag:echo",
+  "knockback_resistance": 0.1,
   "repair_ingredient": {
     "item": "minecraft:echo_shard"
   },
-  "sharp": 7.0,
+  "sharpness": 7.0,
+  "sort_order": 80,
   "speed": 10.0,
   "texture": "metal",
-  "tough": 6.0
+  "tier": 6.0,
+  "toughness": 3.0
 }

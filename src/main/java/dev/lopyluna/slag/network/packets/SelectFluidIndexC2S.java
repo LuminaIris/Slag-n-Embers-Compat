@@ -25,7 +25,7 @@ public record SelectFluidIndexC2S(BlockPos pos, int index) implements CustomPack
         ctx.enqueueWork(() -> {
             if (!(ctx.player() instanceof ServerPlayer player)) return;
             int i = msg.index;
-            if (i <= 0) return;
+            if (i < 0) return;
             var level = player.level();
             if (!(level.getBlockEntity(msg.pos) instanceof CrucibleBE cr) || !(cr.getControllerBE() instanceof CrucibleBE be)) return;
             var inv = be.getTankInventory();

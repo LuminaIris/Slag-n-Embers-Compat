@@ -1,0 +1,10 @@
+{
+  "defence_modifier": 0.7,
+  "id": "slag:leggings",
+  "item_tags": [
+    "slag:cast/leggings"
+  ],
+  "segment_part": "slag:parts/leggings",
+  "sharpness_modifier": 0.0,
+  "sort_order": 9
+}

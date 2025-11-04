@@ -3,8 +3,11 @@
   "ingredient": {
     "tag": "c:nuggets/iron"
   },
-  "result": {
-    "amount": 8,
-    "id": "slag:molten_iron"
-  }
+  "ingredients": [],
+  "result": [
+    {
+      "amount": 8,
+      "id": "slag:molten_iron"
+    }
+  ]
 }

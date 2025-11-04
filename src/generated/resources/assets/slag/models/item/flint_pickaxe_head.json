@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "slag:item/metal/pickaxe_head_flint"
-  }
-}

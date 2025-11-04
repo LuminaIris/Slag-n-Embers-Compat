@@ -3,7 +3,7 @@ package dev.lopyluna.slag.events;
 import com.mojang.datafixers.util.Pair;
 import dev.lopyluna.slag.content.blocks.basin.BasinBE;
 import dev.lopyluna.slag.content.blocks.table.TableBE;
-import dev.lopyluna.slag.content.items.modular_tool.BakedModularToolItem;
+import dev.lopyluna.slag.content.items.modular.ModularItem;
 import dev.lopyluna.slag.register.AllRecipes;
 import dev.lopyluna.slag.register.AllTags;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
@@ -79,10 +79,13 @@ public class ServerEvents {
         var stackA = event.getTopItem();
         var stackB = event.getBottomItem();
 
-        if (stackA.getItem() instanceof BakedModularToolItem itemA && stackB.getItem() instanceof BakedModularToolItem itemB) {
+        if (stackA.getItem() instanceof ModularItem itemA && stackB.getItem() instanceof ModularItem itemB) {
+            var modularA = itemA.getModularType(stackA);
+            var modularB = itemB.getModularType(stackB);
             var partsA = itemA.getParts(stackA);
             var partsB = itemB.getParts(stackB);
-            if (!partsA.equals(partsB)) event.setCanceled(true);
+            if (!(modularA == null || modularB == null) && !modularA.equals(modularB)) event.setCanceled(true);
+            else if (!(partsA == null || partsB == null) && !partsA.equals(partsB)) event.setCanceled(true);
 
         }
     }
@@ -91,11 +94,13 @@ public class ServerEvents {
         var stackA = event.getTopItem();
         var stackB = event.getBottomItem();
 
-        if (stackA.getItem() instanceof BakedModularToolItem itemA && stackB.getItem() instanceof BakedModularToolItem itemB) {
+        if (stackA.getItem() instanceof ModularItem itemA && stackB.getItem() instanceof ModularItem itemB) {
+            var modularA = itemA.getModularType(stackA);
+            var modularB = itemB.getModularType(stackB);
             var partsA = itemA.getParts(stackA);
             var partsB = itemB.getParts(stackB);
-            if (!partsA.equals(partsB)) event.setCanceled(true);
-
+            if (!(modularA == null || modularB == null) && !modularA.equals(modularB)) event.setCanceled(true);
+            else if (!(partsA == null || partsB == null) && !partsA.equals(partsB)) event.setCanceled(true);
         }
     }
 
@@ -104,11 +109,13 @@ public class ServerEvents {
         var stackA = event.getLeft();
         var stackB = event.getRight();
 
-        if (stackA.getItem() instanceof BakedModularToolItem itemA && stackB.getItem() instanceof BakedModularToolItem itemB) {
+        if (stackA.getItem() instanceof ModularItem itemA && stackB.getItem() instanceof ModularItem itemB) {
+            var modularA = itemA.getModularType(stackA);
+            var modularB = itemB.getModularType(stackB);
             var partsA = itemA.getParts(stackA);
             var partsB = itemB.getParts(stackB);
-            if (!partsA.equals(partsB)) event.setCanceled(true);
-
+            if (!(modularA == null || modularB == null) && !modularA.equals(modularB)) event.setCanceled(true);
+            else if (!(partsA == null || partsB == null) && !partsA.equals(partsB)) event.setCanceled(true);
         }
     }
 }

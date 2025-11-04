@@ -1,13 +1,15 @@
 {
-  "dura": 288.0,
-  "ench": 16.0,
-  "id": "quartz",
+  "defense": 7.0,
+  "durability": 288.0,
+  "enchantability": 16.0,
+  "id": "slag:quartz",
   "molten_fluid": "slag:molten_quartz",
   "repair_ingredient": {
     "tag": "c:gems/quartz"
   },
-  "sharp": 6.5,
+  "sharpness": 6.5,
+  "sort_order": 150,
   "speed": 7.0,
   "texture": "metal",
-  "tough": 4.0
+  "tier": 4.0
 }

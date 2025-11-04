@@ -34,8 +34,10 @@ import net.neoforged.neoforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class MelterBE extends SmartBlockEntity implements MenuProvider {
     public static final int BLOCK_SIZE = 648; //BLOCKS | 1:1
     public static final int SMALL_BLOCK_SIZE = 288; //SMALL/CRYSTAL BLOCKS | 1:2.25
@@ -149,16 +151,21 @@ public class MelterBE extends SmartBlockEntity implements MenuProvider {
         var recipeholder = quickCheck.getRecipeFor(input, level).orElse(null);
         var tank = getTankInventory();
         if (tank != null && recipeholder != null && recipeholder.value() instanceof MeltingRecipe recipe) {
+            var multiplier = 1f;
+            if (stack.isDamaged()) multiplier = 1f - ((float) stack.getDamageValue() / (float) stack.getMaxDamage());
+
             var access = level.registryAccess();
-            var fluid = recipe.getResultFluid(access);
-            var amount = fluid.getAmount();
-            meltingTarget = Mth.clamp((int) ((float) amount * 0.5f), 4, 256);
+            var fluids = recipe.getResultFluids(access);
+            var total = getTotalAmount(fluids);
+            meltingTarget = Mth.clamp((int) ((float) total * 0.5f), 4, 256);
+            var toFill = new ArrayList<FluidStack>();
+            for (var fluid : fluids) toFill.add(new FluidStack(fluid.getFluidHolder(), Math.round((float) fluid.getAmount() * multiplier)));
             if (meltingTarget > meltingProgress) ++meltingProgress;
             else {
-                if (amount + tank.getFluidAmount() > tank.getCapacity()) return true;
+                if (total + tank.getFluidAmount() > tank.getCapacity()) return true;
                 meltingProgress = 0;
                 stack.shrink(1);
-                tank.fill(fluid, IFluidHandler.FluidAction.EXECUTE);
+                for (var fluid : toFill) tank.fill(fluid, IFluidHandler.FluidAction.EXECUTE);
             }
             return true;
         }
@@ -166,10 +173,13 @@ public class MelterBE extends SmartBlockEntity implements MenuProvider {
         return false;
     }
 
+    public static int getTotalAmount(List<FluidStack> fluids) {
+        return fluids.stream().mapToInt(FluidStack::getAmount).sum();
+    }
+
     public void notMelting() {
         if (meltingProgress > 0) --meltingProgress;
     }
-
 
     public BlockState getBelowState(Level level) {
         return level.getBlockState(worldPosition.below());
@@ -184,7 +194,7 @@ public class MelterBE extends SmartBlockEntity implements MenuProvider {
     }
 
     protected SmartFluidTank createInventory() {
-        return new SmartFluidTank(3000, this::onFluidStackChanged);
+        return new SmartFluidTank(4000, this::onFluidStackChanged);
     }
 
     public void refreshCapability() {
@@ -247,7 +257,7 @@ public class MelterBE extends SmartBlockEntity implements MenuProvider {
         int prevLum = luminosity;
         luminosity = tag.getInt("Luminosity");
 
-        tankInventory.setCapacity(3000);
+        tankInventory.setCapacity(4000);
 
         tankInventory.readFromNBT(registries, tag.getCompound("TankContent"));
         if (tankInventory.getSpace() < 0) tankInventory.drain(-tankInventory.getSpace(), IFluidHandler.FluidAction.EXECUTE);

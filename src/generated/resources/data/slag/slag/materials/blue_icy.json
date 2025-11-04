@@ -1,12 +1,14 @@
 {
-  "dura": 768.0,
-  "ench": 6.0,
-  "id": "blue_icy",
+  "defense": 5.0,
+  "durability": 768.0,
+  "enchantability": 6.0,
+  "id": "slag:blue_icy",
   "repair_ingredient": {
     "item": "minecraft:blue_ice"
   },
-  "sharp": 7.0,
+  "sharpness": 7.0,
+  "sort_order": 120,
   "speed": 6.0,
   "texture": "shiny",
-  "tough": 4.0
+  "tier": 4.0
 }

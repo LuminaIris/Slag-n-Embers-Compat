@@ -3,8 +3,11 @@
   "ingredient": {
     "tag": "c:ingots/netherite"
   },
-  "result": {
-    "amount": 72,
-    "id": "slag:molten_netherite"
-  }
+  "ingredients": [],
+  "result": [
+    {
+      "amount": 72,
+      "id": "slag:molten_netherite"
+    }
+  ]
 }

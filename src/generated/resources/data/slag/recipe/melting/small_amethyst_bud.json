@@ -3,8 +3,11 @@
   "ingredient": {
     "item": "minecraft:small_amethyst_bud"
   },
-  "result": {
-    "amount": 72,
-    "id": "slag:molten_amethyst"
-  }
+  "ingredients": [],
+  "result": [
+    {
+      "amount": 72,
+      "id": "slag:molten_amethyst"
+    }
+  ]
 }

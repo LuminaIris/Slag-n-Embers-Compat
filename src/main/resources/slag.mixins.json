@@ -5,10 +5,14 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "AxeItemAccessor",
+    "BuildCreativeModeTabContentsEventMixin",
     "FurnaceResultSlotAccessor",
-    "ItemStackMixin"
+    "IngredientMixin",
+    "ItemStackMixin",
+    "LivingEntityMixin"
   ],
   "client": [
+    "HumanoidArmorLayerMixin",
     "LevelRendererAccessor"
   ],
   "injectors": {

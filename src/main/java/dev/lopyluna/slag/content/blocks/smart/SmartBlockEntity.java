@@ -1,6 +1,7 @@
 package dev.lopyluna.slag.content.blocks.smart;
 
 import it.unimi.dsi.fastutil.objects.Reference2ObjectArrayMap;
+import net.createmod.ponder.api.VirtualBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -14,7 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public abstract class SmartBlockEntity extends CachedRenderBBBlockEntity {
+@SuppressWarnings("unused")
+public abstract class SmartBlockEntity extends CachedRenderBBBlockEntity implements VirtualBlockEntity {
 
     private final Map<BehaviourType<?>, BlockEntityBehaviour> behaviours = new Reference2ObjectArrayMap<>();
     private boolean initialized = false;
@@ -22,6 +24,8 @@ public abstract class SmartBlockEntity extends CachedRenderBBBlockEntity {
     protected int lazyTickRate;
     protected int lazyTickCounter;
     private boolean chunkUnloaded;
+
+    private boolean virtualMode;
 
     public SmartBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
@@ -43,11 +47,7 @@ public abstract class SmartBlockEntity extends CachedRenderBBBlockEntity {
     public void addBehavioursDeferred(List<BlockEntityBehaviour> behaviours) {}
 
     public void initialize() {
-        if (firstNbtRead) {
-            firstNbtRead = false;
-            //NeoForge.EVENT_BUS.post(new BlockEntityBehaviourEvent(this, behaviours));
-        }
-
+        if (firstNbtRead) firstNbtRead = false;
         forEachBehaviour(BlockEntityBehaviour::initialize);
         lazyTick();
     }
@@ -76,6 +76,14 @@ public abstract class SmartBlockEntity extends CachedRenderBBBlockEntity {
         forEachBehaviour(tb -> tb.write(tag, registries, clientPacket));
     }
 
+    //@Override
+    //public void writeSafe(CompoundTag tag, HolderLookup.Provider registries) {
+    //    super.saveAdditional(tag, registries);
+    //    forEachBehaviour(tb -> {
+    //        if (tb.isSafeNBT()) tb.writeSafe(tag, registries);
+    //    });
+    //}
+
     /**
      * Hook only these in future subclasses of STE
      */
@@ -85,7 +93,6 @@ public abstract class SmartBlockEntity extends CachedRenderBBBlockEntity {
             ArrayList<BlockEntityBehaviour> list = new ArrayList<>();
             addBehavioursDeferred(list);
             list.forEach(b -> behaviours.put(b.getType(), b));
-            //NeoForge.EVENT_BUS.post(new BlockEntityBehaviourEvent(this, behaviours));
         }
         super.loadAdditional(tag, registries);
         forEachBehaviour(tb -> tb.read(tag, registries, clientPacket));
@@ -157,8 +164,37 @@ public abstract class SmartBlockEntity extends CachedRenderBBBlockEntity {
         return behaviours.values();
     }
 
+    public void attachBehaviourLate(BlockEntityBehaviour behaviour) {
+        behaviours.put(behaviour.getType(), behaviour);
+        behaviour.blockEntity = this;
+        behaviour.initialize();
+    }
+
+    public void removeBehaviour(BehaviourType<?> type) {
+        BlockEntityBehaviour remove = behaviours.remove(type);
+        if (remove != null) remove.unload();
+    }
+
     public void setLazyTickRate(int slowTickRate) {
         this.lazyTickRate = slowTickRate;
         this.lazyTickCounter = slowTickRate;
+    }
+
+    public boolean isChunkUnloaded() {
+        return chunkUnloaded;
+    }
+
+    public void markVirtual() {
+        virtualMode = true;
+    }
+
+    public boolean isVirtual() {
+        return virtualMode;
+    }
+
+    @SuppressWarnings("deprecation")
+    public void refreshBlockState() {
+        if (getLevel() == null) return;
+        setBlockState(getLevel().getBlockState(getBlockPos()));
     }
 }

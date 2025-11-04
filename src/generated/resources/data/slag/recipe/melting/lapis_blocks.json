@@ -3,8 +3,11 @@
   "ingredient": {
     "tag": "c:storage_blocks/lapis"
   },
-  "result": {
-    "amount": 648,
-    "id": "slag:molten_lapis"
-  }
+  "ingredients": [],
+  "result": [
+    {
+      "amount": 648,
+      "id": "slag:molten_lapis"
+    }
+  ]
 }

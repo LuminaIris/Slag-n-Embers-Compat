@@ -3,8 +3,11 @@
   "ingredient": {
     "tag": "c:dusts/redstone"
   },
-  "result": {
-    "amount": 72,
-    "id": "slag:molten_redstone"
-  }
+  "ingredients": [],
+  "result": [
+    {
+      "amount": 72,
+      "id": "slag:molten_redstone"
+    }
+  ]
 }

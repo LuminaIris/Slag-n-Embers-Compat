@@ -3,8 +3,11 @@
   "ingredient": {
     "tag": "c:nuggets/diamond"
   },
-  "result": {
-    "amount": 18,
-    "id": "slag:molten_diamond"
-  }
+  "ingredients": [],
+  "result": [
+    {
+      "amount": 18,
+      "id": "slag:molten_diamond"
+    }
+  ]
 }

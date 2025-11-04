@@ -3,8 +3,11 @@
   "ingredient": {
     "tag": "c:storage_blocks/raw_copper"
   },
-  "result": {
-    "amount": 864,
-    "id": "slag:molten_copper"
-  }
+  "ingredients": [],
+  "result": [
+    {
+      "amount": 864,
+      "id": "slag:molten_copper"
+    }
+  ]
 }

@@ -1,13 +1,15 @@
 {
-  "dura": 224.0,
-  "ench": 18.0,
-  "id": "amethyst",
+  "defense": 5.0,
+  "durability": 224.0,
+  "enchantability": 18.0,
+  "id": "slag:amethyst",
   "molten_fluid": "slag:molten_amethyst",
   "repair_ingredient": {
     "tag": "c:gems/amethyst"
   },
-  "sharp": 5.5,
+  "sharpness": 5.5,
+  "sort_order": 180,
   "speed": 7.0,
   "texture": "metal",
-  "tough": 3.0
+  "tier": 3.0
 }

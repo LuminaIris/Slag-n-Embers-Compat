@@ -4,14 +4,13 @@ import dev.lopyluna.slag.content.blocks.crucible.CrucibleTank;
 import dev.lopyluna.slag.content.blocks.multiblock.connectivity.ConnectivityHandler;
 import dev.lopyluna.slag.content.blocks.smart.BlockEntityBehaviour;
 import dev.lopyluna.slag.content.blocks.smart.SmartBlockEntity;
-import dev.lopyluna.slag.content.utils.NBTHelper;
 import dev.lopyluna.slag.register.AllBETypes;
+import net.createmod.catnip.nbt.NBTHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -32,22 +31,22 @@ import static dev.lopyluna.slag.content.blocks.crucible.CrucibleBE.TOP;
 @SuppressWarnings("unchecked")
 public class FluidMultiBlockEntity extends SmartBlockEntity implements IMultiBlockEntityContainer.FluidMulti {
 
-    protected IFluidHandler fluidCapability;
-    protected boolean forceFluidLevelUpdate;
-    protected CrucibleTank tankInventory;
-    protected BlockPos controller;
-    protected BlockPos lastKnownPos;
-    protected boolean updateConnectivity;
-    protected boolean updateCapability;
-    protected boolean window;
-    protected int luminosity;
-    protected int widthX;
-    protected int widthZ;
-    protected int height;
+    public IFluidHandler fluidCapability;
+    public boolean forceFluidLevelUpdate;
+    public CrucibleTank tankInventory;
+    public BlockPos controller;
+    public BlockPos lastKnownPos;
+    public boolean updateConnectivity;
+    public boolean updateCapability;
+    public boolean window;
+    public int luminosity;
+    public int widthX;
+    public int widthZ;
+    public int height;
 
     private static final int SYNC_RATE = 8;
-    protected int syncCooldown;
-    protected boolean queuedSync;
+    public int syncCooldown;
+    public boolean queuedSync;
 
     // For rendering purposes only
     private LerpedFloat fluidLevel;
@@ -74,10 +73,7 @@ public class FluidMultiBlockEntity extends SmartBlockEntity implements IMultiBlo
     }
 
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
-        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, AllBETypes.CRUCIBLE.get(), (be, context) -> {
-            if (be.fluidCapability == null) be.refreshCapability();
-            return be.fluidCapability;
-        });
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, AllBETypes.CRUCIBLE.get(), (be, context) -> be.handlerForCapability());
     }
 
     protected CrucibleTank createInventory() {
@@ -97,12 +93,10 @@ public class FluidMultiBlockEntity extends SmartBlockEntity implements IMultiBlo
         super.tick();
         if (syncCooldown > 0) {
             syncCooldown--;
-            if (syncCooldown == 0 && queuedSync)
-                sendData();
+            if (syncCooldown == 0 && queuedSync) sendData();
         }
 
-        if (lastKnownPos == null)
-            lastKnownPos = getBlockPos();
+        if (lastKnownPos == null) lastKnownPos = getBlockPos();
         else if (!lastKnownPos.equals(worldPosition)) {
             onPositionChanged();
             return;
@@ -152,13 +146,14 @@ public class FluidMultiBlockEntity extends SmartBlockEntity implements IMultiBlo
             FluidMultiBlockEntity part = ConnectivityHandler.partAt(getType(), level, pos);
             if (part == null) continue;
             level.updateNeighbourForOutputSignal(pos, part.getBlockState().getBlock());
+            if (level.isClientSide) continue;
+            sendData();
         }
-
-
         if (!level.isClientSide) {
             setChanged();
             sendData();
-        } else {
+        }
+        if (isVirtual()) {
             if (fluidLevel == null) fluidLevel = LerpedFloat.linear().startWithValue(getFillState());
             fluidLevel.chase(getFillState(), 0.5f, LerpedFloat.Chaser.EXP);
         }
@@ -176,8 +171,7 @@ public class FluidMultiBlockEntity extends SmartBlockEntity implements IMultiBlo
     @SuppressWarnings("unchecked")
     @Override
     public FluidMultiBlockEntity getControllerBE() {
-        assert level != null;
-        if (isController() || !hasLevel()) return this;
+        if (isController() || level == null) return this;
         if (level.getBlockEntity(getController()) instanceof FluidMultiBlockEntity be) return be;
         return null;
     }
@@ -191,8 +185,7 @@ public class FluidMultiBlockEntity extends SmartBlockEntity implements IMultiBlo
     }
 
     public void removeController(boolean keepFluids) {
-        assert level != null;
-        if (level.isClientSide) return;
+        if (level == null || level.isClientSide) return;
         updateConnectivity = true;
         if (!keepFluids) applyFluidTankSize(1);
         controller = null;
@@ -244,8 +237,7 @@ public class FluidMultiBlockEntity extends SmartBlockEntity implements IMultiBlo
 
     @Override
     public void setController(BlockPos controller) {
-        assert level != null;
-        if (level.isClientSide) return;
+        if (level == null || (level.isClientSide && !isVirtual())) return;
         if (controller.equals(this.controller)) return;
         this.controller = controller;
         refreshCapability();
@@ -258,7 +250,7 @@ public class FluidMultiBlockEntity extends SmartBlockEntity implements IMultiBlo
         invalidateCapabilities();
     }
 
-    private IFluidHandler handlerForCapability() {
+    protected IFluidHandler handlerForCapability() {
         return isController() ? tankInventory : ((getControllerBE() != null) ? getControllerBE().handlerForCapability() : new FluidTank(0));
     }
 
@@ -276,9 +268,8 @@ public class FluidMultiBlockEntity extends SmartBlockEntity implements IMultiBlo
     @SuppressWarnings("unused")
     @Nullable
     public FluidMultiBlockEntity getOtherFluidMultiBlockEntity(Direction direction) {
-        assert level != null;
-        BlockEntity otherBE = level.getBlockEntity(worldPosition.relative(direction));
-        if (otherBE instanceof FluidMultiBlockEntity be) return be;
+        if (level == null) return null;
+        if (level.getBlockEntity(worldPosition.relative(direction)) instanceof FluidMultiBlockEntity be) return be;
         return null;
     }
 
@@ -327,14 +318,12 @@ public class FluidMultiBlockEntity extends SmartBlockEntity implements IMultiBlo
         }
         if (isController()) {
             float fillState = getFillState();
-            if (compound.contains("ForceFluidLevel") || fluidLevel == null)
-                fluidLevel = LerpedFloat.linear().startWithValue(fillState);
+            if (compound.contains("ForceFluidLevel") || fluidLevel == null) fluidLevel = LerpedFloat.linear().startWithValue(fillState);
             fluidLevel.chase(fillState, 0.5f, LerpedFloat.Chaser.EXP);
         }
         if (luminosity != prevLum && hasLevel()) level.getChunkSource().getLightEngine().checkBlock(worldPosition);
 
         if (compound.contains("LazySync")) fluidLevel.chase(fluidLevel.getChaseTarget(), 0.125f, LerpedFloat.Chaser.EXP);
-
     }
 
     public float getFillState() {
@@ -343,12 +332,9 @@ public class FluidMultiBlockEntity extends SmartBlockEntity implements IMultiBlo
 
     @Override
     public void write(CompoundTag compound, HolderLookup.Provider registries, boolean clientPacket) {
-        if (updateConnectivity)
-            compound.putBoolean("Uninitialized", true);
-        if (lastKnownPos != null)
-            compound.put("LastKnownPos", NbtUtils.writeBlockPos(lastKnownPos));
-        if (!isController())
-            compound.put("Controller", NbtUtils.writeBlockPos(controller));
+        if (updateConnectivity) compound.putBoolean("Uninitialized", true);
+        if (lastKnownPos != null) compound.put("LastKnownPos", NbtUtils.writeBlockPos(lastKnownPos));
+        if (!isController()) compound.put("Controller", NbtUtils.writeBlockPos(controller));
         if (isController()) {
             compound.putBoolean("Window", window);
             compound.put("TankContent", tankInventory.writeToNBT(registries, new CompoundTag()));
@@ -359,12 +345,9 @@ public class FluidMultiBlockEntity extends SmartBlockEntity implements IMultiBlo
         compound.putInt("Luminosity", luminosity);
         super.write(compound, registries, clientPacket);
 
-        if (!clientPacket)
-            return;
-        if (forceFluidLevelUpdate)
-            compound.putBoolean("ForceFluidLevel", true);
-        if (queuedSync)
-            compound.putBoolean("LazySync", true);
+        if (!clientPacket) return;
+        if (forceFluidLevelUpdate) compound.putBoolean("ForceFluidLevel", true);
+        if (queuedSync) compound.putBoolean("LazySync", true);
         forceFluidLevelUpdate = false;
     }
 

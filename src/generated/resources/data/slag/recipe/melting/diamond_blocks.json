@@ -3,8 +3,11 @@
   "ingredient": {
     "tag": "c:storage_blocks/diamond"
   },
-  "result": {
-    "amount": 648,
-    "id": "slag:molten_diamond"
-  }
+  "ingredients": [],
+  "result": [
+    {
+      "amount": 648,
+      "id": "slag:molten_diamond"
+    }
+  ]
 }

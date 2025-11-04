@@ -1,12 +1,14 @@
 {
-  "dura": 192.0,
-  "ench": 8.0,
-  "id": "copper",
+  "defense": 4.0,
+  "durability": 192.0,
+  "enchantability": 8.0,
+  "id": "slag:copper",
   "molten_fluid": "slag:molten_copper",
   "repair_ingredient": {
     "tag": "c:ingots/copper"
   },
-  "sharp": 4.5,
+  "sharpness": 4.5,
+  "sort_order": 30,
   "speed": 5.0,
-  "tough": 3.0
+  "tier": 3.0
 }

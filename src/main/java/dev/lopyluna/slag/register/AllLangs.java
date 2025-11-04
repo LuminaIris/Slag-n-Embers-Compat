@@ -3,10 +3,8 @@ package dev.lopyluna.slag.register;
 import com.mojang.datafixers.util.Pair;
 import com.tterrag.registrate.providers.RegistrateLangProvider;
 import dev.lopyluna.slag.SlagEmbers;
-import dev.lopyluna.slag.content.items.modular_tool.BakedModularToolItem;
-import dev.lopyluna.slag.content.items.modular_tool.DataToolParts;
-import dev.lopyluna.slag.content.items.modular_tool.IToolPart;
-import dev.lopyluna.slag.content.items.modular_tool.ModularToolItem;
+import dev.lopyluna.slag.content.items.dynamic_part.IModularItem;
+import dev.lopyluna.slag.content.items.modular.DataDynamicParts;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.client.gui.screens.Screen;
@@ -14,6 +12,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 
@@ -60,29 +59,45 @@ public class AllLangs {
         return ItemAttributeModifiers.ATTRIBUTE_MODIFIER_FORMAT.format(number);
     }
 
-    public static void modularToolStats(List<Component> tooltip, DataToolParts parts, ItemStack stack, ModularToolItem item) {
-        var ctrl = Screen.hasControlDown();
-        trHoldKeyTooltip(tooltip, ctrl, "ctrl", "stats",
-                ChatFormatting.GRAY, "modular_stats", false, ChatFormatting.BLUE,
-                pair("modular_damage", format(1 + item.averageMod(stack, IToolPart::getSharp) * item.averageMod(stack, IToolPart::getSharpMod))),
-                pair("modular_durability", item instanceof BakedModularToolItem ? (item.getMaxDamage(stack)-item.getDamage(stack)) + " / " + item.getMaxDamage(stack) : format(item.averageMod(stack, IToolPart::getDura) * item.averageMod(stack, IToolPart::getDuraMod))),
-                pair("modular_attack_speed", format(4 - item.averageMod(stack, IToolPart::getSpeedMod))),
-                pair("modular_mine_speed", format(item.averageMod(stack, IToolPart::getSpeed))),
-                pair("modular_tier", format(item.averageMod(stack, IToolPart::getTough))),
-                pair("modular_enchantability", ""+Math.round(item.averageMod(stack, IToolPart::getEnch)))
-        );
-        if (ctrl) {
-            var hammer = item.hammerTier(parts, stack);
-            if (hammer > 0) tooltip.add(Component.literal("  ").append(tr("modular_forging_tier")).append(": " + hammer).withStyle(ChatFormatting.BLUE));
-        }
-    }
-
-    public static void modularToolParts(List<Component> tooltip, List<ItemStack> toolParts) {
+    public static void modularParts(List<Component> tooltip, List<ItemStack> toolParts) {
         var shift = Screen.hasShiftDown();
         trHoldKeyTooltip(tooltip, shift, "shift", "parts", null, null, false, null);
         if (shift) {
             tooltip.add(Component.literal(" ").append(tr("modular_parts")).append(":").withStyle(ChatFormatting.GRAY));
             for (var part : toolParts) tooltip.add(Component.literal("  ").append(part.getHoverName()).append(part.getCount() == 1 ? "" : " " + part.getCount() + "x").withColor(FastColor.ARGB32.color(115, 115, 115)));
+        }
+    }
+
+    public static void modularToolStats(List<Component> tooltip, DataDynamicParts parts, ItemStack stack, IModularItem modular) {
+        var ctrl = Screen.hasControlDown();
+        trHoldKeyTooltip(tooltip, ctrl, "ctrl", "stats",
+                ChatFormatting.GRAY, "modular_stats", false, ChatFormatting.BLUE,
+                pair("modular_damage", format(1 + modular.getSharp(stack))),
+                pair("modular_durability", modular instanceof Item item && stack.isDamageableItem() ? (item.getMaxDamage(stack)-item.getDamage(stack)) + " / " + item.getMaxDamage(stack) : format(modular.getDura(stack))),
+                pair("modular_attack_speed", format(4 - modular.getAttackSpeed(stack))),
+                pair("modular_mine_speed", format(modular.getSpeed(stack))),
+                pair("modular_tier", format(modular.getTier(stack))),
+                pair("modular_enchantability", ""+Math.round(modular.getEnch(stack)))
+        );
+        if (ctrl) {
+            var hammer = modular.getHammerTier(parts, stack);
+            if (hammer > 0) tooltip.add(Component.literal("  ").append(tr("modular_forging_tier")).append(": " + hammer).withStyle(ChatFormatting.BLUE));
+        }
+    }
+    public static void modularArmorStats(List<Component> tooltip, DataDynamicParts parts, ItemStack stack, IModularItem modular) {
+        var ctrl = Screen.hasControlDown();
+        trHoldKeyTooltip(tooltip, ctrl, "ctrl", "stats",
+                ChatFormatting.GRAY, "modular_stats", false, ChatFormatting.BLUE,
+                pair("modular_defense", format(1 + modular.getDefense(stack))),
+                pair("modular_durability", modular instanceof Item item && stack.isDamageableItem() ? (item.getMaxDamage(stack)-item.getDamage(stack)) + " / " + item.getMaxDamage(stack) : format(modular.getDura(stack))),
+                pair("modular_knockback_resistance", format(modular.getKbRes(stack))),
+                pair("modular_toughness", format(modular.getTough(stack))),
+                pair("modular_tier", format(modular.getTier(stack))),
+                pair("modular_enchantability", ""+Math.round(modular.getEnch(stack)))
+        );
+        if (ctrl) {
+            var hammer = modular.getHammerTier(parts, stack);
+            if (hammer > 0) tooltip.add(Component.literal("  ").append(tr("modular_forging_tier")).append(": " + hammer).withStyle(ChatFormatting.BLUE));
         }
     }
 
@@ -103,6 +118,9 @@ public class AllLangs {
         REG.addLang("tooltip", SlagEmbers.loc("modular_tool_waiting"), "Insert Tool Parts to get started!");
 
         REG.addLang("tooltip", SlagEmbers.loc("modular_stats"), "Modular Stats");
+        REG.addLang("tooltip", SlagEmbers.loc("modular_defense"), "Defense");
+        REG.addLang("tooltip", SlagEmbers.loc("modular_knockback_resistance"), "Knockback Resistance");
+        REG.addLang("tooltip", SlagEmbers.loc("modular_toughness"), "Toughness");
         REG.addLang("tooltip", SlagEmbers.loc("modular_damage"), "Damage");
         REG.addLang("tooltip", SlagEmbers.loc("modular_durability"), "Durability");
         REG.addLang("tooltip", SlagEmbers.loc("modular_attack_speed"), "Attack Speed");

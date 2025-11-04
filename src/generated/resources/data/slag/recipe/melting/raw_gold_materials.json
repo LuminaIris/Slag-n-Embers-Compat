@@ -3,8 +3,11 @@
   "ingredient": {
     "tag": "slag:gold_raw_materials"
   },
-  "result": {
-    "amount": 96,
-    "id": "slag:molten_gold"
-  }
+  "ingredients": [],
+  "result": [
+    {
+      "amount": 96,
+      "id": "slag:molten_gold"
+    }
+  ]
 }

@@ -3,8 +3,11 @@
   "ingredient": {
     "tag": "c:ingots/gold"
   },
-  "result": {
-    "amount": 72,
-    "id": "slag:molten_gold"
-  }
+  "ingredients": [],
+  "result": [
+    {
+      "amount": 72,
+      "id": "slag:molten_gold"
+    }
+  ]
 }

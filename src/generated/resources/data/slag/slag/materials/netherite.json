@@ -1,14 +1,18 @@
 {
-  "dura": 2048.0,
-  "ench": 15.0,
+  "defense": 8.0,
+  "durability": 2048.0,
+  "enchantability": 15.0,
   "fireproof": true,
-  "id": "netherite",
+  "id": "slag:netherite",
+  "knockback_resistance": 0.1,
   "molten_fluid": "slag:molten_netherite",
   "repair_ingredient": {
     "tag": "c:ingots/netherite"
   },
-  "sharp": 7.0,
+  "sharpness": 7.0,
+  "sort_order": 70,
   "speed": 9.0,
   "texture": "metal",
-  "tough": 6.0
+  "tier": 6.0,
+  "toughness": 3.0
 }

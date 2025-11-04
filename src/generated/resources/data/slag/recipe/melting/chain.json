@@ -1,0 +1,13 @@
+{
+  "type": "slag:melting",
+  "ingredient": {
+    "item": "minecraft:chain"
+  },
+  "ingredients": [],
+  "result": [
+    {
+      "amount": 88,
+      "id": "slag:molten_iron"
+    }
+  ]
+}

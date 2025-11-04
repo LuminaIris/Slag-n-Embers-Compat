@@ -1,0 +1,13 @@
+{
+  "type": "slag:melting",
+  "ingredient": {
+    "item": "minecraft:recovery_compass"
+  },
+  "ingredients": [],
+  "result": [
+    {
+      "amount": 288,
+      "id": "slag:molten_iron"
+    }
+  ]
+}

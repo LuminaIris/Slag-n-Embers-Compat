@@ -3,8 +3,11 @@
   "ingredient": {
     "tag": "c:gems/amethyst"
   },
-  "result": {
-    "amount": 72,
-    "id": "slag:molten_amethyst"
-  }
+  "ingredients": [],
+  "result": [
+    {
+      "amount": 72,
+      "id": "slag:molten_amethyst"
+    }
+  ]
 }

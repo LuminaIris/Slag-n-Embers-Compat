@@ -3,8 +3,11 @@
   "ingredient": {
     "tag": "c:nuggets/lapis"
   },
-  "result": {
-    "amount": 18,
-    "id": "slag:molten_lapis"
-  }
+  "ingredients": [],
+  "result": [
+    {
+      "amount": 18,
+      "id": "slag:molten_lapis"
+    }
+  ]
 }

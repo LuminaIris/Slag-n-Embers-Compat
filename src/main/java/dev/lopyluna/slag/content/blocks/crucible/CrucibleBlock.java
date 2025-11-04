@@ -176,7 +176,6 @@ public class CrucibleBlock extends SmartBlock<CrucibleBE> {
 
     @Override
     protected @NotNull ItemInteractionResult useItemOn(ItemStack held, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        if (held.isEmpty()) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         if (!(level.getBlockEntity(pos) instanceof CrucibleBE be)) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 
         var ctrl = be.getControllerBE();

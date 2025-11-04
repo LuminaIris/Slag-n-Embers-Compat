@@ -10,45 +10,65 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.ArrayList;
+import java.util.List;
 
+@SuppressWarnings("unused")
 @ParametersAreNonnullByDefault
 public class MeltingRecipe implements Recipe<SingleRecipeInput> {
     protected final RecipeType<?> type;
     protected final String group;
 
+    private final List<ItemStack> inputs;
     private final Ingredient input;
-    private final FluidStack output;
+    private final List<FluidStack> outputs;
 
-    public MeltingRecipe(String group, Ingredient input, FluidStack output) {
-        this(AllRecipes.MELTING.get(), group, input, output);
+    public MeltingRecipe(String group, List<ItemStack> inputs, Ingredient input, List<FluidStack> outputs) {
+        this(AllRecipes.MELTING.get(), group, inputs, input, outputs);
     }
-    public MeltingRecipe(RecipeType<?> type, String group, Ingredient input, FluidStack output) {
+    public MeltingRecipe(RecipeType<?> type, String group, List<ItemStack> inputs, Ingredient input, List<FluidStack> outputs) {
         this.type = type;
         this.group = group;
+        this.inputs = inputs;
         this.input = input;
-        this.output = output;
+        this.outputs = outputs;
     }
 
     @Override
     public boolean matches(SingleRecipeInput input, Level level) {
+        if (input.item().isEmpty()) return false;
+        if (!inputs.isEmpty()) for (var stack : inputs) {
+            if (stack.isEmpty()) continue;
+            if (ItemStack.isSameItemSameComponents(stack, input.item())) return true;
+        }
         return this.input.test(input.item());
     }
 
-    public FluidStack assembleWithFluid(AlloyingRecipe.AlloyRecipeInput alloyRecipeInput, HolderLookup.Provider provider) {
-        return output.copy();
+    public List<FluidStack> assembleWithFluid(AlloyingRecipe.AlloyRecipeInput alloyRecipeInput, HolderLookup.Provider provider) {
+        return getResultFluids(provider);
     }
-    public FluidStack getResultFluid(HolderLookup.Provider provider) {
-        return output.copy();
+    public List<FluidStack> getResultFluids(HolderLookup.Provider provider) {
+        var list = new ArrayList<FluidStack>();
+        var i = 0;
+        for (var stack : outputs) {
+            if (i > 12) break;
+            list.add(stack.copy());
+            i++;
+        }
+        return list;
     }
 
     @Override public @NotNull String getGroup() {
         return group;
     }
+    public List<ItemStack> getInputs() {
+        return inputs;
+    }
     public Ingredient getInput() {
         return input;
     }
-    public FluidStack getOutput() {
-        return output;
+    public List<FluidStack> getOutputs() {
+        return outputs;
     }
     @Override public boolean canCraftInDimensions(int i, int i1) {
         return false;
@@ -76,6 +96,6 @@ public class MeltingRecipe implements Recipe<SingleRecipeInput> {
     }
 
     public interface Factory {
-        MeltingRecipe create(String var1, Ingredient var2, FluidStack var3);
+        MeltingRecipe create(String var1, List<ItemStack> var2, Ingredient var3, List<FluidStack> var4);
     }
 }

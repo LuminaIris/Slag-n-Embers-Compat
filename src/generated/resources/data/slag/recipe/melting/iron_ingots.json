@@ -3,8 +3,11 @@
   "ingredient": {
     "tag": "c:ingots/iron"
   },
-  "result": {
-    "amount": 72,
-    "id": "slag:molten_iron"
-  }
+  "ingredients": [],
+  "result": [
+    {
+      "amount": 72,
+      "id": "slag:molten_iron"
+    }
+  ]
 }

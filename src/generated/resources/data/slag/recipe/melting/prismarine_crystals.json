@@ -3,8 +3,11 @@
   "ingredient": {
     "tag": "c:gems/prismarine"
   },
-  "result": {
-    "amount": 72,
-    "id": "slag:molten_prismarine"
-  }
+  "ingredients": [],
+  "result": [
+    {
+      "amount": 72,
+      "id": "slag:molten_prismarine"
+    }
+  ]
 }

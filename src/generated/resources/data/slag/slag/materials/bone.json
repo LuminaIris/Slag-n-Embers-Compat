@@ -1,12 +1,15 @@
 {
-  "dura": 144.0,
-  "ench": 8.0,
-  "id": "bone",
+  "defense": 3.0,
+  "durability": 144.0,
+  "enchantability": 8.0,
+  "id": "slag:bone",
   "repair_ingredient": {
     "tag": "c:bones"
   },
-  "sharp": 5.5,
+  "sharpness": 5.5,
+  "sort_order": 210,
   "speed": 4.0,
   "texture": "soft",
-  "tough": 3.0
+  "tier": 3.0,
+  "toughness": 3.0
 }

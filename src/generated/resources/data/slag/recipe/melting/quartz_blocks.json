@@ -3,8 +3,11 @@
   "ingredient": {
     "tag": "slag:quartz_blocks"
   },
-  "result": {
-    "amount": 288,
-    "id": "slag:molten_quartz"
-  }
+  "ingredients": [],
+  "result": [
+    {
+      "amount": 288,
+      "id": "slag:molten_quartz"
+    }
+  ]
 }

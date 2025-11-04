@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "slag:item/shiny/axe_head_rose_gold"
-  }
-}

@@ -1,0 +1,9 @@
+{
+  "id": "slag:shovel_head",
+  "item_tags": [
+    "slag:cast/shovel_heads"
+  ],
+  "segment_part": "slag:parts/shovel_heads",
+  "sharpness_modifier": 0.75,
+  "speed_modifier": 3.0
+}

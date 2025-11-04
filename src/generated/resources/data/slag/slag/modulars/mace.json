@@ -1,0 +1,19 @@
+{
+  "final_segment_stacks": [
+    {
+      "count": 1,
+      "id": "minecraft:breeze_rod"
+    },
+    {
+      "count": 1,
+      "id": "minecraft:heavy_core"
+    }
+  ],
+  "id": "slag:mace",
+  "result_stack": {
+    "count": 1,
+    "id": "minecraft:mace"
+  },
+  "sort_order": 100,
+  "stations": "c:player_workstations/crafting_tables"
+}

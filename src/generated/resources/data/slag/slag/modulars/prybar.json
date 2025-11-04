@@ -1,0 +1,25 @@
+{
+  "actions": [
+    "pickaxe",
+    "shovel",
+    "isTool"
+  ],
+  "final_segment_stacks": [
+    {
+      "count": 2,
+      "id": "minecraft:stick"
+    }
+  ],
+  "id": "slag:prybar",
+  "item_tags": [
+    "minecraft:pickaxes",
+    "minecraft:shovels"
+  ],
+  "model_type": "handheld",
+  "segments": [
+    "slag:parts/pickaxe_heads",
+    "slag:parts/shovel_heads"
+  ],
+  "sort_order": 7,
+  "stations": "c:player_workstations/crafting_tables"
+}

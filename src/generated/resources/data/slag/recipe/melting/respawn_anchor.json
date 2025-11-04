@@ -1,0 +1,13 @@
+{
+  "type": "slag:melting",
+  "ingredient": {
+    "item": "minecraft:respawn_anchor"
+  },
+  "ingredients": [],
+  "result": [
+    {
+      "amount": 3888,
+      "id": "slag:molten_obsidian"
+    }
+  ]
+}

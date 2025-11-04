@@ -1,13 +1,15 @@
 {
-  "dura": 32.0,
-  "ench": 22.0,
-  "id": "golden",
+  "defense": 5.0,
+  "durability": 32.0,
+  "enchantability": 22.0,
+  "id": "slag:golden",
   "molten_fluid": "slag:molten_gold",
   "repair_ingredient": {
     "tag": "c:ingots/gold"
   },
-  "sharp": 3.0,
+  "sharpness": 3.0,
+  "sort_order": 50,
   "speed": 12.0,
   "texture": "shiny",
-  "tough": 2.0
+  "tier": 2.0
 }

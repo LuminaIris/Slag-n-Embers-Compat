@@ -14,6 +14,7 @@ import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
@@ -29,8 +30,9 @@ import static com.tterrag.registrate.providers.RegistrateRecipeProvider.has;
 
 @ParametersAreNonnullByDefault
 public class MeltingRecipeBuilder implements RecipeBuilder {
-    private final Fluid result;
-    private final FluidStack stackResult;
+    private final List<Fluid> result;
+    private final List<FluidStack> stackResult;
+    private final List<ItemStack> inputStacks;
     private final Ingredient input;
     private final Map<String, Criterion<?>> criteria;
     @Nullable
@@ -40,11 +42,35 @@ public class MeltingRecipeBuilder implements RecipeBuilder {
     private MeltingRecipeBuilder(Fluid result, int count, Ingredient input) {
         this(new FluidStack(result, count), input);
     }
+    private MeltingRecipeBuilder(Fluid result, int count, List<ItemStack> inputStacks) {
+        this(new FluidStack(result, count), inputStacks);
+    }
     private MeltingRecipeBuilder(FluidStack result, Ingredient input) {
+        this(new ArrayList<>(List.of(result)), input);
+    }
+    private MeltingRecipeBuilder(FluidStack result, List<ItemStack> inputStacks) {
+        this(new ArrayList<>(List.of(result)), inputStacks);
+    }
+    private MeltingRecipeBuilder(List<Fluid> result, List<Integer> resultCount, Ingredient input) {
+        this(result.stream().map(fluid -> new FluidStack(fluid, resultCount.get(result.indexOf(fluid)))).toList(), input);
+    }
+    private MeltingRecipeBuilder(List<Fluid> result, List<Integer> resultCount, List<ItemStack> inputStacks) {
+        this(result.stream().map(fluid -> new FluidStack(fluid, resultCount.get(result.indexOf(fluid)))).toList(), inputStacks);
+    }
+    private MeltingRecipeBuilder(List<FluidStack> result, Ingredient input) {
         this.criteria = new LinkedHashMap<>();
-        this.result = result.getFluid();
+        this.result = result.stream().map(FluidStack::getFluid).toList();
         this.stackResult = result;
+        this.inputStacks = new ArrayList<>();
         this.input = input;
+        this.factory = MeltingRecipe::new;
+    }
+    private MeltingRecipeBuilder(List<FluidStack> result, List<ItemStack> inputStacks) {
+        this.criteria = new LinkedHashMap<>();
+        this.result = result.stream().map(FluidStack::getFluid).toList();
+        this.stackResult = result;
+        this.inputStacks = inputStacks;
+        this.input = Ingredient.EMPTY;
         this.factory = MeltingRecipe::new;
     }
 
@@ -68,26 +94,25 @@ public class MeltingRecipeBuilder implements RecipeBuilder {
         Objects.requireNonNull(builder);
         this.criteria.forEach(builder::addCriterion);
 
-        MeltingRecipe recipe = this.factory.create(Objects.requireNonNullElse(this.group, ""), this.input, this.stackResult);
+        MeltingRecipe recipe = this.factory.create(Objects.requireNonNullElse(this.group, ""), this.inputStacks, this.input, this.stackResult);
         recipeOutput.accept(loc, recipe, builder.build(loc.withPrefix("recipes/misc/")));
-
     }
 
     @Override
     public @NotNull Item getResult() {
         return Items.AIR;
     }
-    public Fluid getResultFluid() {
+    public List<Fluid> getResultFluid() {
         return result;
     }
 
     @Override
     public void save(RecipeOutput recipeOutput) {
-        this.save(recipeOutput, getDefaultRecipeId(this.getResultFluid()));
+        this.save(recipeOutput, getDefaultRecipeId(this.getResultFluid().getFirst()));
     }
     @Override
     public void save(RecipeOutput recipeOutput, String id) {
-        var loc = getDefaultRecipeId(this.getResultFluid());
+        var loc = getDefaultRecipeId(this.getResultFluid().getFirst());
         var parse = ResourceLocation.parse(id);
         if (parse.equals(loc)) throw new IllegalStateException("Recipe " + id + " should remove its 'save' argument as it is equal to default one");
         else this.save(recipeOutput, parse);
@@ -104,6 +129,52 @@ public class MeltingRecipeBuilder implements RecipeBuilder {
         return new MeltingRecipeBuilder(result, ingredient);
     }
 
+    public static MeltingRecipeBuilder create(Fluid result, int mb, ItemStack item) {
+        return new MeltingRecipeBuilder(result, mb, new ArrayList<>(List.of(item)));
+    }
+    public static MeltingRecipeBuilder create(FluidStack result, ItemStack item) {
+        return new MeltingRecipeBuilder(result, new ArrayList<>(List.of(item)));
+    }
+
+    public static MeltingRecipeBuilder create(Fluid result, int mb, List<ItemStack> items) {
+        return new MeltingRecipeBuilder(result, mb, items);
+    }
+    public static MeltingRecipeBuilder create(FluidStack result, List<ItemStack> items) {
+        return new MeltingRecipeBuilder(result, items);
+    }
+
+    public static MeltingRecipeBuilder create(List<Fluid> result, List<Integer> mb, Ingredient ingredient) {
+        return new MeltingRecipeBuilder(result, mb, ingredient);
+    }
+    public static MeltingRecipeBuilder create(List<Fluid> result, List<Integer> mb, List<ItemStack> items) {
+        return new MeltingRecipeBuilder(result, mb, items);
+    }
+    public static MeltingRecipeBuilder create(List<FluidStack> result, Ingredient ingredient) {
+        return new MeltingRecipeBuilder(result, ingredient);
+    }
+    public static MeltingRecipeBuilder create(List<FluidStack> result, TagKey<Item> item) {
+        return new MeltingRecipeBuilder(result, Ingredient.of(item));
+    }
+    public static MeltingRecipeBuilder create(List<FluidStack> result, List<ItemStack> items) {
+        return new MeltingRecipeBuilder(result, items);
+    }
+    public static MeltingRecipeBuilder create(List<FluidStack> result, ItemStack item) {
+        return new MeltingRecipeBuilder(result, new ArrayList<>(List.of(item)));
+    }
+    public static MeltingRecipeBuilder create(List<FluidStack> result, ItemLike item) {
+        return new MeltingRecipeBuilder(result, new ArrayList<>(List.of(item.asItem().getDefaultInstance())));
+    }
+    public static MeltingRecipeBuilder create(List<FluidStack> result, Item item) {
+        return new MeltingRecipeBuilder(result, new ArrayList<>(List.of(item.getDefaultInstance())));
+    }
+
+    public static MeltingRecipeBuilder create(Fluid result, int mb, ItemStack... item) {
+        return new MeltingRecipeBuilder(result, mb, new ArrayList<>(Arrays.asList(item)));
+    }
+    public static MeltingRecipeBuilder create(FluidStack result, ItemStack... item) {
+        return new MeltingRecipeBuilder(result, new ArrayList<>(Arrays.asList(item)));
+    }
+
     public static MeltingRecipeBuilder create(Fluid result, int mb, TagKey<Item> tag) {
         return new MeltingRecipeBuilder(result, mb, Ingredient.of(tag));
     }
@@ -117,6 +188,53 @@ public class MeltingRecipeBuilder implements RecipeBuilder {
     public static MeltingRecipeBuilder create(FluidStack result, ItemLike item) {
         return new MeltingRecipeBuilder(result, Ingredient.of(item));
     }
+
+    public static void create(RegistrateRecipeProvider p, String name, Fluid fluid, int mb, TagKey<Item> tag) {
+        MeltingRecipeBuilder.create(fluid, mb, tag)
+                .unlockedBy("has_meltable_" + name, has(tag))
+                .save(p, SlagEmbers.loc("melting/" + name));
+    }
+    public static void create(RegistrateRecipeProvider p, String name, FluidStack fluid, TagKey<Item> tag) {
+        MeltingRecipeBuilder.create(fluid, tag)
+                .unlockedBy("has_meltable_" + name, has(tag))
+                .save(p, SlagEmbers.loc("melting/" + name));
+    }
+    public static void create(RegistrateRecipeProvider p, String name, Fluid fluid, int mb, ItemLike item) {
+        MeltingRecipeBuilder.create(fluid, mb, item)
+                .unlockedBy("has_meltable_" + name, has(item))
+                .save(p, SlagEmbers.loc("melting/" + name));
+    }
+    public static void create(RegistrateRecipeProvider p, String name, FluidStack fluid, ItemLike item) {
+        MeltingRecipeBuilder.create(fluid, item)
+                .unlockedBy("has_meltable_" + name, has(item))
+                .save(p, SlagEmbers.loc("melting/" + name));
+    }
+    public static void create(RegistrateRecipeProvider p, Fluid fluid, int mb, Item item) {
+        var name = BuiltInRegistries.ITEM.getKey(item).getPath();
+        MeltingRecipeBuilder.create(fluid, mb, item)
+                .unlockedBy("has_meltable_" + name, has(item))
+                .save(p, SlagEmbers.loc("melting/" + name));
+    }
+    public static void create(RegistrateRecipeProvider p, FluidStack fluid, Item item) {
+        var name = BuiltInRegistries.ITEM.getKey(item).getPath();
+        MeltingRecipeBuilder.create(fluid, item)
+                .unlockedBy("has_meltable_" + name, has(item))
+                .save(p, SlagEmbers.loc("melting/" + name));
+    }
+    public static void create(RegistrateRecipeProvider p, List<FluidStack> fluid, TagKey<Item> tag) {
+        var name = tag.location().getPath();
+        MeltingRecipeBuilder.create(fluid, tag)
+                .unlockedBy("has_meltable_" + name, has(tag))
+                .save(p, SlagEmbers.loc("melting/" + name));
+    }
+    public static void create(RegistrateRecipeProvider p, List<FluidStack> fluid, Item item) {
+        var name = BuiltInRegistries.ITEM.getKey(item).getPath();
+        MeltingRecipeBuilder.create(fluid, item)
+                .unlockedBy("has_meltable_" + name, has(item))
+                .save(p, SlagEmbers.loc("melting/" + name));
+    }
+
+
 
     public static void oreMeltableGem(RegistrateRecipeProvider p, String name, Fluid fluid, @Nullable TagKey<Item> blocks, @Nullable TagKey<Item> material, @Nullable TagKey<Item> nuggets) {
         if (blocks != null) MeltingRecipeBuilder.create(fluid, MelterBE.BLOCK_SIZE + MelterBE.INGOT_SIZE + MelterBE.INGOT_SIZE, blocks)

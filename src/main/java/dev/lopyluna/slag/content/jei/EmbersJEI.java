@@ -7,7 +7,7 @@ import dev.lopyluna.slag.content.blocks.forge.client.ForgeScreen;
 import dev.lopyluna.slag.content.blocks.melter.MeltingRecipe;
 import dev.lopyluna.slag.content.blocks.melter.client.MelterMenu;
 import dev.lopyluna.slag.content.blocks.melter.client.MelterScreen;
-import dev.lopyluna.slag.content.items.modular_tool.DataToolParts;
+import dev.lopyluna.slag.content.items.modular.DataDynamicParts;
 import dev.lopyluna.slag.content.jei.category.DoubleSmeltingCategory;
 import dev.lopyluna.slag.content.jei.category.MeltingCategory;
 import dev.lopyluna.slag.register.*;
@@ -23,19 +23,17 @@ import mezz.jei.common.util.ErrorUtil;
 import mezz.jei.library.plugins.vanilla.crafting.CategoryRecipeValidator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Unit;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
-
-import static dev.lopyluna.slag.register.AllCreativeTabs.getToolMixture;
-import static dev.lopyluna.slag.register.AllCreativeTabs.testRodCount;
-import static dev.lopyluna.slag.register.AllItems.MATERIAL_TYPES;
 
 @SuppressWarnings("unused")
 @JeiPlugin
@@ -52,7 +50,7 @@ public class EmbersJEI implements IModPlugin {
     public void registerCategories(IRecipeCategoryRegistration registration) {
         var jeiHelpers = registration.getJeiHelpers();
         var guiHelper = jeiHelpers.getGuiHelper();
-        //registration.addRecipeCategories(new SieveRecipeCategory(guiHelper));
+
         registration.addRecipeCategories(forgeCategory = new DoubleSmeltingCategory(guiHelper));
         registration.addRecipeCategories(melterCategory = new MeltingCategory(guiHelper));
     }
@@ -68,11 +66,6 @@ public class EmbersJEI implements IModPlugin {
 
         registration.addRecipes(EmbersRecipesJEI.DOUBLE_SMELTING.get(), getBrickForgeRecipes(forgeCategory, level, ingredientManager));
         registration.addRecipes(EmbersRecipesJEI.MELTING.get(), getMelterRecipes(melterCategory, level, ingredientManager));
-        //Map<Ingredient, List<SieveRecipe>> grouped = new HashMap<>();
-        //AllSieveProviders.register();
-        //for (SieveRecipe recipe : SieveBlock.recipes) grouped.computeIfAbsent(recipe.ingredient, i -> new ArrayList<>()).add(recipe);
-        //List<SieveRecipeJEI> recipes = grouped.entrySet().stream().map(entry -> new SieveRecipeJEI(entry.getKey(), entry.getValue())).toList();
-        //registration.addRecipes(EmbersRecipesJEI.SIFTING, recipes);
     }
 
     @Override
@@ -106,43 +99,60 @@ public class EmbersJEI implements IModPlugin {
         return recipeManager.getAllRecipesFor(recipeType).stream().filter(validator::isRecipeHandled).toList();
     }
 
-    @SuppressWarnings("removal")
     @Override
     public void registerItemSubtypes(ISubtypeRegistration reg) {
-        reg.registerSubtypeInterpreter(
-                VanillaTypes.ITEM_STACK,
-                AllItems.BAKED_TOOL.get(),
-                (stack, ctx) -> {
-                    var data = stack.get(AllDataComponents.TOOL_PARTS);
-                    if (data == null || data.isEmpty()) return mezz.jei.api.ingredients.subtypes.IIngredientSubtypeInterpreter.NONE;
-
-                    var sb = new StringBuilder();
-                    for (var s : data.itemsCopy()) {
-                        if (s.isEmpty()) continue;
-                        var id = BuiltInRegistries.ITEM.getKey(s.getItem());
-                        sb.append(id).append('#').append(s.getCount()).append(';');
-                    }
-                    return sb.toString();
-                }
-        );
+        reg.registerSubtypeInterpreter(AllItems.DYNAMIC_PART.get(), EmbersSubtypeInterpreters.PART_INSTANCE);
+        reg.registerSubtypeInterpreter(AllItems.MODULAR_ITEM.get(), EmbersSubtypeInterpreters.MODULAR_INSTANCE);
     }
 
     @Override
     public void onRuntimeAvailable(IJeiRuntime rt) {
         var im = rt.getIngredientManager();
-        var variants = new java.util.ArrayList<ItemStack>();
 
-        for (var material : MATERIAL_TYPES) getToolMixture(material).forEach((tool, parts) -> {
-            if (parts.isEmpty()) return;
-            var toolStack = AllItems.BAKED_TOOL.asStack();
-            var list = net.minecraft.core.NonNullList.<ItemStack>create();
-            list.addAll(parts);
-            var rod = Items.STICK.getDefaultInstance();
-            rod.setCount(testRodCount(tool));
-            list.add(rod);
-            toolStack.set(AllDataComponents.TOOL_PARTS, new DataToolParts(list));
-            variants.add(toolStack);
-        });
+        var variants = new ArrayList<ItemStack>();
+
+        var materials = AllDynamicTypes.getAllMaterials().stream()
+                .sorted(Comparator.comparingInt(type -> type.sortOrder)).toList();
+        var parts = AllDynamicTypes.getAllParts().stream()
+                .sorted(Comparator.comparingInt(type -> type.sortOrder)).toList();
+        var modulars = AllDynamicTypes.getAllModulars().stream()
+                .sorted(Comparator.comparingInt(type -> type.sortOrder)).toList();
+
+        for (var material : materials) for (var part : parts) {
+            var item = AllItems.DYNAMIC_PART.get();
+            var stack = item.getDefaultInstance();
+
+            item.setMaterialType(stack, material);
+            item.setPartType(stack, part);
+
+            variants.add(stack);
+        }
+
+        for (var material : materials) for (var modular : modulars) {
+            var result = modular.getResultStack();
+            if (!result.isEmpty()) continue;
+            var baseTool = AllItems.MODULAR_ITEM.asStack();
+            var toolParts = new ArrayList<ItemStack>();
+            for (var part : AllDynamicTypes.getAllPartsFromModular(modular)) {
+                var dynamicPart = AllItems.DYNAMIC_PART.get();
+                var stack = dynamicPart.getDefaultInstance();
+                dynamicPart.setMaterialType(stack, material);
+                dynamicPart.setPartType(stack, part);
+                stack.set(AllDataComponents.BUILT, modular.id);
+                toolParts.add(stack);
+            }
+
+            if (modular.finalSegmentStacks != null && !modular.finalSegmentStacks.isEmpty()) toolParts.addAll(modular.finalSegmentStacks);
+
+            if (material.fireProof) baseTool.set(DataComponents.FIRE_RESISTANT, Unit.INSTANCE);
+
+            baseTool.set(AllDataComponents.DYNAMIC_PARTS, new DataDynamicParts(toolParts));
+            baseTool.set(AllDataComponents.BAKED, modular.id);
+            baseTool.set(AllDataComponents.MODULAR_TYPE, modular.id);
+
+            variants.add(baseTool);
+        }
+
         im.addIngredientsAtRuntime(VanillaTypes.ITEM_STACK, variants);
     }
 }

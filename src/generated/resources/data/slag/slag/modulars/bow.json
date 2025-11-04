@@ -1,0 +1,19 @@
+{
+  "final_segment_stacks": [
+    {
+      "count": 3,
+      "id": "minecraft:string"
+    },
+    {
+      "count": 3,
+      "id": "minecraft:stick"
+    }
+  ],
+  "id": "slag:bow",
+  "result_stack": {
+    "count": 1,
+    "id": "minecraft:bow"
+  },
+  "sort_order": 100,
+  "stations": "c:player_workstations/crafting_tables"
+}

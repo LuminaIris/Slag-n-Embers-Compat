@@ -3,8 +3,11 @@
   "ingredient": {
     "tag": "c:storage_blocks/redstone"
   },
-  "result": {
-    "amount": 648,
-    "id": "slag:molten_redstone"
-  }
+  "ingredients": [],
+  "result": [
+    {
+      "amount": 648,
+      "id": "slag:molten_redstone"
+    }
+  ]
 }

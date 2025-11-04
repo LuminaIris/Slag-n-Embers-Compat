@@ -1,0 +1,9 @@
+{
+  "id": "slag:sword_blade",
+  "item_tags": [
+    "slag:cast/sword_blades"
+  ],
+  "segment_part": "slag:parts/sword_blades",
+  "sort_order": 4,
+  "speed_modifier": 2.4
+}

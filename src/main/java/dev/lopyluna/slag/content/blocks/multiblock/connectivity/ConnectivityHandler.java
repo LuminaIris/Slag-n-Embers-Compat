@@ -134,9 +134,8 @@ public class ConnectivityHandler {
             beTank = ifluid.getTank(0);
             fluid = beTank.getFluid();
         }
-        if (be instanceof IMultiBlockEntityContainer.FluidMulti ifluid && ifluid.hasTank()) {
-            beTank = ifluid.getTank();
-        }
+        if (be instanceof IMultiBlockEntityContainer.FluidMulti ifluid && ifluid.hasTank()) beTank = ifluid.getTank();
+
         Direction.Axis axis = be.getMainConnectionAxis();
         int maxLen = be.getMaxLength(axis, Math.max(widthX, widthZ));
 
@@ -272,8 +271,6 @@ public class ConnectivityHandler {
             maxCapacity = cr.getTankSize();
             controllerTank = cr.getTank();
             toDistributeList = new ArrayList<>(cr.getFluids());
-            //if (!toDistributeList.isEmpty() && !be.isRemoved()) shrinkFluids(toDistributeList, maxCapacity);
-            //cr.setTankSize(1);
             while (!controllerTank.getFluid().isEmpty()) controllerTank.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.EXECUTE);
         }
 
@@ -295,16 +292,7 @@ public class ConnectivityHandler {
             if (partAt != be) {
                 if (controllerIsMulti && !toDistributeList.isEmpty()) {
                     var tank = (partAt instanceof IMultiBlockEntityContainer.FluidMulti cr && cr.hasTank()) ? cr.getTank() : null;
-                    if (tank != null) for (var distribute : shrinkFluids(toDistributeList, maxCapacity)) {
-                        tank.fill(distribute, IFluidHandler.FluidAction.EXECUTE);
-
-                        //var copy = distribute.copy();
-                        //int split = Math.min(maxCapacity, distribute.getAmount());
-                        //copy.setAmount(split);
-                        //distribute.shrink(split);
-                        //tank.fill(copy, IFluidHandler.FluidAction.EXECUTE);
-                    }
-
+                    if (tank != null) for (var distribute : shrinkFluids(toDistributeList, maxCapacity)) tank.fill(distribute, IFluidHandler.FluidAction.EXECUTE);
                 } else if (!toDistribute.isEmpty()) {
                     FluidStack copy = toDistribute.copy();
                     IFluidTank tank = (partAt instanceof IMultiBlockEntityContainer.Fluid ifluidPart ? ifluidPart.getTank(0) : null);
@@ -403,8 +391,7 @@ public class ConnectivityHandler {
         }
 
         Optional<T> getOrCache(BlockEntityType<?> type, BlockGetter level, BlockPos pos) {
-            if (hasVisited(pos))
-                return controllerMap.get(pos);
+            if (hasVisited(pos)) return controllerMap.get(pos);
 
             T partAt = partAt(type, level, pos);
             if (partAt == null) {

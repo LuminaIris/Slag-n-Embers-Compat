@@ -1,0 +1,10 @@
+{
+  "defence_modifier": 0.325,
+  "id": "slag:boots",
+  "item_tags": [
+    "slag:cast/boots"
+  ],
+  "segment_part": "slag:parts/boots",
+  "sharpness_modifier": 0.0,
+  "sort_order": 10
+}

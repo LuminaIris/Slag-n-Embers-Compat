@@ -62,6 +62,22 @@ public class InterfaceMenu extends AbstractContainerMenu {
         return null;
     }
 
+    public int getCapacity() {
+        var handler = getFluidHandler();
+        if (handler == null) return 0;
+        var capacity = 0;
+        for (int i = 0; handler.getTanks() > i; i++) capacity += handler.getTankCapacity(i);
+        return capacity;
+    }
+
+    public int getAmount() {
+        var handler = getFluidHandler();
+        if (handler == null) return 0;
+        var amount = 0;
+        for (int i = 0; handler.getTanks() > i; i++) amount += handler.getFluidInTank(i).getAmount();
+        return amount;
+    }
+
     public List<FluidStack> getFluids() {
         var list = new ArrayList<FluidStack>();
         var handler = getFluidHandler();

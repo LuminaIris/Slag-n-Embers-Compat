@@ -18,6 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Random;
 
+@SuppressWarnings("unused")
 public class MelterRenderer extends SafeBlockEntityRenderer<MelterBE> {
     public MelterRenderer(BlockEntityRendererProvider.Context context) {}
 
@@ -77,7 +78,7 @@ public class MelterRenderer extends SafeBlockEntityRenderer<MelterBE> {
         float minPuddleHeight = 4 / 16f;
         float totalHeight = 1 - 2 * capHeight - minPuddleHeight;
 
-        float level = fluidLevel.getValue(pt);
+        float level = fluidLevel.getValue(pt) + 0.0225f / 16f;
         if (level < 1 / (512f * totalHeight)) return;
         float clampedLevel = Mth.clamp(level * totalHeight, 0, totalHeight);
         float xMax = tankHullWidth + 1 - 2 * tankHullWidth, yMin = totalHeight + capHeight + minPuddleHeight - clampedLevel, yMax = yMin + clampedLevel, zMax = tankHullWidth + 1 - 2 * tankHullWidth;

@@ -1,0 +1,10 @@
+{
+  "defence_modifier": 0.36,
+  "id": "slag:helmet",
+  "item_tags": [
+    "slag:cast/helmets"
+  ],
+  "segment_part": "slag:parts/helmets",
+  "sharpness_modifier": 0.0,
+  "sort_order": 7
+}

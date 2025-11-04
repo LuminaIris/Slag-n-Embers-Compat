@@ -1,13 +1,16 @@
 {
-  "dura": 512.0,
-  "ench": 9.0,
-  "id": "emerald",
+  "defense": 7.0,
+  "durability": 512.0,
+  "enchantability": 9.0,
+  "id": "slag:emerald",
   "molten_fluid": "slag:molten_emerald",
   "repair_ingredient": {
     "tag": "c:gems/emerald"
   },
-  "sharp": 5.5,
+  "sharpness": 5.5,
+  "sort_order": 100,
   "speed": 8.0,
   "texture": "shiny",
-  "tough": 5.0
+  "tier": 5.0,
+  "toughness": 1.0
 }

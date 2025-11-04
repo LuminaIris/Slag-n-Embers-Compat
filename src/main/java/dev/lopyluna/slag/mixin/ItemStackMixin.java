@@ -1,6 +1,8 @@
 package dev.lopyluna.slag.mixin;
 
-import dev.lopyluna.slag.content.items.modular_tool.BakedModularToolItem;
+import dev.lopyluna.slag.content.AllUtils;
+import dev.lopyluna.slag.content.items.dynamic_part.IDynamicPart;
+import dev.lopyluna.slag.content.items.modular.ModularItem;
 import net.minecraft.core.HolderSet;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -11,31 +13,51 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import static dev.lopyluna.slag.content.AllUtils.matchesToolTag;
+import java.util.ArrayList;
+import java.util.stream.Stream;
 
 @Mixin(ItemStack.class)
 public abstract class ItemStackMixin {
-
     @Shadow public abstract Item getItem();
 
     // ItemStack#is(TagKey<Item>)
     @Inject(method = "is(Lnet/minecraft/tags/TagKey;)Z", at = @At("HEAD"), cancellable = true)
     private void isTag(TagKey<Item> tag, CallbackInfoReturnable<Boolean> cir) {
         var self = (ItemStack)(Object)this;
-        if (self.getItem() instanceof BakedModularToolItem tool) {
-            var value = matchesToolTag(tool, self, tag);
-            if (value != null) cir.setReturnValue(value);
+        var item = self.getItem();
+        if (item instanceof ModularItem tool) {
+            var value = AllUtils.matchesAnyTag(tool, self, tag);
+            if (value) cir.setReturnValue(value);
+        }
+        if (item instanceof IDynamicPart part) {
+            var value = AllUtils.matchesAnyTag(part, self, tag);
+            if (value) cir.setReturnValue(value);
         }
     }
 
     // ItemStack#is(HolderSet<Item>)
     @Inject(method = "is(Lnet/minecraft/core/HolderSet;)Z", at = @At("HEAD"), cancellable = true)
-    private void isHolder(HolderSet<Item> set, CallbackInfoReturnable<Boolean> cir) {
+    private void isHolderSet(HolderSet<Item> set, CallbackInfoReturnable<Boolean> cir) {
         var self = (ItemStack)(Object)this;
-        if (!(self.getItem() instanceof BakedModularToolItem tool)) return;
-        if (set instanceof HolderSet.Named<Item> named) {
-            var value = matchesToolTag(tool, self, named.key());
-            if (value != null) cir.setReturnValue(value);
+        var item = self.getItem();
+        if (item instanceof ModularItem tool && set instanceof HolderSet.Named<Item> named) {
+            var value = AllUtils.matchesAnyTag(tool, self, named.key());
+            if (value) cir.setReturnValue(value);
         }
+        if (item instanceof IDynamicPart part && set instanceof HolderSet.Named<Item> named) {
+            var value = AllUtils.matchesAnyTag(part, self, named.key());
+            if (value) cir.setReturnValue(value);
+        }
+    }
+
+    // ItemStack#getTags()
+    @Inject(method = "getTags()Ljava/util/stream/Stream;", at = @At("RETURN"), cancellable = true)
+    public void getTags(CallbackInfoReturnable<Stream<TagKey<Item>>> cir) {
+        var tags = new ArrayList<>(cir.getReturnValue().toList());
+        var self = (ItemStack)(Object)this;
+        var item = self.getItem();
+        if (item instanceof ModularItem tool) tags.addAll(AllUtils.getTags(tool, self));
+        if (item instanceof IDynamicPart part) tags.addAll(AllUtils.getTags(part, self));
+        cir.setReturnValue(tags.stream());
     }
 }

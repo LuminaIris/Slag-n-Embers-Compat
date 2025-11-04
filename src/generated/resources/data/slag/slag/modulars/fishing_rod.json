@@ -1,0 +1,19 @@
+{
+  "final_segment_stacks": [
+    {
+      "count": 3,
+      "id": "minecraft:string"
+    },
+    {
+      "count": 2,
+      "id": "minecraft:stick"
+    }
+  ],
+  "id": "slag:fishing_rod",
+  "result_stack": {
+    "count": 1,
+    "id": "minecraft:fishing_rod"
+  },
+  "sort_order": 100,
+  "stations": "c:player_workstations/crafting_tables"
+}

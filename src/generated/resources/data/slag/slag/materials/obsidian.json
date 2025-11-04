@@ -1,13 +1,17 @@
 {
-  "dura": 2560.0,
-  "ench": 21.0,
-  "id": "obsidian",
+  "defense": 7.0,
+  "durability": 2560.0,
+  "enchantability": 21.0,
+  "id": "slag:obsidian",
+  "knockback_resistance": 0.1,
   "molten_fluid": "slag:molten_obsidian",
   "repair_ingredient": {
     "tag": "c:obsidians"
   },
-  "sharp": 6.5,
+  "sharpness": 6.5,
+  "sort_order": 90,
   "speed": 5.0,
   "texture": "shiny",
-  "tough": 5.0
+  "tier": 5.0,
+  "toughness": 5.0
 }

@@ -3,8 +3,11 @@
   "ingredient": {
     "tag": "c:nuggets/emerald"
   },
-  "result": {
-    "amount": 18,
-    "id": "slag:molten_emerald"
-  }
+  "ingredients": [],
+  "result": [
+    {
+      "amount": 18,
+      "id": "slag:molten_emerald"
+    }
+  ]
 }

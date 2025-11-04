@@ -3,8 +3,11 @@
   "ingredient": {
     "tag": "c:ores/diamond"
   },
-  "result": {
-    "amount": 108,
-    "id": "slag:molten_diamond"
-  }
+  "ingredients": [],
+  "result": [
+    {
+      "amount": 108,
+      "id": "slag:molten_diamond"
+    }
+  ]
 }

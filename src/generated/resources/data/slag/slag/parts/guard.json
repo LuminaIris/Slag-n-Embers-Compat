@@ -1,0 +1,10 @@
+{
+  "durability_modifier": 0.28,
+  "id": "slag:guard",
+  "item_tags": [
+    "slag:cast/guards"
+  ],
+  "segment_part": "slag:parts/guards",
+  "sort_order": 5,
+  "speed_modifier": 2.4
+}

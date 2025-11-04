@@ -3,8 +3,11 @@
   "ingredient": {
     "tag": "c:obsidians"
   },
-  "result": {
-    "amount": 648,
-    "id": "slag:molten_obsidian"
-  }
+  "ingredients": [],
+  "result": [
+    {
+      "amount": 648,
+      "id": "slag:molten_obsidian"
+    }
+  ]
 }
