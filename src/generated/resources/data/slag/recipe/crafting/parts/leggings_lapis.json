@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "M": {
+      "tag": "c:gems/lapis"
+    },
+    "R": {
+      "item": "minecraft:paper"
+    }
+  },
+  "pattern": [
+    "MMM",
+    "M M",
+    "R R"
+  ],
+  "result": {
+    "components": {
+      "slag:material_type": "slag:lapis",
+      "slag:part_type": "slag:leggings"
+    },
+    "count": 1,
+    "id": "slag:dynamic_part"
+  }
+}

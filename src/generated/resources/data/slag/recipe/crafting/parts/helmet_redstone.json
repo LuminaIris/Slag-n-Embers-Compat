@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "M": {
+      "tag": "c:dusts/redstone"
+    },
+    "R": {
+      "item": "minecraft:paper"
+    }
+  },
+  "pattern": [
+    "MMM",
+    "R R"
+  ],
+  "result": {
+    "components": {
+      "slag:material_type": "slag:redstone",
+      "slag:part_type": "slag:helmet"
+    },
+    "count": 1,
+    "id": "slag:dynamic_part"
+  }
+}

@@ -1,11 +1,11 @@
 {
   "final_segment_stacks": [
     {
-      "count": 3,
+      "count": 2,
       "id": "minecraft:string"
     },
     {
-      "count": 2,
+      "count": 3,
       "id": "minecraft:stick"
     }
   ],

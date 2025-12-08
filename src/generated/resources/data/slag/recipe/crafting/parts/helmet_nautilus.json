@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "M": {
+      "item": "minecraft:nautilus_shell"
+    },
+    "R": {
+      "item": "minecraft:paper"
+    }
+  },
+  "pattern": [
+    "MMM",
+    "R R"
+  ],
+  "result": {
+    "components": {
+      "slag:material_type": "slag:nautilus",
+      "slag:part_type": "slag:helmet"
+    },
+    "count": 1,
+    "id": "slag:dynamic_part"
+  }
+}

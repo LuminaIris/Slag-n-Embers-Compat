@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "M": {
+      "tag": "c:gems/quartz"
+    },
+    "R": {
+      "item": "minecraft:paper"
+    }
+  },
+  "pattern": [
+    "MM",
+    " R",
+    " R"
+  ],
+  "result": {
+    "components": {
+      "slag:material_type": "slag:quartz",
+      "slag:part_type": "slag:hoe_head"
+    },
+    "count": 1,
+    "id": "slag:dynamic_part"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "M": {
+      "tag": "c:gems/amethyst"
+    },
+    "R": {
+      "item": "minecraft:paper"
+    }
+  },
+  "pattern": [
+    "R R",
+    "M M"
+  ],
+  "result": {
+    "components": {
+      "slag:material_type": "slag:amethyst",
+      "slag:part_type": "slag:boots"
+    },
+    "count": 1,
+    "id": "slag:dynamic_part"
+  }
+}

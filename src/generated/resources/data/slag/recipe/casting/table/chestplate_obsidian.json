@@ -1,0 +1,16 @@
+{
+  "type": "slag:table_casting",
+  "cast": "slag:cast/chestplates",
+  "ingredient": {
+    "amount": 3888,
+    "id": "slag:molten_obsidian"
+  },
+  "result": {
+    "components": {
+      "slag:material_type": "slag:obsidian",
+      "slag:part_type": "slag:chestplate"
+    },
+    "count": 1,
+    "id": "slag:dynamic_part"
+  }
+}

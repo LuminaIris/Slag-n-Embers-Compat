@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "M": {
+      "tag": "c:gems/diamond"
+    },
+    "R": {
+      "item": "minecraft:paper"
+    }
+  },
+  "pattern": [
+    "M",
+    "R",
+    "R"
+  ],
+  "result": {
+    "components": {
+      "slag:material_type": "slag:diamond",
+      "slag:part_type": "slag:shovel_head"
+    },
+    "count": 1,
+    "id": "slag:dynamic_part"
+  }
+}

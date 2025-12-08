@@ -64,7 +64,7 @@ public class ModularItem extends Item implements IModularItem {
             var parts = getParts(stack);
             if (parts == null) return pass;
             var modularType = getModularTypeFromParts(parts);
-            if (modularType == null || !modularType.equalFinalSegmentStacks(parts.getAllNonDynamicParts())) return pass;
+            if (modularType == null) return pass;
             var result = modularType.getResultStack();
             if (!result.isEmpty()) {
                 playBuildSound(player, null);
@@ -79,7 +79,7 @@ public class ModularItem extends Item implements IModularItem {
                 part.set(AllDataComponents.BUILT, typeID);
             }
             stack.set(AllDataComponents.BAKED, typeID);
-            stack.set(AllDataComponents.MODULAR_TYPE, modularType.id);
+            stack.set(AllDataComponents.MODULAR_TYPE, typeID);
             if (fireImmune) stack.set(DataComponents.FIRE_RESISTANT, Unit.INSTANCE);
             setParts(stack, toolParts);
             playBuildSound(player, null);
@@ -89,7 +89,8 @@ public class ModularItem extends Item implements IModularItem {
     }
 
     public boolean containsStack(List<ItemStack> stacks, ItemStack stack) {
-        for (var part : stacks) if (ItemStack.isSameItemSameComponents(stack, part)) return true;
+        if (stack.isEmpty()) return true;
+        for (var part : stacks) if (ItemStack.isSameItemSameComponents(stack, part) && part.getCount() >= stack.getCount()) return true;
         return false;
     }
 
@@ -146,18 +147,25 @@ public class ModularItem extends Item implements IModularItem {
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext ctx, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, ctx, tooltip, flag);
+        var parts = getParts(stack);
+        if (parts == null) return;
+        var modularType = getModularTypeFromParts(parts);
+        if (modularType != null) {
+            var count = modularType.getResultStack().getCount();
+            tooltip.add(Component.literal(RegistrateLangProvider.toEnglishName(modularType.id.getPath())).append(count > 1 ? " x" + count : "").withStyle(ChatFormatting.YELLOW));
+        }
+
         if (!hasModularType(stack)) {
-            var parts = getParts(stack);
-            if (parts == null) return;
-            var modularType = getModularTypeFromParts(parts);
-            if (modularType != null) {
-                var count = modularType.getResultStack().getCount();
-                tooltip.add(Component.literal(RegistrateLangProvider.toEnglishName(modularType.id.getPath())).append(count > 1 ? " x" + count : "").withStyle(ChatFormatting.YELLOW));
-            }
 
             var copyParts = parts.itemsCopy();
             if (copyParts == null || copyParts.isEmpty()) return;
+            var possibleModulars = parts.getPossibleModulars();
+            if (modularType == null) {
+                if (!possibleModulars.isEmpty()) tooltip.add(Component.literal("Possible Items:").withStyle(ChatFormatting.GRAY));
+                for (var modular : possibleModulars) tooltip.add(Component.literal(" ").append(RegistrateLangProvider.toEnglishName(modular.id.getPath())).withStyle(ChatFormatting.GRAY));
+            }
             var possibleParts = parts.getPossibleParts();
+            if (!possibleParts.isEmpty() && !possibleModulars.isEmpty()) tooltip.add(Component.literal(" "));
             if (!possibleParts.isEmpty()) tooltip.add(Component.literal("Possible Parts:").withStyle(ChatFormatting.GRAY));
             for (var part : possibleParts) {
                 if (part instanceof ItemStack partStack) tooltip.add(Component.literal(" ").append(partStack.getHoverName()).append(" x" + partStack.getCount()).withStyle(ChatFormatting.GRAY));
@@ -191,32 +199,21 @@ public class ModularItem extends Item implements IModularItem {
 
     @SuppressWarnings("SameParameterValue")
     private void playBuildSound(Entity entity, @Nullable SoundEvent event) {
-        entity.playSound(event != null ? event : SoundEvents.ANVIL_USE, 0.8F, 0.8F + entity.level().getRandom().nextFloat() * 0.4F);
-    }
-
-    public ModularType getModularTypeFromParts(DataDynamicParts parts) {
-        for (var modular : AllDynamicTypes.getAllModulars()) if (parts.hasAllDynamicPartSegments(modular.segments) && (modular.equalFinalSegmentStacks(parts.getAllNonDynamicParts()))) return modular;
-        return null;
-    }
-    public ModularType getModularTypeFromStack(ItemStack stack) {
-        var parts = getParts(stack);
-        if (parts == null) return null;
-        return getModularTypeFromParts(parts);
+        entity.playSound(event != null ? event : SoundEvents.CRAFTER_CRAFT, 0.8F, 0.8F + entity.level().getRandom().nextFloat() * 0.4F);
     }
 
     @Override
     public @NotNull String getDescriptionId(ItemStack stack) {
         var id = super.getDescriptionId(stack);
-        if (!stack.has(AllDataComponents.BAKED)) return id;
+        var modularType = stack.get(AllDataComponents.MODULAR_TYPE);
+        if (modularType == null) return id;
         var parts = getParts(stack);
         if (parts == null) return id;
-        var modularType = getModularTypeFromParts(parts);
-        if (modularType == null) return id;
         var materialTypes = getMaterialTypes(parts);
-        if (materialTypes.isEmpty()) return "item." + modularType.id.toString().replace(":", ".");
+        if (materialTypes.isEmpty()) return "item." + modularType.toString().replace(":", ".");
         StringBuilder materials = new StringBuilder();
         for (var material : materialTypes) materials.append(material.id.getPath()).append("_");
-        return "item." + modularType.id.getNamespace() + "." + materials + modularType.id.getPath();
+        return "item." + modularType.getNamespace() + "." + materials + modularType.getPath();
     }
 
     @Override

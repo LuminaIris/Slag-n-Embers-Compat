@@ -354,14 +354,14 @@ public class ModularType {
 
     public boolean containsStack(ItemStack stack) {
         if (stack == null || stack.isEmpty()) return false;
-        for (var finalStack : finalSegmentStacks) if (ItemStack.isSameItemSameComponents(finalStack, stack) && stack.getCount() == finalStack.getCount()) return true;
+        for (var finalStack : finalSegmentStacks) if (stack.getItem().equals(finalStack.getItem()) && stack.getCount() == finalStack.getCount()) return true;
         return false;
     }
 
     public boolean containsTag(ItemStack stack) {
         if (!(stack.getItem() instanceof IDynamicPart part)) return false;
         var partSegment = part.getPartSegment(stack);
-        for (var segment : segments) if (partSegment.equals(segment)) return true;
+        for (var segment : segments) if (partSegment.location().equals(segment.location())) return true;
         return false;
     }
 

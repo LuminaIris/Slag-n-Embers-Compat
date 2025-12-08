@@ -3,11 +3,14 @@ package dev.lopyluna.slag.content.items.dynamic_part;
 import com.mojang.datafixers.util.Pair;
 import dev.lopyluna.slag.content.items.modular.DataDynamicParts;
 import dev.lopyluna.slag.content.types.MaterialType;
+import dev.lopyluna.slag.content.types.ModularType;
 import dev.lopyluna.slag.register.AllDataComponents;
+import dev.lopyluna.slag.register.AllDynamicTypes;
 import dev.lopyluna.slag.register.AllLangs;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -15,12 +18,65 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.Tags;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.ToDoubleBiFunction;
 
 @SuppressWarnings("unused")
 public interface IModularItem {
+    default ModularType getModularTypeFromParts(@Nullable DataDynamicParts parts) { //WORKS NOW
+        if (parts == null || parts.isEmpty()) return null;
+        var tags = parts.getAllDynamicPartSegments();
+        var stacks = parts.getAllNonDynamicParts();
+        var sizeTags = tags.size();
+        var sizeStacks = stacks.size();
+
+        for (var modular : AllDynamicTypes.getAllModulars()) {
+            if (!containsExactlyAllStacks(stacks, modular.finalSegmentStacks)) continue;
+            if (!containsExactlyAllTags(tags, modular.segments)) continue;
+            return modular;
+        }
+        return null;
+    }
+
+    default boolean containsExactlyAllStacks(List<ItemStack> stacks, List<ItemStack> otherStacks) {
+        if (stacks.size() != otherStacks.size()) return false;
+        for (var stack : stacks) {
+            var found = false;
+            for (var otherStack : otherStacks) if (equalStack(stack, otherStack)) {
+                found = true;
+                break;
+            }
+            if (!found) return false;
+        }
+        return true;
+    }
+    default boolean containsExactlyAllTags(List<TagKey<Item>> tags, List<TagKey<Item>> otherTags) {
+        if (tags.size() != otherTags.size()) return false;
+        for (var tag : tags) {
+            var found = false;
+            for (var otherTag : otherTags) if (equalTags(tag, otherTag)) {
+                found = true;
+                break;
+            }
+            if (!found) return false;
+        }
+        return true;
+    }
+    default boolean equalStack(ItemStack aStack, ItemStack bStack) {
+        return aStack.getItem().equals(bStack.getItem()) && aStack.getCount() == bStack.getCount();
+    }
+    default boolean equalTags(TagKey<Item> aTag, TagKey<Item> bTag) {
+        return aTag.location().equals(bTag.location()) && aTag.registry().location().equals(bTag.registry().location());
+    }
+
+    default ModularType getModularTypeFromStack(ItemStack stack) {
+        var parts = getParts(stack);
+        if (parts == null) return null;
+        return getModularTypeFromParts(parts);
+    }
+
     default List<Pair<ItemStack, IDynamicPart>> getDynamicParts(ItemStack pStack) {
         var parts = new ArrayList<Pair<ItemStack, IDynamicPart>>();
         var dataParts = getParts(pStack);

@@ -192,8 +192,8 @@ public class AllModulars {
             .register());
     public static final ModularType FISHING_ROD = register(new ModularType.Builder("fishing_rod")
             .sortOrder(100)
-            .addSegmentStack(Items.STRING, 3)
-            .addSegmentStack(Items.STICK, 2)
+            .addSegmentStack(Items.STRING, 2)
+            .addSegmentStack(Items.STICK, 3)
             .resultStack(Items.FISHING_ROD)
             .stations(Tags.Items.PLAYER_WORKSTATIONS_CRAFTING_TABLES)
             .register());

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_guard": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:guards"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "slag:crafting/parts/guard_glowstone"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_guard"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "slag:crafting/parts/guard_glowstone"
+    ]
+  }
+}

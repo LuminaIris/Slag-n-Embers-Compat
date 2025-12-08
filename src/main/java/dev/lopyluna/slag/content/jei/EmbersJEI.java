@@ -142,7 +142,11 @@ public class EmbersJEI implements IModPlugin {
                 toolParts.add(stack);
             }
 
-            if (modular.finalSegmentStacks != null && !modular.finalSegmentStacks.isEmpty()) toolParts.addAll(modular.finalSegmentStacks);
+            if (modular.finalSegmentStacks != null && !modular.finalSegmentStacks.isEmpty()) {
+                var newStacks = new ArrayList<>(modular.finalSegmentStacks);
+                for (var stack : newStacks) stack.set(AllDataComponents.BUILT, modular.id);
+                toolParts.addAll(newStacks);
+            }
 
             if (material.fireProof) baseTool.set(DataComponents.FIRE_RESISTANT, Unit.INSTANCE);
 

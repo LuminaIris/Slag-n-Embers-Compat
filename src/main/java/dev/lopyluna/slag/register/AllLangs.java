@@ -115,7 +115,7 @@ public class AllLangs {
         REG.addLang("tooltip", SlagEmbers.loc("modular_tool_crafting_hammer_weak"), "Use Rock/Wood type item or Mallet/Hammers on the Blueprint to combine!");
         REG.addLang("tooltip", SlagEmbers.loc("modular_tool_crafting_hammer"), "Use Mallet/Hammers with Forging Tier >= '%s' on the Blueprint to combine!");
 
-        REG.addLang("tooltip", SlagEmbers.loc("modular_tool_waiting"), "Insert Tool Parts to get started!");
+        REG.addLang("tooltip", SlagEmbers.loc("modular_tool_waiting"), "Insert Parts to get started!");
 
         REG.addLang("tooltip", SlagEmbers.loc("modular_stats"), "Modular Stats");
         REG.addLang("tooltip", SlagEmbers.loc("modular_defense"), "Defense");

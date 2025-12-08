@@ -12,7 +12,7 @@ public class ReloadModelsCommand {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(
             Commands.literal("slag")
-                .then(Commands.literal("reloadmodels")
+                .then(Commands.literal("reloadModels")
                     .requires(source -> source.hasPermission(2))
                     .executes(ReloadModelsCommand::execute)
                 )

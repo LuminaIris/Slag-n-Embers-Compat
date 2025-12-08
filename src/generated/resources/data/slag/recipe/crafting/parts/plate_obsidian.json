@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "M": {
+      "tag": "c:obsidians"
+    },
+    "R": {
+      "item": "minecraft:paper"
+    }
+  },
+  "pattern": [
+    "MR",
+    "RM"
+  ],
+  "result": {
+    "components": {
+      "slag:material_type": "slag:obsidian",
+      "slag:part_type": "slag:plate"
+    },
+    "count": 1,
+    "id": "slag:dynamic_part"
+  }
+}

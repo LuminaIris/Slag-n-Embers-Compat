@@ -74,6 +74,14 @@ public class AllItems {
                                     .texture("layer0", SlagEmbers.locMC("trims/items/leggings_trim_" + trim.location().getPath()))).end();
                 });
             }).recipe((c, p) -> {
+                ShapelessRecipeBuilder.shapeless(RecipeCategory.TOOLS, c.get())
+                        .requires(Items.PAPER)
+                        .requires(Items.PAPER)
+                        .requires(Items.PAPER)
+                        .requires(Items.CLAY_BALL)
+                        .unlockedBy("has_paper", has(Items.PAPER))
+                        .save(p, SlagEmbers.loc("crafting/" + c.getName()));
+
                 var materials = AllDynamicTypes.getAllMaterials();
                 var parts = AllDynamicTypes.getAllParts();
                 if (materials.isEmpty() || parts.isEmpty()) return;
@@ -114,14 +122,7 @@ public class AllItems {
                         }
                     }
                 }
-            }).recipe((c, p) -> ShapelessRecipeBuilder.shapeless(RecipeCategory.TOOLS, c.get())
-                    .requires(Items.PAPER)
-                    .requires(Items.PAPER)
-                    .requires(Items.PAPER)
-                    .requires(Items.CLAY_BALL)
-                    .unlockedBy("has_paper", has(Items.PAPER))
-                    .save(p, SlagEmbers.loc("crafting/" + c.getName()))
-            ).lang("Modular Blueprint")
+            }).lang("Modular Blueprint")
             .register();
 
     public static final ItemEntry<BakedModularToolItem> BAKED_TOOL = REG.item("baked_tool", BakedModularToolItem::new)

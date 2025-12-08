@@ -1,0 +1,16 @@
+{
+  "type": "slag:table_casting",
+  "cast": "slag:cast/pickaxe_heads",
+  "ingredient": {
+    "amount": 216,
+    "id": "slag:molten_prismarine"
+  },
+  "result": {
+    "components": {
+      "slag:material_type": "slag:prismarine",
+      "slag:part_type": "slag:pickaxe_head"
+    },
+    "count": 1,
+    "id": "slag:dynamic_part"
+  }
+}

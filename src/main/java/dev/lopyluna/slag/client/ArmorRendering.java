@@ -58,6 +58,7 @@ public class ArmorRendering {
                     int j = extensions.getArmorLayerTintColor(stack, living, layer, layerIdx, fallbackColor);
 
                     var textures = item.getArmorTextures(stack, living, slot, layer, flag);
+                    if (textures == null || textures.isEmpty()) break;
                     var base = textures.getFirst();
                     spriteBase = atlas.getSprite(base);
 

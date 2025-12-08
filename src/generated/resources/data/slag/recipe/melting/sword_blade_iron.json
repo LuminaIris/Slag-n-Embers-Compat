@@ -1,0 +1,19 @@
+{
+  "type": "slag:melting",
+  "ingredients": [
+    {
+      "components": {
+        "slag:material_type": "slag:iron",
+        "slag:part_type": "slag:sword_blade"
+      },
+      "count": 1,
+      "id": "slag:dynamic_part"
+    }
+  ],
+  "result": [
+    {
+      "amount": 144,
+      "id": "slag:molten_iron"
+    }
+  ]
+}

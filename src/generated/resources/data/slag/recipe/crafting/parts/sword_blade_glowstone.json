@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "M": {
+      "item": "minecraft:glowstone"
+    },
+    "R": {
+      "item": "minecraft:paper"
+    }
+  },
+  "pattern": [
+    "M",
+    "M",
+    "R"
+  ],
+  "result": {
+    "components": {
+      "slag:material_type": "slag:glowstone",
+      "slag:part_type": "slag:sword_blade"
+    },
+    "count": 1,
+    "id": "slag:dynamic_part"
+  }
+}

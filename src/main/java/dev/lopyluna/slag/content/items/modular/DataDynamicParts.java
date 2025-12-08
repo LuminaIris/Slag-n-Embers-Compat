@@ -3,23 +3,20 @@ package dev.lopyluna.slag.content.items.modular;
 import com.mojang.serialization.Codec;
 import dev.lopyluna.slag.content.items.dynamic_part.IDynamicPart;
 import dev.lopyluna.slag.content.types.ModularType;
+import dev.lopyluna.slag.register.AllDataComponents;
 import dev.lopyluna.slag.register.AllDynamicTypes;
-import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static net.minecraft.world.item.ItemStack.isSameItemSameComponents;
@@ -73,14 +70,6 @@ public class DataDynamicParts implements TooltipComponent {
         return containsAll(have, required);
     }
 
-    public boolean containsAll(List<TagKey<Item>> have, List<TagKey<Item>> need) {
-        if (have == null || need == null) return false;
-        for (var n : need) if (!have.contains(n)) return false;
-        for (var h : have) if (!need.contains(h)) return false;
-        return have.size() == need.size();
-    }
-
-
     public ItemStack getItemUnsafe(int index) {
         return this.items.get(index);
     }
@@ -111,6 +100,17 @@ public class DataDynamicParts implements TooltipComponent {
         for (var stack : this.items) {
             if (!(stack.getItem() instanceof IDynamicPart)) continue;
             items.add(stack.copy());
+        }
+        return items;
+    }
+    public List<TagKey<Item>> getAllDynamicPartSegments() {
+        if (isEmpty()) return new ArrayList<>();
+        List<TagKey<Item>> items = new ArrayList<>();
+        for (var stack : this.items) {
+            if (!(stack.getItem() instanceof IDynamicPart p)) continue;
+            var seg = p.getPartSegment(stack);
+            if (seg == null) continue;
+            items.add(seg);
         }
         return items;
     }
@@ -182,15 +182,6 @@ public class DataDynamicParts implements TooltipComponent {
         return "ToolParts" + this.items;
     }
 
-    public List<ItemStack> getPossibleStacks() {
-        return getPossibleParts().stream().filter(o -> o instanceof ItemStack).map(o -> (ItemStack) o).toList();
-    }
-
-    @SuppressWarnings("unchecked")
-    public List<TagKey<Item>> getPossibleTags() {
-        return getPossibleParts().stream().filter(o -> o instanceof TagKey).map(o -> (TagKey<Item>) o).toList();
-    }
-
     public List<ItemStack> getPossibleStacks(List<Object> list) {
         return list.stream().filter(o -> o instanceof ItemStack).map(o -> (ItemStack) o).toList();
     }
@@ -201,27 +192,68 @@ public class DataDynamicParts implements TooltipComponent {
     }
 
     public List<Object> getPossibleParts() {
-        var result = new ArrayList<>();
-        var modulars = AllDynamicTypes.getAllModulars();
+        //var result = new ArrayList<>();
+        //var modulars = AllDynamicTypes.getAllModulars();
 
-        if (this.isEmpty()) {
-            for (var modular : modulars) {
-                for (var sStack : modular.finalSegmentStacks) if (!containsStack(result, sStack)) result.add(sStack);
-                for (var tag : modular.segments) if (!containsTag(result, tag)) result.add(tag);
-            }
-            return result;
-        }
+        //if (this.isEmpty()) {
+        //    for (var modular : modulars) {
+        //        for (var sStack : modular.finalSegmentStacks) if (!containsStack(result, sStack)) result.add(sStack);
+        //        for (var tag : modular.segments) if (!containsTag(result, tag)) result.add(tag);
+        //    }
+        //    return result;
+        //}
 
-        for (var modular : modulars) {
-            var missingParts = getMissingParts(modular);
-            if (missingParts != null) for (var part : missingParts) if (!contains(result, part)) result.add(part);
-        }
+        //for (var modular : modulars) {
+        //    var missingParts = getMissingParts(modular);
+        //    if (missingParts != null) for (var part : missingParts) if (!contains(result, part)) result.add(part);
+        //}
 
-        return result;
+        //return result;
+        return new ArrayList<>();
     }
 
-    public List<Object> getPossiblePartCombinations(ModularType modular) {
-        return getMissingParts(modular);
+
+    public List<ModularType> getPossibleModulars() {
+        //var result = new ArrayList<ModularType>();
+        //var modulars = AllDynamicTypes.getAllModulars();
+
+        //if (this.isEmpty()) {
+        //    for (var modular : modulars) if (noModularType(result, modular)) result.add(modular);
+        //    return result;
+        //} else for (var modular : getPotentialModulars()) if (noModularType(result, modular)) result.add(modular);
+        //return result;
+        return new ArrayList<>();
+    }
+
+    //public List<Object> getPossiblePartsFromModulars() {
+    //    var has = new ArrayList<>();
+    //    var result = new ArrayList<>();
+    //    var modulars = getPossibleModulars();
+
+    //    for (var stack : this.items) {
+    //        var item = stack.getItem();
+    //        if (item instanceof IDynamicPart dynamic) has.add(dynamic.getPartSegment(stack));
+    //        else has.add(stack);
+    //    }
+
+    //    var item = AllItems.DYNAMIC_PART.get();
+
+    //    for (var modular : modulars) {
+
+
+    //    }
+
+    //    return result;
+    //}
+
+    private List<ModularType> getPotentialModulars() {
+        var potential = new ArrayList<ModularType>();
+        var ignore = new ArrayList<ModularType>();
+
+        for (var modular : AllDynamicTypes.getAllModulars()) for (var item : this.items) if (!modular.contains(item)) ignore.add(modular);
+        for (var modular : AllDynamicTypes.getAllModulars()) if (!ignore.contains(modular)) potential.add(modular);
+
+        return potential;
     }
 
     private List<Object> getMissingParts(ModularType modular) {
@@ -244,43 +276,63 @@ public class DataDynamicParts implements TooltipComponent {
         return missing;
     }
 
+    // Helpers
+    // =====================================================================================================================================================================================
+
     private boolean containsInItems(ItemStack stack) {
-        for (var item : this.items) if (ItemStack.isSameItemSameComponents(item, stack) && item.getCount() == stack.getCount()) return true;
+        for (var item : this.items) if (isSameItemSameSomeComponents(item, stack)) return true;
         return false;
     }
 
     private boolean containsTagInItems(TagKey<Item> tag) {
-        for (var item : this.items) if (item.getItem() instanceof IDynamicPart part && part.getPartSegment(item).equals(tag)) return true;
-        return false;
-    }
-
-    @SuppressWarnings("unchecked")
-    private boolean contains(List<Object> stacks, Object o) {
-        if (o instanceof ItemStack stack) return containsStack(stacks, stack);
-        if (o instanceof TagKey<?> tag) return containsTag(stacks, (TagKey<Item>) tag);
-        return false;
-    }
-
-    private boolean contains(List<Object> stacks, ItemStack stack) {
-        if (containsTag(stacks, stack)) return true;
-        return !(stack.getItem() instanceof IDynamicPart) && containsStack(stacks, stack);
-    }
-
-    private boolean containsStack(List<Object> stacks, ItemStack stack) {
-        for (var o : stacks) if (o instanceof ItemStack part && ItemStack.isSameItemSameComponents(stack, part) && stack.getCount() == part.getCount()) return true;
-        return false;
-    }
-    private boolean containsTag(List<Object> stacks, ItemStack stack) {
-        if (stack.getItem() instanceof IDynamicPart part) {
-            var tag = part.getPartSegment(stack);
-            for (var o : stacks) if (o instanceof TagKey<?>(ResourceKey<? extends Registry<?>> registry, ResourceLocation location) &&
-                    location == tag.location() && registry.location() == tag.registry().location()) return true;
+        for (var item : this.items) {
+            if (item.getItem() instanceof IDynamicPart part && part.getPartSegment(item).equals(tag)) return true;
+            if (item.is(tag)) return true;
         }
         return false;
     }
-    private boolean containsTag(List<Object> stacks, TagKey<Item> tag) {
-        for (var o : stacks) if (o instanceof TagKey<?>(ResourceKey<? extends Registry<?>> registry, ResourceLocation location) &&
-                location == tag.location() && registry.location() == tag.registry().location()) return true;
+
+    private static boolean noModularType(List<ModularType> modulars, ModularType modular) {
+        for (var m : modulars) if (m.equals(modular)) return false;
+        return true;
+    }
+
+    public static boolean isSameItemSameSomeComponents(ItemStack stack, ItemStack other) {
+        if (stack.isEmpty() || other.isEmpty()) return false;
+        if (!ItemStack.isSameItem(stack, other)) return false;
+        if (stack.getCount() != other.getCount()) return false;
+        return containsAllSameSomeComponents(stack.getComponents(), other.getComponents());
+    }
+
+    public static boolean containsAll(List<?> list, List<?> other) {
+        if (list == null || other == null) return false;
+        if (list.isEmpty() || other.isEmpty()) return false;
+        if (list.size() != other.size()) return false;
+        for (var o : other) if (!contains(list, o)) return false;
+        return true;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static boolean contains(List<?> list, Object other) {
+        for (var o : list) {
+            if (o instanceof ItemStack s && other instanceof ItemStack oStack) if (isSameItemSameSomeComponents(s, oStack)) return true;
+            if (o instanceof TagKey<?> t && other instanceof TagKey<?> oTag) if (t.equals(oTag)) return true;
+            if (o instanceof ItemStack s && other instanceof TagKey<?> oTag) if (oTag.isFor(Registries.ITEM) && s.is((TagKey<Item>) oTag)) return true;
+            if (o.equals(other)) return true;
+        }
         return false;
+    }
+
+    public static boolean containsAllSameSomeComponents(DataComponentMap a, DataComponentMap b) {
+        if (a == null || b == null) return false;
+        var aSet = a.keySet();
+        var bSet = b.keySet();
+        aSet.remove(AllDataComponents.BUILT.get());
+        aSet.remove(AllDataComponents.BAKED.get());
+        aSet.remove(AllDataComponents.MODULAR_TYPE.get());
+        bSet.remove(AllDataComponents.BUILT.get());
+        bSet.remove(AllDataComponents.BAKED.get());
+        bSet.remove(AllDataComponents.MODULAR_TYPE.get());
+        return aSet.containsAll(bSet);
     }
 }

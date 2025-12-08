@@ -36,23 +36,34 @@ public class ModularToolItem extends Item {
 
     public ItemStack transmuteTool(ItemStack pStack) {
         var parts = getParts(pStack);
+        if (parts == null || parts.isEmpty()) return pStack;
+        var mutableItems = parts.itemsCopy();
         var i = 0;
-        for (var part : parts.items) {
-            if (part.getItem() instanceof ModularToolPartItem item) part = item.transmuteStack(part);
-            parts.items.set(i, part);
+        for (var part : mutableItems) {
+            if (part.getItem() instanceof ModularToolPartItem tool) mutableItems.set(i, tool.transmuteStack(part));
             i++;
         }
+        var mutableParts = new DataDynamicParts(mutableItems);
         var item = AllItems.MODULAR_ITEM.get();
-        var newStack = item.getDefaultInstance();
-        newStack.set(AllDataComponents.DYNAMIC_PARTS, parts);
-        if (pStack.getItem() instanceof BakedModularToolItem) {
-            var modular = item.getModularTypeFromParts(parts);
-            if (modular != null) {
-                var type = modular.id;
-                newStack.set(AllDataComponents.BAKED, type);
-                newStack.set(AllDataComponents.MODULAR_TYPE, type);
+
+        var modularType = item.getModularTypeFromParts(mutableParts);
+        var baked = pStack.getItem() instanceof BakedModularToolItem;
+
+        var newStack = pStack.transmuteCopy(item);
+        if (modularType != null && baked) {
+            var finalItems = mutableParts.itemsCopy();
+            i = 0;
+            for (var part : finalItems) {
+                part.set(AllDataComponents.BUILT, modularType.id);
+                finalItems.set(i, part);
+                i++;
             }
-        }
+            var finalParts = new DataDynamicParts(finalItems);
+            newStack.set(AllDataComponents.DYNAMIC_PARTS, finalParts);
+            newStack.set(AllDataComponents.BAKED, modularType.id);
+            newStack.set(AllDataComponents.MODULAR_TYPE, modularType.id);
+        } else newStack.set(AllDataComponents.DYNAMIC_PARTS, mutableParts);
+        newStack.remove(AllDataComponents.TOOL_PARTS);
         return newStack;
     }
 }
