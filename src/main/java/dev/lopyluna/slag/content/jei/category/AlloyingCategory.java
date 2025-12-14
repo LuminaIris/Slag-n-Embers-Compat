@@ -37,7 +37,7 @@ public class AlloyingCategory extends AbstractRecipeCategory<RecipeHolder<Alloyi
         super(
                 EmbersRecipesJEI.ALLOYING.get(),
                 Component.translatableWithFallback("gui.slag.category.alloying", "Alloying"),
-                guiHelper.createDrawableItemLike(AllBlocks.BASIN),
+                guiHelper.createDrawableItemLike(AllBlocks.CRUCIBLE),
                 123, 54);
 
         ResourceLocation backgroundTexture = SlagEmbers.loc("textures/gui/jei.png");
@@ -92,6 +92,7 @@ public class AlloyingCategory extends AbstractRecipeCategory<RecipeHolder<Alloyi
                 });
 
         builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 12, 3)
+                .setFluidRenderer(1, false, 1, 1)
                 .setOverlay(tankOverlay, -4, -4)
                 .setBackground(tankBackground, -4, -4);
 
