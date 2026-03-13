@@ -647,7 +647,7 @@
   "tooltip.slag.modular_tool_smithing_table": "Must look at an Smithing Table atleast to combine said planned tool!!!",
   "tooltip.slag.modular_tool_too_few_stick": "Too few Sticks!",
   "tooltip.slag.modular_tool_too_many_stick": "Too many Sticks",
-  "tooltip.slag.modular_tool_waiting": "Insert Tool Parts to get started!",
+  "tooltip.slag.modular_tool_waiting": "Insert Parts to get started!",
   "tooltip.slag.modular_toughness": "Toughness",
   "tooltip.slag.nuggets": "%s Nugget%s",
   "tooltip.slag.parts": "Hold [%s] for Parts",

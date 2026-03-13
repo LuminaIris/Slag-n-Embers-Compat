@@ -127,7 +127,7 @@ public class AllBlocks {
 
                 create(p, "gem", "quartz", Items.QUARTZ, AllFluids.MOLTEN_QUARTZ, MelterBE.INGOT_SIZE, AllTags.CAST_GEMS);
                 create(p, "gem", "amethyst", Items.AMETHYST_SHARD, AllFluids.MOLTEN_AMETHYST, MelterBE.INGOT_SIZE, AllTags.CAST_GEMS);
-                create(p, "gem", "prismarine", Items.PRISMARINE, AllFluids.MOLTEN_PRISMARINE, MelterBE.INGOT_SIZE, AllTags.CAST_GEMS);
+                create(p, "gem", "prismarine", Items.PRISMARINE_CRYSTALS, AllFluids.MOLTEN_PRISMARINE, MelterBE.INGOT_SIZE, AllTags.CAST_GEMS);
 
                 create(p, "dust", "redstone", Items.REDSTONE, AllFluids.MOLTEN_REDSTONE, MelterBE.INGOT_SIZE, AllTags.CAST_DUSTS);
 

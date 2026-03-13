@@ -1,4 +1,4 @@
-// 1.21.1	2025-11-04T16:01:34.4104789	Registrate Provider for slag [Registries, Data Maps, Recipes, Advancements, Loot Tables, Tags (blocks), Tags (enchantments), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.21.1	2026-03-12T16:48:43.6017796	Registrate Provider for slag [Registries, Data Maps, Recipes, Advancements, Loot Tables, Tags (blocks), Tags (enchantments), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 84dbc3390ebdc7b0a227f3e7d472443f25a203b5 assets/slag/blockstates/basin.json
 337be80708574f8549f239b234ba61c8d54326b1 assets/slag/blockstates/crucible.json
 92a02774ee9cd6ad05dd15c3045ac8b2c844bf3a assets/slag/blockstates/crucible_interface.json
@@ -23,8 +23,8 @@ d6755c326371756a763228ff4d1ed8de2cb725d5 assets/slag/blockstates/molten_redstone
 f987b0d16f7744f536ccde69cb64a652228c522c assets/slag/blockstates/molten_rose_gold.json
 47cfac43590c597258fc498fec5a604ff56c5886 assets/slag/blockstates/rose_gold_block.json
 3adae227c18635ebff1aa25c0d3ce3ffc2455625 assets/slag/blockstates/table.json
-161d08e99092755f039b2eac0b07beeabb6fa511 assets/slag/lang/en_ud.json
-5aea0aabeb8f17e078aa09678605b138a33b6b13 assets/slag/lang/en_us.json
+8b623c2712c4bf167dbbb5a814c61bd194f7368b assets/slag/lang/en_ud.json
+15c3e6ed4dde5f98e42328eda8cf7fceeca1cd16 assets/slag/lang/en_us.json
 f395e3af2c9b36f065fba3a7e335cfdbbbad99fa assets/slag/models/block/crucible/block_bottom_window.json
 37c5efe04416a520d7feee9d84d96971a39aa733 assets/slag/models/block/crucible/block_east_bottom_window.json
 02510db8fcce6537ef7963d138a7c1ee02f4d0f2 assets/slag/models/block/crucible/block_east_top_bottom_window.json
@@ -1176,7 +1176,7 @@ f5eb838171f80452b94100ae1b1352b40e798209 data/slag/recipe/casting/table/plate_ob
 23671fe5e0ff5336c4ce92e3afd07062f99c10d7 data/slag/recipe/casting/table/plate_quartz.json
 d4104cb7f786166d70545eb261227bfd547fe600 data/slag/recipe/casting/table/plate_redstone.json
 51b7ad8a9243cfd0c00a04c24873d8eb7ef2de07 data/slag/recipe/casting/table/plate_rose_gold.json
-ee1d4910cabae706725c644c475b94f8aa3160d9 data/slag/recipe/casting/table/prismarine_gem.json
+9a17cb502889cc0149955d77ac65b0947b243401 data/slag/recipe/casting/table/prismarine_gem.json
 a3d1873c0fa8d24976275e4f1cf3563b9db6f61f data/slag/recipe/casting/table/quartz_gem.json
 3ce35dade8253dfeff4d49cd22eb57fed24eb7df data/slag/recipe/casting/table/redstone_dust.json
 6aafc0638487df4a82e282e55495d486da785b2f data/slag/recipe/casting/table/rose_gold_ingot.json

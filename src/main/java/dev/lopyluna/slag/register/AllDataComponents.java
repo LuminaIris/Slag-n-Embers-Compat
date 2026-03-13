@@ -27,9 +27,6 @@ public class AllDataComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Unit>> CUTOUT = REGISTER.components()
             .registerComponentType("cutout", b -> b
                     .persistent(Codec.unit(Unit.INSTANCE)).networkSynchronized(StreamCodec.unit(Unit.INSTANCE)).cacheEncoding());
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<ResourceLocation>> BAKED = REGISTER.components()
-            .registerComponentType("baked", b -> b
-                    .persistent(ResourceLocation.CODEC).networkSynchronized(ResourceLocation.STREAM_CODEC).cacheEncoding());
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<ResourceLocation>> BUILT = REGISTER.components()
             .registerComponentType("built", b -> b

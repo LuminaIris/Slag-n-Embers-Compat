@@ -123,7 +123,7 @@ public class AllUtils {
 
 
     public static boolean matchesAnyTag(ModularItem item, ItemStack self, TagKey<Item> tag) {
-        if ((!item.hasModularType(self) || !self.has(AllDataComponents.BAKED))) return false;
+        if ((!item.hasModularType(self) || !self.has(AllDataComponents.MODULAR_TYPE))) return false;
         var modularType = item.getModularType(self);
         if (modularType == null) return false;
         for (var itemTag : modularType.itemTags) if (eqOrSuperset(tag, itemTag)) return true;
@@ -138,7 +138,7 @@ public class AllUtils {
     }
 
     public static List<TagKey<Item>> getTags(ModularItem item, ItemStack self) {
-        if ((!item.hasModularType(self) || !self.has(AllDataComponents.BAKED))) return List.of();
+        if ((!item.hasModularType(self) || !self.has(AllDataComponents.MODULAR_TYPE))) return List.of();
         var modularType = item.getModularType(self);
         if (modularType == null) return List.of();
         return modularType.itemTags;

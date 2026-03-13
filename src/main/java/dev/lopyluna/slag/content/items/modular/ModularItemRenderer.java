@@ -53,7 +53,7 @@ public class ModularItemRenderer extends CustomRenderedItemModelRenderer {
         var shaper = itemRenderer.getItemModelShaper();
         var manager = shaper.getModelManager();
 
-        var baked = stack.has(AllDataComponents.BAKED);
+        var baked = stack.has(AllDataComponents.MODULAR_TYPE);
         var bakedLoc = stack.get(AllDataComponents.MODULAR_TYPE);
         var modularType = AllDynamicTypes.getModular(bakedLoc).orElse(null);
         var bakedPath = bakedLoc != null ? bakedLoc.getPath() : "";

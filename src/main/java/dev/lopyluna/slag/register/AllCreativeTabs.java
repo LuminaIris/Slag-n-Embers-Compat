@@ -60,7 +60,6 @@ public class AllCreativeTabs {
                 if (material.fireProof) baseTool.set(DataComponents.FIRE_RESISTANT, Unit.INSTANCE);
 
                 baseTool.set(AllDataComponents.DYNAMIC_PARTS, new DataDynamicParts(toolParts));
-                baseTool.set(AllDataComponents.BAKED, modular.id);
                 baseTool.set(AllDataComponents.MODULAR_TYPE, modular.id);
 
                 variants.add(baseTool);
@@ -98,7 +97,6 @@ public class AllCreativeTabs {
                 if (material.fireProof) baseTool.set(DataComponents.FIRE_RESISTANT, Unit.INSTANCE);
 
                 baseTool.set(AllDataComponents.DYNAMIC_PARTS, new DataDynamicParts(toolParts));
-                baseTool.set(AllDataComponents.BAKED, modular.id);
                 baseTool.set(AllDataComponents.MODULAR_TYPE, modular.id);
 
                 return baseTool;

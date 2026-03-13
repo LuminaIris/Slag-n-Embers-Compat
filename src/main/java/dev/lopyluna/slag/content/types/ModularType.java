@@ -6,6 +6,7 @@ import dev.lopyluna.slag.SlagEmbers;
 import dev.lopyluna.slag.content.AllUtils;
 import dev.lopyluna.slag.content.items.dynamic_part.IDynamicPart;
 import dev.lopyluna.slag.content.items.modular.actions.*;
+import dev.lopyluna.slag.register.AllDataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -342,7 +343,7 @@ public class ModularType {
 
     public boolean equalFinalSegmentStacks(List<ItemStack> other) {
         if (this.finalSegmentStacks == null || other == null || (this.finalSegmentStacks.isEmpty() != other.isEmpty())) return false;
-        for (var stack : other) if (!containsStack(stack)) return false;
+        for (var stack : other) if (!containsStack(stack, true)) return false;
         return finalSegmentStacks.size() == other.size();
     }
 
@@ -352,9 +353,11 @@ public class ModularType {
         return itemTags.size() == other.size();
     }
 
-    public boolean containsStack(ItemStack stack) {
+    public boolean containsStack(ItemStack stack, boolean built) {
         if (stack == null || stack.isEmpty()) return false;
-        for (var finalStack : finalSegmentStacks) if (stack.getItem().equals(finalStack.getItem()) && stack.getCount() == finalStack.getCount()) return true;
+        var newStack = stack.copy();
+        if (!built) newStack.remove(AllDataComponents.BUILT);
+        for (var finalStack : finalSegmentStacks) if (ItemStack.isSameItemSameComponents(newStack, finalStack) && newStack.getCount() == finalStack.getCount()) return true;
         return false;
     }
 
@@ -365,9 +368,9 @@ public class ModularType {
         return false;
     }
 
-    public boolean contains(ItemStack stack) {
+    public boolean contains(ItemStack stack, boolean built) {
         if (containsTag(stack)) return true;
-        return !(stack.getItem() instanceof IDynamicPart) && containsStack(stack);
+        return !(stack.getItem() instanceof IDynamicPart) && containsStack(stack, built);
     }
 
     public boolean containsItemTag(TagKey<Item> tag) {

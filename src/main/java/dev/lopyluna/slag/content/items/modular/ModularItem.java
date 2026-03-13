@@ -34,6 +34,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
@@ -59,7 +60,7 @@ public class ModularItem extends Item implements IModularItem {
     public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
         var pass = super.use(level, player, usedHand);
         var stack = player.getItemInHand(usedHand);
-        if (stack.getCount() != 1 || stack.has(AllDataComponents.BAKED)) return pass;
+        if (stack.getCount() != 1 || stack.has(AllDataComponents.MODULAR_TYPE)) return pass;
         if (player.isShiftKeyDown()) {
             var parts = getParts(stack);
             if (parts == null) return pass;
@@ -78,7 +79,6 @@ public class ModularItem extends Item implements IModularItem {
                 if (!fireImmune && part.getItem() instanceof IDynamicPart p) fireImmune = p.isFireImmune(part);
                 part.set(AllDataComponents.BUILT, typeID);
             }
-            stack.set(AllDataComponents.BAKED, typeID);
             stack.set(AllDataComponents.MODULAR_TYPE, typeID);
             if (fireImmune) stack.set(DataComponents.FIRE_RESISTANT, Unit.INSTANCE);
             setParts(stack, toolParts);
@@ -90,20 +90,19 @@ public class ModularItem extends Item implements IModularItem {
 
     public boolean containsStack(List<ItemStack> stacks, ItemStack stack) {
         if (stack.isEmpty()) return true;
-        for (var part : stacks) if (ItemStack.isSameItemSameComponents(stack, part) && part.getCount() >= stack.getCount()) return true;
+        for (var part : stacks) if (stack.is(part.getItem()) && part.getCount() == stack.getCount()) return true;
         return false;
     }
 
     @Override
     public boolean overrideOtherStackedOnMe(ItemStack print, ItemStack other, Slot slot, ClickAction action, Player player, SlotAccess access) {
-        if (print.getCount() != 1 || print.has(AllDataComponents.BAKED)) return false;
+        if (print.getCount() != 1 || print.has(AllDataComponents.MODULAR_TYPE)) return false;
         if (slot.allowModification(player)) {
             var parts = getParts(print);
-            if (parts == null) return false;
+            var bool = false;
             if (other.isEmpty() && parts.isEmpty()) return false;
             var copyParts = parts.itemsCopy();
             if (copyParts == null) return false;
-            var bool = false;
             var possibleParts = parts.getPossibleParts();
             if (other.getItem() instanceof IDynamicPart part) {
                 var possible = parts.getPossibleTags(possibleParts);

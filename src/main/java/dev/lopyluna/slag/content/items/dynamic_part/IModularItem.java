@@ -44,7 +44,7 @@ public interface IModularItem {
         if (stacks.size() != otherStacks.size()) return false;
         for (var stack : stacks) {
             var found = false;
-            for (var otherStack : otherStacks) if (equalStack(stack, otherStack)) {
+            for (var otherStack : otherStacks) if (equalStack(stack, otherStack, false)) {
                 found = true;
                 break;
             }
@@ -64,8 +64,14 @@ public interface IModularItem {
         }
         return true;
     }
-    default boolean equalStack(ItemStack aStack, ItemStack bStack) {
-        return aStack.getItem().equals(bStack.getItem()) && aStack.getCount() == bStack.getCount();
+    default boolean equalStack(ItemStack aStack, ItemStack bStack, boolean built) {
+        var a = aStack.copy();
+        var b = bStack.copy();
+        if (!built) {
+            a.remove(AllDataComponents.BUILT);
+            b.remove(AllDataComponents.BUILT);
+        }
+        return ItemStack.isSameItemSameComponents(a, b) && a.getCount() == b.getCount();
     }
     default boolean equalTags(TagKey<Item> aTag, TagKey<Item> bTag) {
         return aTag.location().equals(bTag.location()) && aTag.registry().location().equals(bTag.registry().location());

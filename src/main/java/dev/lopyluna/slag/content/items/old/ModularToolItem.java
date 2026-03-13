@@ -60,7 +60,6 @@ public class ModularToolItem extends Item {
             }
             var finalParts = new DataDynamicParts(finalItems);
             newStack.set(AllDataComponents.DYNAMIC_PARTS, finalParts);
-            newStack.set(AllDataComponents.BAKED, modularType.id);
             newStack.set(AllDataComponents.MODULAR_TYPE, modularType.id);
         } else newStack.set(AllDataComponents.DYNAMIC_PARTS, mutableParts);
         newStack.remove(AllDataComponents.TOOL_PARTS);

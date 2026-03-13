@@ -36,7 +36,7 @@ public class EmbersSubtypeInterpreters {
         private ModularItemSubtype() {
             super((stack, ctx) -> {
                 var data = stack.get(AllDataComponents.DYNAMIC_PARTS);
-                var bakedId = stack.get(AllDataComponents.BAKED);
+                var bakedId = stack.get(AllDataComponents.MODULAR_TYPE);
 
                 if (data == null || data.isEmpty()) return "";
 
