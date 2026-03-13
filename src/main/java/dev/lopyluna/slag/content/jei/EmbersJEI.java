@@ -1,15 +1,17 @@
 package dev.lopyluna.slag.content.jei;
 
 import dev.lopyluna.slag.SlagEmbers;
+import dev.lopyluna.slag.content.blocks.basin.BasinCastingRecipe;
+import dev.lopyluna.slag.content.blocks.crucible.AlloyingRecipe;
 import dev.lopyluna.slag.content.blocks.forge.DoubleSmeltingRecipe;
 import dev.lopyluna.slag.content.blocks.forge.client.ForgeMenu;
 import dev.lopyluna.slag.content.blocks.forge.client.ForgeScreen;
 import dev.lopyluna.slag.content.blocks.melter.MeltingRecipe;
 import dev.lopyluna.slag.content.blocks.melter.client.MelterMenu;
 import dev.lopyluna.slag.content.blocks.melter.client.MelterScreen;
+import dev.lopyluna.slag.content.blocks.table.TableCastingRecipe;
 import dev.lopyluna.slag.content.items.modular.DataDynamicParts;
-import dev.lopyluna.slag.content.jei.category.DoubleSmeltingCategory;
-import dev.lopyluna.slag.content.jei.category.MeltingCategory;
+import dev.lopyluna.slag.content.jei.category.*;
 import dev.lopyluna.slag.register.*;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -45,6 +47,9 @@ public class EmbersJEI implements IModPlugin {
 
     @Nullable private IRecipeCategory<RecipeHolder<DoubleSmeltingRecipe>> forgeCategory;
     @Nullable private IRecipeCategory<RecipeHolder<MeltingRecipe>> melterCategory;
+    @Nullable private IRecipeCategory<RecipeHolder<TableCastingRecipe>> tableCastingCategory;
+    @Nullable private IRecipeCategory<RecipeHolder<BasinCastingRecipe>> basinCastingCategory;
+    @Nullable private IRecipeCategory<RecipeHolder<AlloyingRecipe>> alloyingCategory;
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration) {
@@ -53,12 +58,18 @@ public class EmbersJEI implements IModPlugin {
 
         registration.addRecipeCategories(forgeCategory = new DoubleSmeltingCategory(guiHelper));
         registration.addRecipeCategories(melterCategory = new MeltingCategory(guiHelper));
+        registration.addRecipeCategories(tableCastingCategory = new TableCastingCategory(guiHelper));
+        registration.addRecipeCategories(basinCastingCategory = new BasinCastingCategory(guiHelper));
+        registration.addRecipeCategories(alloyingCategory = new AlloyingCategory(guiHelper));
     }
 
     @Override
     public void registerRecipes(@NotNull IRecipeRegistration registration) {
         ErrorUtil.checkNotNull(forgeCategory, "furnaceCategory");
         ErrorUtil.checkNotNull(melterCategory, "melterCategory");
+        ErrorUtil.checkNotNull(tableCastingCategory, "tableCastingCategory");
+        ErrorUtil.checkNotNull(basinCastingCategory, "tableCastingCategory");
+        ErrorUtil.checkNotNull(alloyingCategory, "alloyingCategory");
         var ingredientManager = registration.getIngredientManager();
         var level = Minecraft.getInstance().level;
         if (level == null) return;
@@ -66,6 +77,9 @@ public class EmbersJEI implements IModPlugin {
 
         registration.addRecipes(EmbersRecipesJEI.DOUBLE_SMELTING.get(), getBrickForgeRecipes(forgeCategory, level, ingredientManager));
         registration.addRecipes(EmbersRecipesJEI.MELTING.get(), getMelterRecipes(melterCategory, level, ingredientManager));
+        registration.addRecipes(EmbersRecipesJEI.TABLE_CASTING.get(), getTableCastingRecipes(tableCastingCategory, level, ingredientManager));
+        registration.addRecipes(EmbersRecipesJEI.BASIN_CASTING.get(), getBasinCastingRecipes(basinCastingCategory, level, ingredientManager));
+        registration.addRecipes(EmbersRecipesJEI.ALLOYING.get(), getAlloyingRecipes(alloyingCategory, level, ingredientManager));
     }
 
     @Override
@@ -85,6 +99,11 @@ public class EmbersJEI implements IModPlugin {
         registration.addRecipeCatalyst(AllBlocks.FORGE, RecipeTypes.FUELING);
         registration.addRecipeCatalyst(AllBlocks.FORGE, EmbersRecipesJEI.DOUBLE_SMELTING.get());
         registration.addRecipeCatalyst(AllBlocks.MELTER, EmbersRecipesJEI.MELTING.get());
+        registration.addRecipeCatalyst(AllBlocks.TABLE, EmbersRecipesJEI.TABLE_CASTING.get());
+        registration.addRecipeCatalyst(AllItems.SANDSTONE_MOLD, EmbersRecipesJEI.TABLE_CASTING.get());
+        registration.addRecipeCatalyst(AllItems.TERRACOTTA_MOLD, EmbersRecipesJEI.TABLE_CASTING.get());
+        registration.addRecipeCatalyst(AllBlocks.BASIN, EmbersRecipesJEI.BASIN_CASTING.get());
+        registration.addRecipeCatalyst(AllBlocks.CRUCIBLE, EmbersRecipesJEI.ALLOYING.get());
     }
 
     public List<RecipeHolder<DoubleSmeltingRecipe>> getBrickForgeRecipes(IRecipeCategory<RecipeHolder<DoubleSmeltingRecipe>> forgeCategory, ClientLevel level, IIngredientManager manager) {
@@ -94,6 +113,18 @@ public class EmbersJEI implements IModPlugin {
     public List<RecipeHolder<MeltingRecipe>> getMelterRecipes(IRecipeCategory<RecipeHolder<MeltingRecipe>> forgeCategory, ClientLevel level, IIngredientManager manager) {
         CategoryRecipeValidator<MeltingRecipe> validator = new CategoryRecipeValidator<>(forgeCategory, manager, 1);
         return getValidHandledRecipes(level.getRecipeManager(), AllRecipes.MELTING.get(), validator);
+    }
+    public List<RecipeHolder<TableCastingRecipe>> getTableCastingRecipes(IRecipeCategory<RecipeHolder<TableCastingRecipe>> forgeCategory, ClientLevel level, IIngredientManager manager) {
+        CategoryRecipeValidator<TableCastingRecipe> validator = new CategoryRecipeValidator<>(forgeCategory, manager, 1);
+        return getValidHandledRecipes(level.getRecipeManager(), AllRecipes.TABLE_CASTING.get(), validator);
+    }
+    public List<RecipeHolder<BasinCastingRecipe>> getBasinCastingRecipes(IRecipeCategory<RecipeHolder<BasinCastingRecipe>> forgeCategory, ClientLevel level, IIngredientManager manager) {
+        CategoryRecipeValidator<BasinCastingRecipe> validator = new CategoryRecipeValidator<>(forgeCategory, manager, 1);
+        return getValidHandledRecipes(level.getRecipeManager(), AllRecipes.BASIN_CASTING.get(), validator);
+    }
+    public List<RecipeHolder<AlloyingRecipe>> getAlloyingRecipes(IRecipeCategory<RecipeHolder<AlloyingRecipe>> forgeCategory, ClientLevel level, IIngredientManager manager) {
+        CategoryRecipeValidator<AlloyingRecipe> validator = new CategoryRecipeValidator<>(forgeCategory, manager, 1);
+        return getValidHandledRecipes(level.getRecipeManager(), AllRecipes.ALLOYING.get(), validator);
     }
     private static <C extends RecipeInput, T extends Recipe<C>> List<RecipeHolder<T>> getValidHandledRecipes(RecipeManager recipeManager, RecipeType<T> recipeType, CategoryRecipeValidator<T> validator) {
         return recipeManager.getAllRecipesFor(recipeType).stream().filter(validator::isRecipeHandled).toList();
