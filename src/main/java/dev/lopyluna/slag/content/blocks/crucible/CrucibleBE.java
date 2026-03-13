@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings({"all", "unchecked"})
+@SuppressWarnings({"DataFlowIssue", "ConstantValue"})
 public class CrucibleBE extends FluidMultiBlockEntity {
     public boolean hasCover = false;
 
@@ -30,7 +30,7 @@ public class CrucibleBE extends FluidMultiBlockEntity {
         if (level.isClientSide) return;
 
         var tank = getTankInventory();
-        if (tank.tryAlloy(level, 1)) tank.onContentsChanged();
+        if (tank.tryAlloy(level, getHeight() + Math.round(((10f - (getWidthZ() + getWidthX())) / 10f) * 5f))) tank.onContentsChanged();
 
         var cover = hasCover();
         if (cover == null) return;
@@ -86,6 +86,7 @@ public class CrucibleBE extends FluidMultiBlockEntity {
         }
     }
 
+    @SuppressWarnings("unused")
     public boolean isSameController(Level level, BlockPos pos) {
         return level.getBlockEntity(pos) instanceof CrucibleBE be && be.getController().equals(getController());
     }

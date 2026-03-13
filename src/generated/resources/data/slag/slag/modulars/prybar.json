@@ -20,6 +20,5 @@
     "slag:parts/pickaxe_heads",
     "slag:parts/shovel_heads"
   ],
-  "sort_order": 7,
-  "stations": "c:player_workstations/crafting_tables"
+  "sort_order": 7
 }

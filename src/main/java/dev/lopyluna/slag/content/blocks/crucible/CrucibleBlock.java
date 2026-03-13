@@ -1,6 +1,7 @@
 package dev.lopyluna.slag.content.blocks.crucible;
 
 import com.mojang.serialization.MapCodec;
+import dev.lopyluna.slag.config.SlagServerConfigs;
 import dev.lopyluna.slag.content.blocks.multiblock.connectivity.ConnectivityHandler;
 import dev.lopyluna.slag.content.blocks.smart.SmartBlock;
 import dev.lopyluna.slag.content.utils.ShapeUtils;
@@ -62,7 +63,7 @@ public class CrucibleBlock extends SmartBlock<CrucibleBE> {
     public static final MapCodec<CrucibleBlock> CODEC = simpleCodec(CrucibleBlock::new);
 
     public CrucibleBlock(Properties properties) {
-        super(properties);
+        super(properties.forceSolidOn());
         registerDefaultState(super.defaultBlockState().setValue(WINDOW, false).setValue(TOP, true).setValue(BOTTOM, true).setValue(SHAPE, Shape.PLAIN));
     }
 
@@ -176,6 +177,7 @@ public class CrucibleBlock extends SmartBlock<CrucibleBE> {
 
     @Override
     protected @NotNull ItemInteractionResult useItemOn(ItemStack held, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        if (!SlagServerConfigs.INSERT_FLUID_ITEM_INTO_CRUCIBLE.get()) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         if (!(level.getBlockEntity(pos) instanceof CrucibleBE be)) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 
         var ctrl = be.getControllerBE();
@@ -189,7 +191,7 @@ public class CrucibleBlock extends SmartBlock<CrucibleBE> {
         if (available.isEmpty()) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 
         int fillable = tank.fill(available, IFluidHandler.FluidAction.SIMULATE);
-        if (fillable <= 0) return ItemInteractionResult.CONSUME;
+        if (fillable != available.getAmount()) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 
         if (!level.isClientSide) {
             FluidStack drained = itemHandler.drain(fillable, IFluidHandler.FluidAction.EXECUTE);

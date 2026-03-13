@@ -9,14 +9,10 @@ import dev.lopyluna.slag.register.AllDynamicTypes;
 import dev.lopyluna.slag.register.AllLangs;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.ClipContext;
-import net.minecraft.world.level.block.Blocks;
-import net.neoforged.neoforge.common.Tags;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -211,31 +207,25 @@ public interface IModularItem {
             var player = net.minecraft.client.Minecraft.getInstance().player;
             var tier = item.getTier(stack);
 
-            var f = true;
-            if (player != null) {
-                var lookState = level.getBlockState(Item.getPlayerPOVHitResult(level, player, ClipContext.Fluid.NONE).getBlockPos());
-                var size = parts.size();
-                if (size > 4) {
-                    if (!lookState.is(BlockTags.ANVIL)) {
-                        tooltip.add(AllLangs.tr("modular_tool_anvil").withStyle(ChatFormatting.RED));
-                        f = false;
-                    }
-                } else if (size > 3) {
-                    if (!lookState.is(Blocks.SMITHING_TABLE) && !lookState.is(BlockTags.ANVIL)) {
-                        tooltip.add(AllLangs.tr("modular_tool_smithing_table").withStyle(ChatFormatting.RED));
-                        f = false;
-                    }
-                } else {
-                    if (!lookState.is(Tags.Blocks.PLAYER_WORKSTATIONS_CRAFTING_TABLES) && !lookState.is(Blocks.SMITHING_TABLE) && !lookState.is(BlockTags.ANVIL)) {
-                        tooltip.add(AllLangs.tr("modular_tool_crafting_table").withStyle(ChatFormatting.RED));
-                        f = false;
-                    }
-                }
-            }
-            if (f) {
-                if (3.5f >= tier) tooltip.add(AllLangs.tr("modular_tool_crafting_hammer_weak").withStyle(ChatFormatting.RED));
-                else tooltip.add(AllLangs.trArgs("modular_tool_crafting_hammer", String.valueOf(tier)).withStyle(ChatFormatting.RED));
-            }
+            if (3.5f >= tier) tooltip.add(AllLangs.tr("modular_tool_crafting_hammer_weak").withStyle(ChatFormatting.RED));
+            else tooltip.add(AllLangs.trArgs("modular_tool_crafting_hammer", String.valueOf(tier)).withStyle(ChatFormatting.RED));
+
+            //var f = true;
+            //if (player != null) {
+            //    var lookState = level.getBlockState(Item.getPlayerPOVHitResult(level, player, ClipContext.Fluid.NONE).getBlockPos());
+            //    var size = parts.size();
+            //    if (size > 4) {
+            //        if (!lookState.is(BlockTags.ANVIL)) {
+            //            tooltip.add(AllLangs.tr("modular_tool_anvil").withStyle(ChatFormatting.RED));
+            //            f = false;
+            //        }
+            //    }
+            //}
+
+            //if (f) {
+            //    if (3.5f >= tier) tooltip.add(AllLangs.tr("modular_tool_crafting_hammer_weak").withStyle(ChatFormatting.RED));
+            //    else tooltip.add(AllLangs.trArgs("modular_tool_crafting_hammer", String.valueOf(tier)).withStyle(ChatFormatting.RED));
+            //}
         }
     }
 

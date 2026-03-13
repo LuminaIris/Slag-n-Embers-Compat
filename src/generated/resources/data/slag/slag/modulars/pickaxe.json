@@ -17,6 +17,5 @@
   "segments": [
     "slag:parts/pickaxe_heads"
   ],
-  "sort_order": 1,
-  "stations": "c:player_workstations/crafting_tables"
+  "sort_order": 1
 }

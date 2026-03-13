@@ -53,13 +53,15 @@ public class InterfaceScreen extends AbstractContainerScreen<InterfaceMenu> {
     @Override
     protected void renderLabels(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY) {
         super.renderLabels(guiGraphics, mouseX, mouseY);
-        float capacity = menu.getCapacity();
+        float capacity = (float) menu.getCapacity() / Math.max(1, menu.getFluids().size());
         if (capacity == 0) return;
         float amount = menu.getAmount();
+
         var bucketCapacity = capacity > 1000f;
         if (bucketCapacity) capacity /= 100f;
         capacity = Math.round(capacity);
         capacity /= bucketCapacity ? 10f : 1f;
+
         var bucketAmount = amount > 1000f;
         if (bucketAmount) amount /= 100f;
         amount = Math.round(amount);

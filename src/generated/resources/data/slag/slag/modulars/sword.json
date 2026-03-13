@@ -19,6 +19,5 @@
     "slag:parts/sword_blades",
     "slag:parts/guards"
   ],
-  "sort_order": 4,
-  "stations": "c:player_workstations/crafting_tables"
+  "sort_order": 4
 }

@@ -1,5 +1,6 @@
 package dev.lopyluna.slag.content.blocks.drain;
 
+import dev.lopyluna.slag.config.SlagServerConfigs;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -90,7 +91,7 @@ public class DrainBE extends BlockEntity {
         var outputAmount = outputFluid.getAmount();
         var outputCapacity = outputInv.getTankCapacity(0);
         if (outputAmount >= outputCapacity) return cur == DrainState.POWERED ? cur : DrainState.OFF;
-        var targetDrain = Mth.clamp(outputFluid.isEmpty() ? 1 : 25, 0, outputCapacity - outputAmount);
+        var targetDrain = Mth.clamp(outputFluid.isEmpty() ? 1 : SlagServerConfigs.DRAIN_MB_SPEED.get(), 0, outputCapacity - outputAmount);
         if (targetDrain == 0) return cur == DrainState.POWERED ? cur : DrainState.OFF;
 
 

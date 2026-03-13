@@ -24,6 +24,5 @@
     "slag:parts/axe_heads",
     "slag:parts/shovel_heads"
   ],
-  "sort_order": 9,
-  "stations": "minecraft:anvil"
+  "sort_order": 9
 }

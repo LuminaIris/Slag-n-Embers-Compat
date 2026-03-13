@@ -12,6 +12,5 @@
     "slag:parts/plates",
     "slag:parts/chestplates"
   ],
-  "sort_order": 14,
-  "stations": "c:player_workstations/crafting_tables"
+  "sort_order": 14
 }

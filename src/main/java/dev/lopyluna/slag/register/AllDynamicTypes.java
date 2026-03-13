@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.*;
@@ -20,12 +21,8 @@ public class AllDynamicTypes {
     private static final Map<ResourceLocation, PartType> PART_TYPES = new ConcurrentHashMap<>();
     private static final Map<ResourceLocation, ModularType> MODULAR_TYPES = new ConcurrentHashMap<>();
 
-    // Client-side cache
-    @OnlyIn(Dist.CLIENT)
     private static final Map<ResourceLocation, MaterialType> CLIENT_MATERIAL_TYPES = new ConcurrentHashMap<>();
-    @OnlyIn(Dist.CLIENT)
     private static final Map<ResourceLocation, PartType> CLIENT_PART_TYPES = new ConcurrentHashMap<>();
-    @OnlyIn(Dist.CLIENT)
     private static final Map<ResourceLocation, ModularType> CLIENT_MODULAR_TYPES = new ConcurrentHashMap<>();
 
     public static MaterialType registerMaterial(MaterialType materialType) {
@@ -48,21 +45,27 @@ public class AllDynamicTypes {
 
     public static Optional<MaterialType> getMaterial(ResourceLocation id) {
         if (id == null) return Optional.empty();
-        return Optional.ofNullable(MATERIAL_TYPES.getOrDefault(id, getClientMaterial(id)));
+        var result = MATERIAL_TYPES.get(id);
+        if (result == null && FMLEnvironment.dist.isClient()) result = getClientMaterial(id);
+        return Optional.ofNullable(result);
     }
 
     public static Optional<PartType> getPart(ResourceLocation id) {
         if (id == null) return Optional.empty();
-        return Optional.ofNullable(PART_TYPES.getOrDefault(id, getClientPart(id)));
+        var result = PART_TYPES.get(id);
+        if (result == null && FMLEnvironment.dist.isClient()) result = getClientPart(id);
+        return Optional.ofNullable(result);
     }
 
     public static Optional<ModularType> getModular(ResourceLocation id) {
         if (id == null) return Optional.empty();
-        return Optional.ofNullable(MODULAR_TYPES.getOrDefault(id, getClientModular(id)));
+        var result = MODULAR_TYPES.get(id);
+        if (result == null && FMLEnvironment.dist.isClient()) result = getClientModular(id);
+        return Optional.ofNullable(result);
     }
 
     public static Collection<MaterialType> getAllMaterials() {
-        return MATERIAL_TYPES.isEmpty() ? getClientMaterials() : MATERIAL_TYPES.values();
+        return MATERIAL_TYPES.isEmpty() ? (FMLEnvironment.dist.isClient() ? getClientMaterials() : List.of()) : MATERIAL_TYPES.values();
     }
 
     public static List<MaterialType> getAllMaterialsList() {
@@ -70,7 +73,7 @@ public class AllDynamicTypes {
     }
 
     public static Collection<PartType> getAllParts() {
-        return PART_TYPES.isEmpty() ? getClientParts() : PART_TYPES.values();
+        return PART_TYPES.isEmpty() ? (FMLEnvironment.dist.isClient() ? getClientParts() : List.of()) : PART_TYPES.values();
     }
 
     public static List<PartType> getAllPartsList() {
@@ -82,7 +85,7 @@ public class AllDynamicTypes {
     }
 
     public static Collection<ModularType> getAllModulars() {
-        return MODULAR_TYPES.isEmpty() ? getClientModulars() : MODULAR_TYPES.values();
+        return MODULAR_TYPES.isEmpty() ? (FMLEnvironment.dist.isClient() ? getClientModulars() : List.of()) : MODULAR_TYPES.values();
     }
 
     public static List<ModularType> getAllModularsList() {

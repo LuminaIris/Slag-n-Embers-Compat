@@ -22,6 +22,5 @@
     "slag:parts/sword_blades",
     "slag:parts/guards"
   ],
-  "sort_order": 10,
-  "stations": "minecraft:anvil"
+  "sort_order": 10
 }

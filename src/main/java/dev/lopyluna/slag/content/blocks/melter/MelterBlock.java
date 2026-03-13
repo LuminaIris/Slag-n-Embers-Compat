@@ -69,7 +69,7 @@ public class MelterBlock extends SmartBlock<MelterBE> {
             var cap = level.getCapability(Capabilities.ItemHandler.BLOCK, pos, Direction.DOWN);
             if (cap == null) return;
             var remainder = ItemHandlerHelper.insertItemStacked(cap, stack, false);
-            System.out.println("Tried insert: in= " + stack + " out= " + remainder);
+           // System.out.println("Tried insert: in= " + stack + " out= " + remainder);
 
             if (remainder.getCount() == stack.getCount()) return;
 

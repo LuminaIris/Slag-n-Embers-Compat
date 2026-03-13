@@ -26,6 +26,7 @@ import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -134,6 +135,12 @@ public class MelterBE extends SmartBlockEntity implements MenuProvider {
         outputInv.fill(drained, IFluidHandler.FluidAction.EXECUTE);
     }
 
+    public static boolean isStateHeater(BlockState state) {
+        if (!state.is(AllTags.MELTER_HEATER)) return false;
+        if (state.hasProperty(BlockStateProperties.LIT) && !state.getValue(BlockStateProperties.LIT)) return false;
+        return !state.hasProperty(BlockStateProperties.POWERED) || state.getValue(BlockStateProperties.POWERED);
+    }
+
     public boolean tickRecipe(Level level) {
         var stack = getStack();
         if (stack.isEmpty()) {
@@ -142,7 +149,7 @@ public class MelterBE extends SmartBlockEntity implements MenuProvider {
             return false;
         }
         var belowState = getBelowState(level);
-        if (!belowState.is(AllTags.MELTER_HEATER)) {
+        if (!isStateHeater(belowState)) {
             notMelting();
             return false;
         }

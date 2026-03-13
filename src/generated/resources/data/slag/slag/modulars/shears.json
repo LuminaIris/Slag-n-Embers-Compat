@@ -10,6 +10,5 @@
     "count": 1,
     "id": "minecraft:shears"
   },
-  "sort_order": 100,
-  "stations": "c:player_workstations/crafting_tables"
+  "sort_order": 100
 }

@@ -20,7 +20,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.fluids.FluidStack;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -28,6 +27,7 @@ import java.util.ArrayList;
 
 import static dev.lopyluna.slag.content.blocks.crucible_interface.client.InterfaceScreen.createLang;
 
+@SuppressWarnings("NoTranslation")
 @ParametersAreNonnullByDefault
 public class AlloyingCategory extends AbstractRecipeCategory<RecipeHolder<AlloyingRecipe>> {
     private final IDrawable tankBackground;
@@ -55,9 +55,7 @@ public class AlloyingCategory extends AbstractRecipeCategory<RecipeHolder<Alloyi
         var fluidsIn = recipe.getInputs();
 
         var totalInAmount = 0;
-        for (FluidStack fluidIn : fluidsIn) {
-            totalInAmount += fluidIn.getAmount();
-        }
+        for (FluidStack fluidIn : fluidsIn) totalInAmount += fluidIn.getAmount();
 
         var totalCapacity = Math.max(totalInAmount, fluidOut.getAmount());
 
@@ -99,7 +97,7 @@ public class AlloyingCategory extends AbstractRecipeCategory<RecipeHolder<Alloyi
         for (int i = 0; i < fluidsIn.size(); i++) {
             var fluidIn = fluidsIn.get(i);
             var fluidAreaSize = (int) (((double) fluidIn.getAmount() / totalInAmount) * 48.0);
-            SlagEmbers.LOGGER.info("Fluid area size: " + ((double) fluidIn.getAmount() / totalInAmount) * 48.0);
+            //SlagEmbers.LOGGER.info("Fluid area size: " + ((double) fluidIn.getAmount() / totalInAmount) * 48.0);
             builder.addInputSlot(12, 51 - ((i+1)*fluidAreaSize))
                     .setFluidRenderer(fluidIn.getAmount(), false, 24, fluidAreaSize)
                     .addFluidStack(fluidIn.getFluid(), fluidIn.getAmount())

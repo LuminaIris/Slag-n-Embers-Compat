@@ -12,6 +12,5 @@
     "slag:parts/plates",
     "slag:parts/leggings"
   ],
-  "sort_order": 15,
-  "stations": "c:player_workstations/crafting_tables"
+  "sort_order": 15
 }

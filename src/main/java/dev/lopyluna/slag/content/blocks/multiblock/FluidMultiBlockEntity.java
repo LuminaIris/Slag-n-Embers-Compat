@@ -1,5 +1,8 @@
 package dev.lopyluna.slag.content.blocks.multiblock;
 
+import dev.lopyluna.slag.config.SlagCommonConfigs;
+import dev.lopyluna.slag.config.SlagServerConfigs;
+import dev.lopyluna.slag.content.blocks.crucible.CrucibleBE;
 import dev.lopyluna.slag.content.blocks.crucible.CrucibleTank;
 import dev.lopyluna.slag.content.blocks.multiblock.connectivity.ConnectivityHandler;
 import dev.lopyluna.slag.content.blocks.smart.BlockEntityBehaviour;
@@ -368,7 +371,7 @@ public class FluidMultiBlockEntity extends SmartBlockEntity implements IMultiBlo
     }
 
     public static int getCapacityMultiplier() {
-        return 1000;
+        return SlagCommonConfigs.CAPACITY_PER_CRUCIBLE.get();
     }
 
     public LerpedFloat getFluidLevel() {
@@ -426,13 +429,13 @@ public class FluidMultiBlockEntity extends SmartBlockEntity implements IMultiBlo
 
     @Override
     public int getMaxLength(Direction.Axis longAxis, int width) {
-        if (longAxis == Direction.Axis.Y) return 9;
+        if (longAxis == Direction.Axis.Y) return this instanceof CrucibleBE ? SlagServerConfigs.CRUCIBLE_MAX_HEIGHT.get() : 6;
         return getMaxWidth();
     }
 
     @Override
     public int getMaxWidth() {
-        return 7;
+        return this instanceof CrucibleBE ? SlagServerConfigs.CRUCIBLE_MAX_WIDTH.get() : 4;
     }
 
     @Override

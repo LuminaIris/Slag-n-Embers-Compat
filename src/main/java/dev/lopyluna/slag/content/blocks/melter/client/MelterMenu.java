@@ -4,7 +4,6 @@ import com.mojang.datafixers.util.Pair;
 import dev.lopyluna.slag.content.AllUtils;
 import dev.lopyluna.slag.content.blocks.melter.MelterBE;
 import dev.lopyluna.slag.register.AllMenuTypes;
-import dev.lopyluna.slag.register.AllTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.Container;
@@ -20,6 +19,8 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+
+import static dev.lopyluna.slag.content.blocks.melter.MelterBE.isStateHeater;
 
 @ParametersAreNonnullByDefault
 public class MelterMenu extends AbstractContainerMenu {
@@ -92,7 +93,7 @@ public class MelterMenu extends AbstractContainerMenu {
     public Pair<ItemStack, Boolean> getBelowData() {
         var bool = false;
         var below = getBelowState();
-        if (below.is(AllTags.MELTER_HEATER)) bool = true;
+        if (isStateHeater(below)) bool = true;
         var stack = AllUtils.getStackFromBlock(below.getBlock(), false);
         return Pair.of(stack, bool);
     }

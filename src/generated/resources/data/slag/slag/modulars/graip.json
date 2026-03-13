@@ -20,6 +20,5 @@
     "slag:parts/shovel_heads",
     "slag:parts/hoe_heads"
   ],
-  "sort_order": 8,
-  "stations": "c:player_workstations/crafting_tables"
+  "sort_order": 8
 }

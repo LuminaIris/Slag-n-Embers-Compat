@@ -2,6 +2,8 @@ package dev.lopyluna.slag;
 
 import com.mojang.logging.LogUtils;
 import dev.lopyluna.slag.client.ResourceFallbackGenerator;
+import dev.lopyluna.slag.config.SlagCommonConfigs;
+import dev.lopyluna.slag.config.SlagServerConfigs;
 import dev.lopyluna.slag.content.EmbersDatagen;
 import dev.lopyluna.slag.content.jei.EmbersRecipesJEI;
 import dev.lopyluna.slag.content.utils.EmbersRegistration;
@@ -15,6 +17,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import org.slf4j.Logger;
@@ -58,6 +61,8 @@ public class SlagEmbers {
         modEventBus.addListener(AllSoundEvents::register);
         modEventBus.addListener(EventPriority.HIGHEST, EmbersDatagen::gatherDataHighPriority);
         modEventBus.addListener(EventPriority.LOWEST, EmbersDatagen::gatherData);
+        modContainer.registerConfig(ModConfig.Type.COMMON, SlagCommonConfigs.SPEC);
+        modContainer.registerConfig(ModConfig.Type.SERVER, SlagServerConfigs.SPEC);
 
         if (FMLEnvironment.dist == Dist.CLIENT) modEventBus.addListener(ResourceFallbackGenerator::onAddPackFinders);
     }

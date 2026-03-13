@@ -18,6 +18,5 @@
   "segments": [
     "slag:parts/axe_heads"
   ],
-  "sort_order": 2,
-  "stations": "c:player_workstations/crafting_tables"
+  "sort_order": 2
 }

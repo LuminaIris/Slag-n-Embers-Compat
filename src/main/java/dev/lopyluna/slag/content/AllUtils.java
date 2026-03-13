@@ -10,7 +10,6 @@ import dev.lopyluna.slag.SlagEmbers;
 import dev.lopyluna.slag.content.items.dynamic_part.IDynamicPart;
 import dev.lopyluna.slag.content.items.modular.ModularItem;
 import dev.lopyluna.slag.register.AllDataComponents;
-import dev.lopyluna.slag.register.AllTags;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -45,6 +44,7 @@ import java.util.*;
 
 import static com.tterrag.registrate.providers.RegistrateRecipeProvider.has;
 import static dev.lopyluna.slag.SlagEmbers.REG;
+import static dev.lopyluna.slag.content.blocks.melter.MelterBE.isStateHeater;
 
 @SuppressWarnings("unused")
 public class AllUtils {
@@ -94,7 +94,7 @@ public class AllUtils {
     public static ItemStack getStackFromBlock(Block block, boolean requireHeater) {
         var state = block.defaultBlockState();
         var fState = state.getFluidState();
-        if (!state.is(AllTags.MELTER_HEATER) && requireHeater) return ItemStack.EMPTY;
+        if (!isStateHeater(state) && requireHeater) return ItemStack.EMPTY;
         ItemStack stack;
         if (state.getBlock() instanceof BaseFireBlock) {
             stack = Items.BLAZE_POWDER.getDefaultInstance();

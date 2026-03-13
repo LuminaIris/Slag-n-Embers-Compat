@@ -30,6 +30,5 @@
     "slag:parts/hoe_heads",
     "slag:parts/sword_blades"
   ],
-  "sort_order": 12,
-  "stations": "minecraft:anvil"
+  "sort_order": 12
 }

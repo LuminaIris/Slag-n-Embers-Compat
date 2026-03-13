@@ -30,6 +30,5 @@
     "count": 1,
     "id": "minecraft:elytra"
   },
-  "sort_order": 100,
-  "stations": "c:player_workstations/crafting_tables"
+  "sort_order": 100
 }

@@ -29,7 +29,6 @@ public class ModularType {
 
     public final String modelType;
     public final int sortOrder;
-    public final TagKey<Item> stations;
     public final List<TagKey<Item>> segments;
     public final List<ItemStack> finalSegmentStacks;
     private final ItemStack resultStack;
@@ -44,7 +43,6 @@ public class ModularType {
                     ResourceLocation.CODEC.fieldOf("id").forGetter(m -> m.id),
                     Codec.STRING.optionalFieldOf("model_type", "").forGetter(m -> m.modelType),
                     Codec.INT.fieldOf("sort_order").forGetter(m -> m.sortOrder),
-                    TagKey.codec(Registries.ITEM).fieldOf("stations").forGetter(m -> m.stations),
                     TagKey.codec(Registries.ITEM).listOf().optionalFieldOf("segments", new ArrayList<>()).forGetter(m -> m.segments),
                     ItemStack.CODEC.listOf().optionalFieldOf("final_segment_stacks", new ArrayList<>()).forGetter(m -> m.finalSegmentStacks),
                     ItemStack.CODEC.optionalFieldOf("result_stack", ItemStack.EMPTY).forGetter(m -> m.resultStack),
@@ -59,11 +57,9 @@ public class ModularType {
     public int hashCode() {
         var actionHash = 0;
         if (actions != null && !actions.isEmpty()) actionHash = actions.hashCode();
-        var stationHash = 0;
-        if (stations != null) stationHash = stations.hashCode();
         var resultStackHash = 0;
         if (resultStack != null) resultStackHash = resultStack.copy().hashCode();
-        return 31 * id.hashCode() + 31 * actionHash + 31 * stationHash + 31 * segmentHash() + 31 * finalSegmentStacksHash() + 31 * itemTagsHash() + 31 * resultStackHash + Objects.hash(modelType, sortOrder);
+        return 31 * id.hashCode() + 31 * actionHash + 31 * segmentHash() + 31 * finalSegmentStacksHash() + 31 * itemTagsHash() + 31 * resultStackHash + Objects.hash(modelType, sortOrder);
     }
 
     @Override
@@ -71,7 +67,7 @@ public class ModularType {
         if (obj == this) return true;
         if (obj == null || obj.getClass() != this.getClass()) return false;
         var that = (ModularType) obj;
-        return this.id.equals(that.id) && this.modelType.equals(that.modelType) && this.sortOrder == that.sortOrder && this.stations.equals(that.stations) && equalSegment(that.segments) && equalFinalSegmentStacks(that.finalSegmentStacks) && equalItemTags(that.itemTags) && ItemStack.isSameItemSameComponents(this.resultStack, that.resultStack) && this.actions.equals(that.actions);
+        return this.id.equals(that.id) && this.modelType.equals(that.modelType) && this.sortOrder == that.sortOrder && equalSegment(that.segments) && equalFinalSegmentStacks(that.finalSegmentStacks) && equalItemTags(that.itemTags) && ItemStack.isSameItemSameComponents(this.resultStack, that.resultStack) && this.actions.equals(that.actions);
     }
 
     public ItemStack getResultStack() {
@@ -82,7 +78,6 @@ public class ModularType {
         var id = ResourceLocation.STREAM_CODEC.decode(buf);
         var modelType = buf.readUtf();
         int sorting = buf.readInt();
-        var stations = AllUtils.tagKeyStreamCodec(Registries.ITEM).decode(buf);
 
         boolean hasSegments = buf.readBoolean();
         var segments = new ArrayList<TagKey<Item>>();
@@ -115,14 +110,13 @@ public class ModularType {
             if (itemTagsSize > 0) for (int i = 0; i < itemTagsSize; i++) itemTags.add(AllUtils.tagKeyStreamCodec(Registries.ITEM).decode(buf));
         }
 
-        return new ModularType(id, modelType, sorting, stations, segments, finalSegmentStacks, resultStack, actions, itemTags);
+        return new ModularType(id, modelType, sorting, segments, finalSegmentStacks, resultStack, actions, itemTags);
     }
 
     public static void toNetwork(RegistryFriendlyByteBuf buf, ModularType type) {
         ResourceLocation.STREAM_CODEC.encode(buf, type.id);
         buf.writeUtf(type.modelType);
         buf.writeInt(type.sortOrder);
-        AllUtils.tagKeyStreamCodec(Registries.ITEM).encode(buf, type.stations);
 
         buf.writeBoolean(type.segments != null && !type.segments.isEmpty());
         if (type.segments != null && !type.segments.isEmpty()) {
@@ -152,12 +146,11 @@ public class ModularType {
         }
     }
 
-    private ModularType(ResourceLocation id, String modelType, int sortOrder, TagKey<Item> stations, List<TagKey<Item>> segments, List<ItemStack> finalSegmentStacks, ItemStack resultStack, List<String> actions, List<TagKey<Item>> itemTags) {
+    private ModularType(ResourceLocation id, String modelType, int sortOrder, List<TagKey<Item>> segments, List<ItemStack> finalSegmentStacks, ItemStack resultStack, List<String> actions, List<TagKey<Item>> itemTags) {
         dontRegister = id == null || id.getNamespace().isEmpty() || id.getPath().isEmpty() || id.getPath().equals("null") || id.getPath().equals("empty");
         this.id = id;
         this.modelType = modelType;
         this.sortOrder = sortOrder;
-        this.stations = stations;
         this.segments = segments;
         this.finalSegmentStacks = finalSegmentStacks;
         this.resultStack = resultStack;
@@ -170,7 +163,6 @@ public class ModularType {
         private final ResourceLocation id;
         private String modelType = "";
         private int sortOrder;
-        private TagKey<Item> stations;
         private List<TagKey<Item>> segments = new ArrayList<>();
         private List<ItemStack> finalSegmentStacks = new ArrayList<>();
         private ItemStack resultStack;
@@ -183,7 +175,6 @@ public class ModularType {
         public Builder modelType(String modelType) { this.modelType = modelType; return this; }
 
         public Builder sortOrder(int sorting) { this.sortOrder = sorting; return this; }
-        public Builder stations(TagKey<Item> stations) { this.stations = stations; return this; }
 
         public Builder segments(List<TagKey<Item>> segments) { this.segments = segments; return this; }
         @SafeVarargs public final Builder segments(TagKey<Item>... segments) { this.segments = List.of(segments); return this; }
@@ -232,7 +223,7 @@ public class ModularType {
         public Builder addItemTags(List<TagKey<Item>> itemTags) { this.itemTags.addAll(itemTags); return this; }
         @SafeVarargs public final Builder addItemTags(TagKey<Item>... itemTags) { this.itemTags.addAll(List.of(itemTags)); return this; }
 
-        public ModularType register() { return new ModularType(id, modelType, sortOrder, stations, segments, finalSegmentStacks, resultStack == null ? ItemStack.EMPTY : resultStack, actions, itemTags); }
+        public ModularType register() { return new ModularType(id, modelType, sortOrder, segments, finalSegmentStacks, resultStack == null ? ItemStack.EMPTY : resultStack, actions, itemTags); }
     }
 
     @SuppressWarnings("unused")

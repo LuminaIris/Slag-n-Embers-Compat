@@ -22,6 +22,5 @@
     "count": 8,
     "id": "minecraft:spectral_arrow"
   },
-  "sort_order": 100,
-  "stations": "c:player_workstations/crafting_tables"
+  "sort_order": 100
 }

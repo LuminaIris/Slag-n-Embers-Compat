@@ -17,6 +17,5 @@
   "segments": [
     "slag:parts/hoe_heads"
   ],
-  "sort_order": 3,
-  "stations": "c:player_workstations/crafting_tables"
+  "sort_order": 3
 }
