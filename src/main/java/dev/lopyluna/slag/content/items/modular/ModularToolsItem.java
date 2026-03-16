@@ -64,8 +64,9 @@ public class ModularToolsItem extends ModularItem {
 
     @Override
     public boolean mineBlock(ItemStack stack, Level level, BlockState state, BlockPos pos, LivingEntity miningEntity) {
-        var has = hasModularType(stack) && isTool(stack);
-        if (!level.isClientSide && has && state.getDestroySpeed(level, pos) != 0.0F) stack.hurtAndBreak(2, miningEntity, EquipmentSlot.MAINHAND);
+        var modularType = getModularType(stack);
+        var has = modularType != null && isTool(stack);
+        if (!level.isClientSide && has && state.getDestroySpeed(level, pos) != 0.0F) stack.hurtAndBreak(isMiningTool(modularType) ? 1 : 2, miningEntity, EquipmentSlot.MAINHAND);
         return has;
     }
 
@@ -100,12 +101,20 @@ public class ModularToolsItem extends ModularItem {
         return super.isValidRepairItem(stack, repairCandidate);
     }
 
+    public boolean isMiningTool(ModularType modularType) {
+        if (modularType.actions.contains("pickaxe")) return true;
+        if (modularType.actions.contains("axe")) return true;
+        if (modularType.actions.contains("shovel")) return true;
+        return modularType.actions.contains("hoe");
+    }
+
     @Override
     public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
         if (!hasModularType(stack) || !isTool(stack)) return super.isCorrectToolForDrops(stack, state);
         var modularType = getModularType(stack);
         if (modularType == null) return super.isCorrectToolForDrops(stack, state);
         boolean flag = false;
+
         for (var action : modularType.actions) {
             if (flag) break;
             switch (action) {

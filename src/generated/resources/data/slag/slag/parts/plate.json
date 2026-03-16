@@ -1,5 +1,7 @@
 {
   "defence_modifier": 9.8765434E8,
+  "durability": 64.0,
+  "durability_modifier": 9.8765434E8,
   "id": "slag:plate",
   "item_tags": [
     "slag:cast/plates"

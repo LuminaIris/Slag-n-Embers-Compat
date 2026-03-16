@@ -1,5 +1,7 @@
 {
   "defence_modifier": 0.36,
+  "durability": 256.0,
+  "durability_modifier": 0.32,
   "id": "slag:helmet",
   "item_tags": [
     "slag:cast/helmets"

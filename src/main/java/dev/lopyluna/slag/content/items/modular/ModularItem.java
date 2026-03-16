@@ -9,6 +9,7 @@ import dev.lopyluna.slag.content.items.dynamic_part.IModularItem;
 import dev.lopyluna.slag.content.types.ModularType;
 import dev.lopyluna.slag.register.AllDataComponents;
 import dev.lopyluna.slag.register.AllDynamicTypes;
+import dev.lopyluna.slag.register.AllLangs;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
@@ -89,7 +90,7 @@ public class ModularItem extends Item implements IModularItem {
 
     public boolean containsStack(List<ItemStack> stacks, ItemStack stack) {
         if (stack.isEmpty()) return true;
-        for (var part : stacks) if (stack.is(part.getItem()) && part.getCount() == stack.getCount()) return true;
+        for (var part : stacks) if (stack.is(part.getItem()) && stack.getCount() >= part.getCount()) return true;
         return false;
     }
 
@@ -107,21 +108,18 @@ public class ModularItem extends Item implements IModularItem {
                 var possible = parts.getPossibleTags(possibleParts);
                 if (!possible.contains(part.getPartSegment(other))) return false;
                 playInsertSound(player);
-                if (action == ClickAction.PRIMARY) {
-                    copyParts.add(other.copy());
-                    other.setCount(0);
-                } else {
-                    copyParts.add(other.copyWithCount(1));
-                    other.shrink(1);
-                }
+                copyParts.add(other.copyWithCount(1));
+                other.shrink(1);
                 bool = true;
             } else if (!other.isEmpty()) {
                 var possible = parts.getPossibleStacks(possibleParts);
                 if (!containsStack(possible, other)) return false;
                 playInsertSound(player);
                 if (action == ClickAction.PRIMARY) {
-                    copyParts.add(other.copy());
-                    other.setCount(0);
+                    var count = parts.getLargestPossibleCount(other, possible);
+                    if (count == 0) return false;
+                    copyParts.add(other.copyWithCount(count));
+                    other.shrink(count);
                 } else {
                     copyParts.add(other.copyWithCount(1));
                     other.shrink(1);
@@ -145,15 +143,18 @@ public class ModularItem extends Item implements IModularItem {
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext ctx, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, ctx, tooltip, flag);
-        var parts = getParts(stack);
-        if (parts == null) return;
-        var modularType = getModularTypeFromParts(parts);
-        if (modularType != null) {
-            var count = modularType.getResultStack().getCount();
-            tooltip.add(Component.literal(RegistrateLangProvider.toEnglishName(modularType.id.getPath())).append(count > 1 ? " x" + count : "").withStyle(ChatFormatting.YELLOW));
-        }
 
         if (!hasModularType(stack)) {
+            var parts = getParts(stack);
+            if (parts == null) return;
+
+            var modularType = getModularTypeFromParts(parts);
+            if (modularType != null) {
+                var count = modularType.getResultStack().getCount();
+                tooltip.add(Component.literal(RegistrateLangProvider.toEnglishName(modularType.id.getPath())).append(count > 1 ? " x" + count : "").withStyle(ChatFormatting.YELLOW));
+                tooltip.add(AllLangs.trArgs("construct", AllLangs.tr("shift"), AllLangs.tr("rmb")).withStyle(ChatFormatting.GRAY));
+            }
+
             var copyParts = parts.itemsCopy();
             if (copyParts == null || copyParts.isEmpty()) return;
             var possibleModulars = parts.getPossibleModulars();

@@ -178,6 +178,18 @@ public class DataDynamicParts implements TooltipComponent {
         return "ToolParts" + this.items;
     }
 
+    public int getLargestPossibleCount(ItemStack target, List<ItemStack> list) {
+        var targetItem = target.getItem();
+        var maxCount = target.getCount();
+        var best = 0;
+        for (var stack : list) {
+            if (stack.getItem() != targetItem) continue;
+            var count = stack.getCount();
+            if (maxCount >= count && count > best) best = count;
+        }
+        return best;
+    }
+
     public List<ItemStack> getPossibleStacks(List<Object> list) {
         return list.stream().filter(o -> o instanceof ItemStack).map(o -> (ItemStack) o).toList();
     }

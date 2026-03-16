@@ -11,16 +11,20 @@ import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.stats.Stats;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ArmorMaterial;
-import net.minecraft.world.item.ArmorMaterials;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -92,6 +96,12 @@ public class ModularEquipablesItem extends ModularToolsItem {
         return super.getEquipmentSlot(stack);
     }
 
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand hand) {
+        var stack = player.getItemInHand(hand);
+        if (!hasModularType(stack) || !isArmor(stack)) return super.use(level, player, hand);
+        return swapWithEquipmentSlot(stack, level, player, hand);
+    }
+
     public List<ResourceLocation> getArmorTextures(ItemStack stack, Entity entity, EquipmentSlot slot, ArmorMaterial.Layer layer, boolean innerModel) {
         var list = new ArrayList<ResourceLocation>();
         var num = innerModel ? 2 : 1;
@@ -139,4 +149,19 @@ public class ModularEquipablesItem extends ModularToolsItem {
             return ArmorItem.dispenseArmor(source, stack) ? stack : super.execute(source, stack);
         }
     };
+
+    public InteractionResultHolder<ItemStack> swapWithEquipmentSlot(ItemStack stack, Level level, Player player, InteractionHand hand) {
+        var equipmentslot = player.getEquipmentSlotForItem(stack);
+        if (!player.canUseSlot(equipmentslot)) return InteractionResultHolder.pass(stack);
+        var slotStack = player.getItemBySlot(equipmentslot);
+        if ((!EnchantmentHelper.has(slotStack, EnchantmentEffectComponents.PREVENT_ARMOR_CHANGE) || player.isCreative()) && !ItemStack.matches(stack, slotStack)) {
+            if (!level.isClientSide()) player.awardStat(Stats.ITEM_USED.get(this));
+
+            var stackA = slotStack.isEmpty() ? stack : slotStack.copyAndClear();
+            var stackB = player.isCreative() ? stack.copy() : stack.copyAndClear();
+            player.setItemSlot(equipmentslot, stackB);
+            return InteractionResultHolder.sidedSuccess(stackA, level.isClientSide());
+        }
+        return InteractionResultHolder.fail(stack);
+    }
 }

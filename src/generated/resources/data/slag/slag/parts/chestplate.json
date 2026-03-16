@@ -1,4 +1,6 @@
 {
+  "durability": 416.0,
+  "durability_modifier": 0.35,
   "id": "slag:chestplate",
   "item_tags": [
     "slag:cast/chestplates"

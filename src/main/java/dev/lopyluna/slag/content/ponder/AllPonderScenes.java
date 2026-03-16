@@ -2,7 +2,6 @@ package dev.lopyluna.slag.content.ponder;
 
 import com.tterrag.registrate.util.entry.ItemProviderEntry;
 import com.tterrag.registrate.util.entry.RegistryEntry;
-import dev.lopyluna.slag.content.blocks.crucible.CrucibleBE;
 import dev.lopyluna.slag.register.AllBlocks;
 import net.createmod.catnip.math.Pointing;
 import net.createmod.ponder.api.element.ElementLink;
@@ -14,7 +13,6 @@ import net.createmod.ponder.api.scene.Selection;
 import net.createmod.ponder.foundation.PonderSceneBuilder;
 import net.createmod.ponder.foundation.instruction.FadeOutOfSceneInstruction;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 
 public class AllPonderScenes {
@@ -34,10 +32,6 @@ public class AllPonderScenes {
 
         scene.rotateCameraY(180);
 
-        Selection a = util.select().position(0, 1, 0);
-        scene.world().modifyBlockEntityNBT(a, CrucibleBE.class, t -> new CompoundTag());
-
-        scene.idle(8);
         Selection single = util.select().position(0, 5, 0);
         ElementLink<WorldSectionElement> singleLinkA = scene.world().showIndependentSection(single, Direction.DOWN);
         scene.world().moveSection(singleLinkA, util.vector().of(0, -4, 0), 0);
@@ -116,10 +110,11 @@ public class AllPonderScenes {
         scene.world().moveSection(x3x3LinkA, util.vector().of(0, -4, -2), 0);
 
         scene.idle(30);
-        scene.addKeyframe();
-        scene.overlay().showControls(util.vector().blockSurface(util.grid().at(2, 1, 2), Direction.NORTH).add(0, 0.5, 0), Pointing.LEFT, 40)
-                .whileSneaking().rightClick();
-        scene.idle(20);
+        var vec = util.vector().blockSurface(util.grid().at(2, 1, 1), Direction.NORTH).add(0, 0.5, 0);
+        scene.overlay().showControls(vec, Pointing.LEFT, 40).whileSneaking().rightClick();
+        scene.idle(2);
+        scene.overlay().showText(40).text("Toggles Window Visuals").placeNearTarget().pointAt(vec.subtract(0, 0.75, 0)).attachKeyFrame();
+        scene.idle(18);
         scene.addInstruction(new FadeOutOfSceneInstruction<>(0, Direction.DOWN, x3x3LinkA));
 
         Selection x3x3window = util.select().fromTo(0, 9, 2, 2, 11, 4);

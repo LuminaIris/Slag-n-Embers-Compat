@@ -1,5 +1,7 @@
 {
   "defence_modifier": 0.7,
+  "durability": 376.0,
+  "durability_modifier": 0.35,
   "id": "slag:leggings",
   "item_tags": [
     "slag:cast/leggings"

@@ -1,5 +1,7 @@
 {
   "defence_modifier": 0.325,
+  "durability": 296.0,
+  "durability_modifier": 0.34,
   "id": "slag:boots",
   "item_tags": [
     "slag:cast/boots"

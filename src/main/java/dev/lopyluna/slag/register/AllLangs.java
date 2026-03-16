@@ -103,6 +103,7 @@ public class AllLangs {
 
     public static void addTranslations() {
         REG.addRawLang("slag.ponder.smeltery.header", "How to make a Smeltery!");
+        REG.addRawLang("slag.ponder.smeltery.text_1", "Toggles Window Visuals");
 
         REG.addLang("tooltip", SlagEmbers.loc("cast_shift_clear"), "Interact with Empty Hand while Crouching:");
         REG.addLang("tooltip", SlagEmbers.loc("cast_shift_clear.desc"), "Clear Fluid Contents");
@@ -138,6 +139,10 @@ public class AllLangs {
         REG.addLang("tooltip", SlagEmbers.loc("alt"), "Alt");
         REG.addLang("tooltip", SlagEmbers.loc("shift"), "Shift");
         REG.addLang("tooltip", SlagEmbers.loc("ctrl"), "Ctrl");
+        REG.addLang("tooltip", SlagEmbers.loc("lmb"), "Left Click");
+        REG.addLang("tooltip", SlagEmbers.loc("rmb"), "Right Click");
+
+        REG.addLang("tooltip", SlagEmbers.loc("construct"), "%s + %s in hand to construct!");
 
         REG.addLang("tooltip", SlagEmbers.loc("stats"), "Hold [%s] for Stats");
         REG.addLang("tooltip", SlagEmbers.loc("parts"), "Hold [%s] for Parts");
