@@ -79,10 +79,10 @@ public class AllLangs {
                 pair("modular_tier", format(modular.getTier(stack))),
                 pair("modular_enchantability", ""+Math.round(modular.getEnch(stack)))
         );
-        if (ctrl) {
-            var hammer = modular.getHammerTier(parts, stack);
-            if (hammer > 0) tooltip.add(Component.literal("  ").append(tr("modular_forging_tier")).append(": " + hammer).withStyle(ChatFormatting.BLUE));
-        }
+        //if (ctrl) {
+        //    var hammer = modular.getHammerTier(parts, stack);
+        //    if (hammer > 0) tooltip.add(Component.literal("  ").append(tr("modular_forging_tier")).append(": " + hammer).withStyle(ChatFormatting.BLUE));
+        //}
     }
     public static void modularArmorStats(List<Component> tooltip, DataDynamicParts parts, ItemStack stack, IModularItem modular) {
         var ctrl = Screen.hasControlDown();
@@ -95,10 +95,10 @@ public class AllLangs {
                 pair("modular_tier", format(modular.getTier(stack))),
                 pair("modular_enchantability", ""+Math.round(modular.getEnch(stack)))
         );
-        if (ctrl) {
-            var hammer = modular.getHammerTier(parts, stack);
-            if (hammer > 0) tooltip.add(Component.literal("  ").append(tr("modular_forging_tier")).append(": " + hammer).withStyle(ChatFormatting.BLUE));
-        }
+        //if (ctrl) {
+        //    var hammer = modular.getHammerTier(parts, stack);
+        //    if (hammer > 0) tooltip.add(Component.literal("  ").append(tr("modular_forging_tier")).append(": " + hammer).withStyle(ChatFormatting.BLUE));
+        //}
     }
 
     public static void addTranslations() {

@@ -34,7 +34,6 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
@@ -155,7 +154,6 @@ public class ModularItem extends Item implements IModularItem {
         }
 
         if (!hasModularType(stack)) {
-
             var copyParts = parts.itemsCopy();
             if (copyParts == null || copyParts.isEmpty()) return;
             var possibleModulars = parts.getPossibleModulars();

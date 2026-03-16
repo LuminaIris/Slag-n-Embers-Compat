@@ -19,16 +19,16 @@ public class AllMaterials {
             .setTexture("soft")
             .register());
             
-    public static final MaterialType GLOWSTONE = register(new MaterialType.Builder("glowstone", () -> Ingredient.of(Items.GLOWSTONE)).setSortOrder(220)
-            .setSharp(3.5f)
-            .setDura(96)
-            .setTier(1)
-            .setSpeed(1)
-            .setEnch(12)
-            .setDefense(2f)
-            .setKBRes(0.1F)
-            .setTexture("shiny")
-            .register());
+    //public static final MaterialType GLOWSTONE = register(new MaterialType.Builder("glowstone", () -> Ingredient.of(Items.GLOWSTONE)).setSortOrder(220)
+    //        .setSharp(3.5f)
+    //        .setDura(96)
+    //        .setTier(1)
+    //        .setSpeed(1)
+    //        .setEnch(12)
+    //        .setDefense(2f)
+    //        .setKBRes(0.1F)
+    //        .setTexture("shiny")
+    //        .register());
             
     public static final MaterialType STONE = register(new MaterialType.Builder("stone", () -> Ingredient.of(ItemTags.STONE_TOOL_MATERIALS)).setSortOrder(20)
             .setSharp(4f)
@@ -42,16 +42,16 @@ public class AllMaterials {
             .setTexture("soft")
             .register());
             
-    public static final MaterialType REDSTONE = register(new MaterialType.Builder("redstone", () -> Ingredient.of(Tags.Items.DUSTS_REDSTONE)).setSortOrder(160)
-            .setSharp(4f)
-            .setDura(160)
-            .setTier(2)
-            .setSpeed(3)
-            .setEnch(16)
-            .setDefense(3f)
-            .setTexture("shiny")
-            .moltenFluid(AllFluids.MOLTEN_REDSTONE::getSource)
-            .register());
+    //public static final MaterialType REDSTONE = register(new MaterialType.Builder("redstone", () -> Ingredient.of(Tags.Items.DUSTS_REDSTONE)).setSortOrder(160)
+    //        .setSharp(4f)
+    //        .setDura(160)
+    //        .setTier(2)
+    //        .setSpeed(3)
+    //        .setEnch(16)
+    //        .setDefense(3f)
+    //        .setTexture("shiny")
+    //        .moltenFluid(AllFluids.MOLTEN_REDSTONE::getSource)
+    //        .register());
             
     public static final MaterialType LAPIS = register(new MaterialType.Builder("lapis", () -> Ingredient.of(Tags.Items.GEMS_LAPIS)).setSortOrder(170)
             .setSharp(4.5f)
@@ -153,25 +153,25 @@ public class AllMaterials {
             .fireProof()
             .register());
             
-    public static final MaterialType PRISMARINE = register(new MaterialType.Builder("prismarine", () -> Ingredient.of(Tags.Items.GEMS_PRISMARINE)).setSortOrder(130)
-            .setSharp(6f)
-            .setDura(1280)
-            .setTier(4)
-            .setSpeed(9)
-            .setEnch(11)
-            .setDefense(6f)
-            .moltenFluid(AllFluids.MOLTEN_PRISMARINE::getSource)
-            .register());
+    //public static final MaterialType PRISMARINE = register(new MaterialType.Builder("prismarine", () -> Ingredient.of(Tags.Items.GEMS_PRISMARINE)).setSortOrder(130)
+    //        .setSharp(6f)
+    //        .setDura(1280)
+    //        .setTier(4)
+    //        .setSpeed(9)
+    //        .setEnch(11)
+    //        .setDefense(6f)
+    //        .moltenFluid(AllFluids.MOLTEN_PRISMARINE::getSource)
+    //        .register());
             
-    public static final MaterialType BLUE_ICE = register(new MaterialType.Builder("blue_icy", () -> Ingredient.of(Items.BLUE_ICE)).setSortOrder(120)
-            .setSharp(7f)
-            .setDura(768)
-            .setTier(4)
-            .setSpeed(6)
-            .setEnch(6)
-            .setDefense(5f)
-            .setTexture("shiny")
-            .register());
+    //public static final MaterialType BLUE_ICE = register(new MaterialType.Builder("blue_icy", () -> Ingredient.of(Items.BLUE_ICE)).setSortOrder(120)
+    //        .setSharp(7f)
+    //        .setDura(768)
+    //        .setTier(4)
+    //        .setSpeed(6)
+    //        .setEnch(6)
+    //        .setDefense(5f)
+    //        .setTexture("shiny")
+    //        .register());
             
     public static final MaterialType DIAMOND = register(new MaterialType.Builder("diamond", () -> Ingredient.of(Tags.Items.GEMS_DIAMOND)).setSortOrder(60)
             .setSharp(6f)
@@ -224,28 +224,28 @@ public class AllMaterials {
             .moltenFluid(AllFluids.MOLTEN_NETHERITE::getSource)
             .register());
             
-    public static final MaterialType POPPED_CHORUS = register(new MaterialType.Builder("purpur", () -> Ingredient.of(Items.POPPED_CHORUS_FRUIT)).setSortOrder(190)
-            .setSharp(6.5f)
-            .setDura(832)
-            .setTier(4)
-            .setSpeed(5)
-            .setEnch(16)
-            .setDefense(6f)
-            .setTough(1f)
-            .setKBRes(0.1F)
-            .register());
+    //public static final MaterialType POPPED_CHORUS = register(new MaterialType.Builder("purpur", () -> Ingredient.of(Items.POPPED_CHORUS_FRUIT)).setSortOrder(190)
+    //        .setSharp(6.5f)
+    //        .setDura(832)
+    //        .setTier(4)
+    //        .setSpeed(5)
+    //        .setEnch(16)
+    //        .setDefense(6f)
+    //        .setTough(1f)
+    //        .setKBRes(0.1F)
+    //        .register());
             
-    public static final MaterialType NAUTILUS = register(new MaterialType.Builder("nautilus", () -> Ingredient.of(Items.NAUTILUS_SHELL)).setSortOrder(200)
-            .setSharp(6f)
-            .setDura(1120)
-            .setTier(3)
-            .setSpeed(11)
-            .setEnch(19)
-            .setDefense(5f)
-            .setTough(1f)
-            .setKBRes(0.1F)
-            .setTexture("soft")
-            .register());
+    //public static final MaterialType NAUTILUS = register(new MaterialType.Builder("nautilus", () -> Ingredient.of(Items.NAUTILUS_SHELL)).setSortOrder(200)
+    //        .setSharp(6f)
+    //        .setDura(1120)
+    //        .setTier(3)
+    //        .setSpeed(11)
+    //        .setEnch(19)
+    //        .setDefense(5f)
+    //        .setTough(1f)
+    //        .setKBRes(0.1F)
+    //        .setTexture("soft")
+    //        .register());
             
     public static final MaterialType BONE = register(new MaterialType.Builder("bone", () -> Ingredient.of(Tags.Items.BONES)).setSortOrder(210)
             .setSharp(5.5f)
