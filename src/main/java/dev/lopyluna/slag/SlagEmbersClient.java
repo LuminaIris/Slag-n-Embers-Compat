@@ -2,9 +2,11 @@ package dev.lopyluna.slag;
 
 import dev.lopyluna.slag.client.render.CustomRenderedItemModel;
 import dev.lopyluna.slag.client.render.CustomRenderedItems;
+import dev.lopyluna.slag.content.ponder.SlagPonderPlugin;
 import dev.lopyluna.slag.register.AllDataComponents;
 import dev.lopyluna.slag.register.AllDynamicTypes;
 import net.createmod.catnip.registry.RegisteredObjectsHelper;
+import net.createmod.ponder.foundation.PonderIndex;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
@@ -28,6 +30,8 @@ public class SlagEmbersClient {
     }
 
     public static void clientInit(final FMLClientSetupEvent event) {
+        PonderIndex.addPlugin(new SlagPonderPlugin());
+
         event.enqueueWork(() -> {
             ItemProperties.registerGeneric(SlagEmbers.loc("armor_type"), (stack, world, entity, seed) -> {
                 if (!stack.has(AllDataComponents.MODULAR_TYPE)) return 0;

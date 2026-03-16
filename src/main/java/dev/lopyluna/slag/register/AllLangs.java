@@ -102,6 +102,8 @@ public class AllLangs {
     }
 
     public static void addTranslations() {
+        REG.addRawLang("slag.ponder.smeltery.header", "How to make a Smeltery!");
+
         REG.addLang("tooltip", SlagEmbers.loc("cast_shift_clear"), "Interact with Empty Hand while Crouching:");
         REG.addLang("tooltip", SlagEmbers.loc("cast_shift_clear.desc"), "Clear Fluid Contents");
 
